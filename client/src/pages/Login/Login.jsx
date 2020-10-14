@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Authentication, Button, InputField } from '../../components';
 import { theme } from '../../themes/theme';
-import { useValue, validateEmail, validateString } from '../../utils';
+import { useForm, validateEmail, validateString } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -36,8 +36,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = () => {
   const classes = useStyles();
-  const [email, handleEmail, resetEmail] = useValue('');
-  const [password, handlePassword, resetPassword] = useValue('');
+  const [values, handleChange, reset] = useForm({ email: '', password: '' });
   const [error, setError] = useState({ type: '', description: '' });
   const history = useHistory();
 
@@ -49,6 +48,7 @@ const Login = () => {
   const onSubmit = async (event) => {
     try {
       event.preventDefault();
+      const { email, password } = values;
       if (!validateEmail(email)) {
         setError({
           type: 'email',
@@ -73,8 +73,7 @@ const Login = () => {
       }
       const user = { email, password };
       localStorage.setItem('userLogin', JSON.stringify(user));
-      resetEmail();
-      resetPassword();
+      reset();
     } catch (err) {
       console.warn(err);
     }
@@ -87,22 +86,24 @@ const Login = () => {
       </Typography>
       <form>
         <InputField
-          value={email}
-          onChange={(e) => handleValidation(e, handleEmail)}
+          value={values.email}
+          onChange={(e) => handleValidation(e, handleChange)}
           className={classes.inputFieldFirst}
           label='EMAIL ADDRESS'
           type='email'
           error={error.type === 'email'}
           helperText={error.type === 'email' && error.description}
+          name='email'
         />
         <InputField
-          value={password}
-          onChange={(e) => handleValidation(e, handlePassword)}
+          value={values.password}
+          onChange={(e) => handleValidation(e, handleChange)}
           className={clsx([classes.inputField, classes.passwordField])}
           type='password'
           label='PASSWORD'
           error={error.type === 'password'}
           helperText={error.type === 'password' && error.description}
+          name='password'
         />
         <Link to={'/'} className={classes.forgotPassword}>
           Forget password ?

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Authentication, Button, InputField } from '../../components';
 import { theme } from '../../themes/theme';
-import { useValue, validateEmail, validateString } from '../../utils';
+import { useForm, validateEmail, validateString } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -27,9 +27,7 @@ const useStyles = makeStyles((theme) => ({
 
 const SignUp = () => {
   const classes = useStyles();
-  const [name, handleName, resetName] = useValue('');
-  const [email, handleEmail, resetEmail] = useValue('');
-  const [password, handlePassword, resetPassword] = useValue('');
+  const [values, handleChange, reset] = useForm({ name: '', email: '', password: '' });
   const [error, setError] = useState({ type: '', description: '' });
   const history = useHistory();
 
@@ -42,6 +40,7 @@ const SignUp = () => {
   const onSubmit = async (event) => {
     try {
       event.preventDefault();
+      const { name, email, password } = values;
       if (!validateString(name)) {
         setError({
           type: 'name',
@@ -73,9 +72,7 @@ const SignUp = () => {
       }
       const user = { name, email, password };
       localStorage.setItem('userSignUp', JSON.stringify(user));
-      resetName();
-      resetEmail();
-      resetPassword();
+      reset();
     } catch (err) {
       console.warn(err);
     }
@@ -88,31 +85,34 @@ const SignUp = () => {
       </Typography>
       <form>
         <InputField
-          value={name}
+          value={values.name}
           type='name'
-          onChange={(e) => handleValidation(e, handleName)}
+          onChange={(e) => handleValidation(e, handleChange)}
           className={classes.inputFieldFirst}
           label='YOUR NAME'
           error={error.type === 'name'}
           helperText={error.type === 'name' && error.description}
+          name='name'
         />
         <InputField
-          value={email}
-          onChange={(e) => handleValidation(e, handleEmail)}
+          value={values.email}
+          onChange={(e) => handleValidation(e, handleChange)}
           className={classes.inputField}
           label='EMAIL ADDRESS'
           type='email'
           error={error.type === 'email'}
           helperText={error.type === 'email' && error.description}
+          name='email'
         />
         <InputField
-          value={password}
-          onChange={(e) => handleValidation(e, handlePassword)}
+          value={values.password}
+          onChange={(e) => handleValidation(e, handleChange)}
           className={classes.inputField}
           type='password'
           label='PASSWORD'
           error={error.type === 'password'}
           helperText={error.type === 'password' && error.description}
+          name='password'
         />
         <Box className={classes.buttonContainer}>
           <Button className={classes.button} backgroundColor={theme.palette.secondary.main} onClick={onSubmit}>
