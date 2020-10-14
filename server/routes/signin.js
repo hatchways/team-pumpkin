@@ -35,14 +35,16 @@ router.post(
 
     try {
       let user = await User.findOne({ email });
+      //Can't find email
       if (!user) {
         return res
           .status(400)
-          .json({ errros: [{ msg: "Invalid Credentials" }] });
+          .json({ errors: [{ msg: "Invalid Credentials" }] });
       }
 
       //Password match
       const isMatch = await bcrypt.compare(password, user.password);
+      //Password doesn't match
       if (!isMatch) {
         return res
           .status(400)
@@ -55,6 +57,11 @@ router.post(
         },
       };
 
+      //User object
+      const userObject = await User.findById(payload.user.id).select(
+        "-password"
+      );
+
       //Sign JWT
       jwt.sign(
         payload,
@@ -62,7 +69,7 @@ router.post(
         { expiresIn: 1.577e7 },
         (err, token) => {
           if (err) throw err;
-          res.json({ sucess: true, token });
+          res.json({ sucess: true, token, userObject });
         }
       );
     } catch (err) {

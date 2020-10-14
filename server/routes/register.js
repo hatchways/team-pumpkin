@@ -64,13 +64,19 @@ router.post(
         },
       };
 
+      //User object
+      const userObject = new User({
+        name,
+        email,
+      });
+
       jwt.sign(
         payload,
         process.env.JWT_SECRET,
         { expiresIn: 1.577e7 },
         (err, token) => {
           if (err) throw err;
-          res.json({ sucess: true, token });
+          res.json({ sucess: true, token, userObject });
         }
       );
     } catch (err) {
