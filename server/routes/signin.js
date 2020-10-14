@@ -30,7 +30,7 @@ router.post(
       return res.status(400).json({ errors: err.array() });
     }
 
-    //Deconstructing the email and password
+    //Destructing the email and password
     const { email, password } = req.body;
 
     try {
