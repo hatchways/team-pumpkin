@@ -1,6 +1,7 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
+import clsx from 'clsx';
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Authentication, Button, InputField } from '../../components';
 import { theme } from '../../themes/theme';
 import { useValue, validateEmail, validateString } from '../../utils';
@@ -23,11 +24,18 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.secondary.main,
     },
   },
+  forgotPassword: {
+    textDecoration: 'none',
+    fontWeight: 'bold',
+    color: theme.palette.secondary.main,
+  },
+  passwordField: {
+    marginBottom: theme.spacing(2.5),
+  },
 }));
 
-const SignUp = () => {
+const Login = () => {
   const classes = useStyles();
-  const [name, handleName, resetName] = useValue('');
   const [email, handleEmail, resetEmail] = useValue('');
   const [password, handlePassword, resetPassword] = useValue('');
   const [error, setError] = useState({ type: '', description: '' });
@@ -41,13 +49,6 @@ const SignUp = () => {
   const onSubmit = async (event) => {
     try {
       event.preventDefault();
-      if (!validateString(name)) {
-        setError({
-          type: 'name',
-          description: name.length === 0 ? 'Name required' : 'Enter valid name',
-        });
-        return;
-      }
       if (!validateEmail(email)) {
         setError({
           type: 'email',
@@ -70,9 +71,8 @@ const SignUp = () => {
         });
         return;
       }
-      const user = { name, email, password };
-      localStorage.setItem('userSignUp', JSON.stringify(user));
-      resetName();
+      const user = { email, password };
+      localStorage.setItem('userLogin', JSON.stringify(user));
       resetEmail();
       resetPassword();
     } catch (err) {
@@ -81,24 +81,15 @@ const SignUp = () => {
   };
 
   return (
-    <Authentication routeLabel='SIGN IN' routeOnClick={() => history.push('/login')}>
+    <Authentication routeLabel='SIGN UP' routeOnClick={() => history.push('/sign-up')}>
       <Typography className={classes.heading} variant='h3'>
-        Create an account
+        Log In
       </Typography>
       <form>
         <InputField
-          value={name}
-          type='name'
-          onChange={(e) => handleValidation(e, handleName)}
-          className={classes.inputFieldFirst}
-          label='YOUR NAME'
-          error={error.type === 'name'}
-          helperText={error.type === 'name' && error.description}
-        />
-        <InputField
           value={email}
           onChange={(e) => handleValidation(e, handleEmail)}
-          className={classes.inputField}
+          className={classes.inputFieldFirst}
           label='EMAIL ADDRESS'
           type='email'
           error={error.type === 'email'}
@@ -107,15 +98,16 @@ const SignUp = () => {
         <InputField
           value={password}
           onChange={(e) => handleValidation(e, handlePassword)}
-          className={classes.inputField}
+          className={clsx([classes.inputField, classes.passwordField])}
           type='password'
           label='PASSWORD'
           error={error.type === 'password'}
           helperText={error.type === 'password' && error.description}
         />
+        <Link className={classes.forgotPassword}>Forget password ?</Link>
         <Box className={classes.buttonContainer}>
           <Button className={classes.button} backgroundColor={theme.palette.secondary.main} onClick={onSubmit}>
-            Create
+            Login
           </Button>
         </Box>
       </form>
@@ -123,4 +115,4 @@ const SignUp = () => {
   );
 };
 
-export default SignUp;
+export default Login;

@@ -5,6 +5,7 @@ import './App.css';
 import { LoadingScreen } from './components';
 import { SignUpScreen } from './LazyComponents';
 import LandingPage from './pages/Landing';
+import Login from './pages/Login/Login';
 import { theme } from './themes/theme';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <Suspense fallback={<LoadingScreen />}>
           <Route exact path='/' component={LandingPage} />
           <Route exact path='/sign-up' component={SignUpScreen} />
+          <Route exact path='/login' component={Login} />
         </Suspense>
       </BrowserRouter>
     </MuiThemeProvider>

@@ -13,10 +13,13 @@ const useStyles = makeStyles((theme) => ({
   },
   inputField: {
     width: '100%',
+    '&:hover, &:selected, &:active': {
+      borderColor: theme.palette.secondary.main,
+    },
   },
 }));
 
-const InputField = ({ label, className, type, value, onChange, error, helperText }) => {
+const InputField = ({ label, className, type, value, onChange, error, helperText, endAdornment, ...props }) => {
   const classes = useStyles();
   return (
     <Box className={clsx([classes.mainContainer, className])}>
@@ -31,6 +34,8 @@ const InputField = ({ label, className, type, value, onChange, error, helperText
         onChange={onChange}
         className={classes.inputField}
         variant='outlined'
+        endAdornment={endAdornment}
+        {...props}
       />
     </Box>
   );

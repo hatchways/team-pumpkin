@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(10),
   },
 }));
-const Authentication = ({ children }) => {
+const Authentication = ({ children, routeLabel, routeOnClick }) => {
   const classes = useStyles();
   return (
     <Box className={classes.mainContainer}>
@@ -52,7 +52,9 @@ const Authentication = ({ children }) => {
       </Box>
       <Box className={classes.right}>
         <Box className={classes.buttonContainer}>
-          <Button variant='outlined'>Sign In</Button>
+          <Button variant='outlined' onClick={routeOnClick}>
+            {routeLabel}
+          </Button>
         </Box>
       </Box>
     </Box>
