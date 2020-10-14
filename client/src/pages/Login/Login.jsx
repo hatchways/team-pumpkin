@@ -81,7 +81,7 @@ const Login = () => {
   };
 
   return (
-    <Authentication routeLabel='SIGN UP' routeOnClick={() => history.push('/sign-up')}>
+    <Authentication routeLabel='SIGN UP' routeOnClick={() => history.push('/signup')}>
       <Typography className={classes.heading} variant='h3'>
         Log In
       </Typography>
@@ -104,7 +104,9 @@ const Login = () => {
           error={error.type === 'password'}
           helperText={error.type === 'password' && error.description}
         />
-        <Link className={classes.forgotPassword}>Forget password ?</Link>
+        <Link to={'/'} className={classes.forgotPassword}>
+          Forget password ?
+        </Link>
         <Box className={classes.buttonContainer}>
           <Button className={classes.button} backgroundColor={theme.palette.secondary.main} onClick={onSubmit}>
             Login

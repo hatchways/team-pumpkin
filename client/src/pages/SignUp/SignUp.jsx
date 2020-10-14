@@ -34,6 +34,7 @@ const SignUp = () => {
   const history = useHistory();
 
   const handleValidation = (event, handler) => {
+    console.log(event);
     setError({ type: '', description: '' });
     handler(event);
   };

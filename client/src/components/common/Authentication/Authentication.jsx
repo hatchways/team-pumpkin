@@ -16,9 +16,10 @@ const useStyles = makeStyles((theme) => ({
   },
   right: {
     flex: 1,
-    background: `url(${AuthPic}) fixed center`,
+    background: `url(${AuthPic})`,
     backgroundRepeat: 'no-repeat',
-    backgroundSize: '100% 100%',
+    backgroundSize: 'cover',
+    backgroundPosition: 'right',
     display: 'flex',
     justifyContent: 'flex-end',
   },

@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const InputField = ({ label, className, type, value, onChange, error, helperText, endAdornment, ...props }) => {
+const InputField = ({ label, className, type, value, onChange, error, helperText, name, ...props }) => {
   const classes = useStyles();
   return (
     <Box className={clsx([classes.mainContainer, className])}>
@@ -28,13 +28,13 @@ const InputField = ({ label, className, type, value, onChange, error, helperText
       </Typography>
       <TextField
         error={error}
+        name={name}
         helperText={helperText}
         type={type}
         value={value}
         onChange={onChange}
         className={classes.inputField}
         variant='outlined'
-        endAdornment={endAdornment}
         {...props}
       />
     </Box>

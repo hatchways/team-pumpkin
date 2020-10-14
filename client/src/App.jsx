@@ -14,7 +14,7 @@ function App() {
       <BrowserRouter>
         <Suspense fallback={<LoadingScreen />}>
           <Route exact path='/' component={LandingPage} />
-          <Route exact path='/sign-up' component={SignUpScreen} />
+          <Route exact path='/signup' component={SignUpScreen} />
           <Route exact path='/login' component={Login} />
         </Suspense>
       </BrowserRouter>

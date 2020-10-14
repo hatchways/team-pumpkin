@@ -1,2 +1,2 @@
-export { useValue } from './custom-hooks';
+export { useForm, useValue } from './custom-hooks';
 export { validateEmail, validateString } from './validation';
