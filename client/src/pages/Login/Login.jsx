@@ -2,6 +2,7 @@ import { Box, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
+import { signInCall } from '../../api';
 import { Authentication, Button, InputField } from '../../components';
 import { theme } from '../../themes/theme';
 import { useForm, validateEmail, validateString } from '../../utils';
@@ -32,12 +33,16 @@ const useStyles = makeStyles((theme) => ({
   passwordField: {
     marginBottom: theme.spacing(2.5),
   },
+  error: {
+    color: theme.palette.primary.main,
+  },
 }));
 
 const Login = () => {
   const classes = useStyles();
   const [values, handleChange, reset] = useForm({ email: '', password: '' });
   const [error, setError] = useState({ type: '', description: '' });
+  const [apiError, setApiError] = useState('');
   const history = useHistory();
 
   const handleValidation = (event, handler) => {
@@ -48,6 +53,7 @@ const Login = () => {
   const onSubmit = async (event) => {
     try {
       event.preventDefault();
+      setApiError('');
       const { email, password } = values;
       if (!validateEmail(email)) {
         setError({
@@ -72,8 +78,23 @@ const Login = () => {
         return;
       }
       const user = { email, password };
-      localStorage.setItem('userLogin', JSON.stringify(user));
-      reset();
+      const result = await signInCall(user);
+      const status = result.status;
+      const data = result.data;
+      if (status === 200) {
+        const { userObject, token } = data;
+        const { name, email } = userObject;
+        const userDetails = {
+          name,
+          email,
+          token,
+        };
+        localStorage.setItem('user', JSON.stringify(userDetails));
+        reset();
+      } else {
+        const error = result.data.error.msg;
+        setApiError(error);
+      }
     } catch (err) {
       console.warn(err);
     }
@@ -108,6 +129,11 @@ const Login = () => {
         <Link to={'/'} className={classes.forgotPassword}>
           Forget password ?
         </Link>
+        {apiError.length > 0 && (
+          <Typography className={classes.error} variant='inherit'>
+            {apiError}
+          </Typography>
+        )}
         <Box className={classes.buttonContainer}>
           <Button className={classes.button} backgroundColor={theme.palette.secondary.main} onClick={onSubmit}>
             Login
