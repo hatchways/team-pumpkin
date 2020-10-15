@@ -3,16 +3,19 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 const authentication = (req, res, next) => {
-  //Get token from header
-  const token = req.header("auth-token");
+  //Get token from cookie
+  const { cookies } = req;
 
-  if (!token) {
+  if (!cookies) {
     return res.status(401).json({ msg: "No token. Access Denied." });
   }
 
   //Verify token
   try {
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET);
+    const decodedToken = jwt.verify(
+      cookies["auth-token"],
+      process.env.JWT_SECRET
+    );
 
     //payload
     req.user = decodedToken.user;
