@@ -9,6 +9,12 @@ require("dotenv").config();
 
 var app = require("../app");
 var http = require("http");
+var connectDB = require("../db/db");
+
+/**
+ * Connect to the database
+ */
+connectDB();
 
 /**
  * Get port from environment and store in Express.
