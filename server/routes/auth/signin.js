@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
-require("dotenv").config();
 //Middleware
-const authentication = require("../middleware/authentication");
+const authentication = require("../../middleware/authentication");
 
 const jwt = require("jsonwebtoken");
+const jwtSign = require("../../jwt/jwtSign");
 
 //Model
-const User = require("../models/User");
+const User = require("../../models/User");
 
 const bcrypt = require("bcryptjs");
 const { check, validationResult } = require("express-validator");
@@ -59,15 +59,17 @@ router.post(
       );
 
       //Sign JWT
-      jwt.sign(
-        payload,
-        process.env.JWT_SECRET,
-        { expiresIn: 1.577e7 },
-        (err, token) => {
-          if (err) throw err;
-          res.json({ sucess: true, token, userObject });
-        }
-      );
+      // jwt.sign(
+      //   payload,
+      //   process.env.JWT_SECRET,
+      //   { expiresIn: 1.577e7 },
+      //   (err, token) => {
+      //     if (err) throw err;
+      //     res.json({ sucess: true, token, userObject });
+      //   }
+      // );
+
+      jwtSign(payload, process.env.JWT_SECRET, res, userObject);
     } catch (err) {
       res.status(500).send("Server error:(");
     }

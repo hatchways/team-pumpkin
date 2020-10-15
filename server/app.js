@@ -8,8 +8,8 @@ const indexRouter = require("./routes/index");
 const pingRouter = require("./routes/ping");
 
 /*Register and SignIn*/
-const register = require("./routes/register");
-const signin = require("./routes/signin");
+const register = require("./routes/auth/register");
+const signin = require("./routes/auth/signin");
 
 const { json, urlencoded } = express;
 

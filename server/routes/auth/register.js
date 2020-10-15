@@ -3,12 +3,13 @@ const router = express.Router();
 const { check, validationResult } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
-require("dotenv").config();
 
-const authentication = require("../middleware/authentication");
+const jwtSign = require("../../jwt/jwtSign");
+
+const authentication = require("../../middleware/authentication");
 
 //User Model
-const User = require("../models/User");
+const User = require("../../models/User");
 
 /*
     Type: POST route
@@ -70,15 +71,17 @@ router.post(
         email,
       });
 
-      jwt.sign(
-        payload,
-        process.env.JWT_SECRET,
-        { expiresIn: 1.577e7 },
-        (err, token) => {
-          if (err) throw err;
-          res.json({ sucess: true, token, userObject });
-        }
-      );
+      // jwt.sign(
+      //   payload,
+      //   process.env.JWT_SECRET,
+      //   { expiresIn: 1.577e7 },
+      //   (err, token) => {
+      //     if (err) throw err;
+      //     res.json({ sucess: true, token, userObject });
+      //   }
+      // );
+
+      jwtSign(payload, process.env.JWT_SECRET, res, userObject);
     } catch (err) {
       res.status(500).send("Server error");
     }
