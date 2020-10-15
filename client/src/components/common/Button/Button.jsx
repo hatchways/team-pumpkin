@@ -16,11 +16,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Button = (props) => {
-  const { children, className, borderColor, color, backgroundColor, variant, onClick, ...rest } = props;
+  const { children, className, borderColor, color, backgroundColor, ...rest } = props;
   const classes = useStyles(props);
 
   return (
-    <MuiButton variant={variant} onClick={onClick} className={clsx([classes.button, className])} {...rest}>
+    <MuiButton className={clsx([classes.button, className])} {...rest}>
       {children}
     </MuiButton>
   );
