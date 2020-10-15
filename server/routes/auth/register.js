@@ -83,7 +83,7 @@ router.post(
       //   }
       // );
 
-      jwtSign(payload, process.env.JWT_SECRET, 3600, res, userObject);
+      jwtSign(payload, process.env.JWT_SECRET, 1.577e7, res, userObject);
     } catch (err) {
       res.status(500).send("Server error");
     }
