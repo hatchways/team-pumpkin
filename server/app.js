@@ -3,9 +3,13 @@ const express = require("express");
 const { join } = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
-
+const cors = require("cors");
 const indexRouter = require("./routes/index");
 const pingRouter = require("./routes/ping");
+
+/*Register and SignIn*/
+const register = require("./routes/auth/register");
+const signin = require("./routes/auth/signin");
 
 const { json, urlencoded } = express;
 
@@ -14,12 +18,16 @@ var app = express();
 
 app.use(logger("dev"));
 app.use(json());
+app.use(cors());
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/ping", pingRouter);
+/*Register and SignIn*/
+app.use("/api", register);
+app.use("/api", signin);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
