@@ -1,5 +1,6 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
+import { useDropzone } from 'react-dropzone';
 import { AiOutlineExpand } from 'react-icons/ai';
 import { theme } from '../../themes/theme';
 import { useValue } from '../../utils/';
@@ -29,9 +30,11 @@ const useStyles = makeStyles((theme) => ({
   },
   labelStyle: {
     color: theme.palette.secondary.main,
+    marginBottom: theme.spacing(1),
   },
   selectLabelStyle: {
     fontWeight: 'bold',
+    marginBottom: theme.spacing(1),
   },
   button: {
     '&:hover': {
@@ -73,14 +76,24 @@ const PollsModal = ({ open, onClose, className }) => {
   const classes = useStyles();
   const [question, handleQuestion, resetQuestion] = useValue('');
   const [friend, setFriend] = useState('');
+  const [files, setFiles] = useState([]);
+
+  const { getRootProps, getInputProps } = useDropzone({
+    accept: 'image/*',
+    multiple: true,
+    onDrop: (acceptedFiles) => {
+      setFiles(acceptedFiles);
+    },
+  });
 
   const handleFriend = (event) => setFriend(event.target.value);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(question, friend);
+    console.log(question, friend, files);
     resetQuestion();
     setFriend('');
+    setFiles([]);
   };
 
   return (
@@ -99,7 +112,7 @@ const PollsModal = ({ open, onClose, className }) => {
           />
           <Select
             className={classes.inputField}
-            label='Friend list'
+            label='Friend list:'
             menuItems={mockFriendList}
             labelStyle={classes.selectLabelStyle}
             value={friend}
@@ -107,14 +120,15 @@ const PollsModal = ({ open, onClose, className }) => {
           />
         </Box>
         <Box className={classes.modalContentRight}>
-          <Box className={classes.dropZone}>
+          <div {...getRootProps()} className={classes.dropZone}>
+            <input {...getInputProps()} />
             <Box className={classes.dropIconContainer}>
               <AiOutlineExpand color={theme.palette.secondary.dark} className={classes.dropIcon} size={100} />
             </Box>
             <Typography className={classes.dopZoneText} variant='body2'>
               Drop an image here or select a file
             </Typography>
-          </Box>
+          </div>
         </Box>
       </Box>
       <Box className={classes.buttonContainer}>
