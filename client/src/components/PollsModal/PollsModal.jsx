@@ -94,6 +94,7 @@ const PollsModal = ({ open, onClose, className }) => {
     resetQuestion();
     setFriend('');
     setFiles([]);
+    onClose();
   };
 
   return (
