@@ -11,6 +11,9 @@ const pingRouter = require("./routes/ping");
 const register = require("./routes/auth/register");
 const signin = require("./routes/auth/signin");
 
+/*Friend requests*/
+const friend = require("./routes/friend");
+
 const { json, urlencoded } = express;
 
 var app = express();
@@ -28,6 +31,9 @@ app.use("/ping", pingRouter);
 /*Register and SignIn*/
 app.use("/api", register);
 app.use("/api", signin);
+
+/*Friend Requests*/
+app.use("/api", friend);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

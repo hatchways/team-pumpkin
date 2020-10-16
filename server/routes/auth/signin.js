@@ -59,18 +59,20 @@ router.post(
       );
 
       //Sign JWT
-      // jwt.sign(
-      //   payload,
-      //   process.env.JWT_SECRET,
-      //   { expiresIn: 1.577e7 },
-      //   (err, token) => {
-      //     if (err) throw err;
-      //     res.json({ sucess: true, token, userObject });
-      //   }
-      // );
+      jwt.sign(
+        payload,
+        process.env.JWT_SECRET,
+        { expiresIn: 1.577e7 },
+        (err, token) => {
+          if (err) throw err;
+          res.json({ sucess: true, token, userObject });
+        }
+      );
+      
 
-      jwtSign(payload, process.env.JWT_SECRET, res, userObject);
+      //jwtSign(payload, process.env.JWT_SECRET, res, userObject);
     } catch (err) {
+      console.log(err.message);
       res.status(500).send("Server error:(");
     }
   }
