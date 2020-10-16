@@ -3,9 +3,8 @@ import React, { Suspense } from 'react';
 import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
 import { LoadingScreen } from './components';
-import { SignUpScreen } from './LazyComponents';
+import { HomeScreen, LoginScreen, SignUpScreen } from './LazyComponents';
 import LandingPage from './pages/Landing';
-import Login from './pages/Login/Login';
 import { theme } from './themes/theme';
 
 function App() {
@@ -15,7 +14,8 @@ function App() {
         <Suspense fallback={<LoadingScreen />}>
           <Route exact path='/' component={LandingPage} />
           <Route exact path='/signup' component={SignUpScreen} />
-          <Route exact path='/login' component={Login} />
+          <Route exact path='/login' component={LoginScreen} />
+          <Route exact path='/home' component={HomeScreen} />
         </Suspense>
       </BrowserRouter>
     </MuiThemeProvider>
