@@ -13,7 +13,12 @@ const PollSchema = new mongoose.Schema({
         require: true,
         unique: true,
       },
-      url: {
+      url1: {
+        type: String,
+        require: true,
+        unique: true,
+      },
+      url2: {
         type: String,
         require: true,
         unique: true,

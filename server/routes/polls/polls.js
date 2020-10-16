@@ -10,7 +10,8 @@ router.post('/create', authentication, async (req, res) => {
     const { question, friend, imageData } = req.body;
     const poll = {
       pollId: uuid(),
-      url: imageData,
+      url1: imageData,
+      url2: imageData,
       friend,
       question,
     };
@@ -57,7 +58,8 @@ router.put('/update', authentication, async (req, res) => {
       const existingUserPollIndex = userPollsData.polls.findIndex((elem) => elem.pollId === pollId);
       userPollsData.polls[existingUserPollIndex] = {
         pollId,
-        url: imageData,
+        url1: imageData,
+        url2: imageData,
         friend,
         question,
       };
