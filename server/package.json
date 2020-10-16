@@ -5,7 +5,9 @@
   "scripts": {
     "dev": "nodemon ./bin/www",
     "debug": "nodemon  --inspect ./bin/www",
-    "test": "NODE_ENV=test ./node_modules/.bin/mocha --exit --timeout 30000"
+    "test": "NODE_ENV=test ./node_modules/.bin/mocha --exit --timeout 30000",
+    "prettier:check": "prettier --config .prettierrc.js --check \"*/**/*.{ts,tsx,js,jsx,json,sass,scss,css,html,md}\"",
+    "prettier:fix": "yarn prettier:check --write"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
@@ -19,11 +21,19 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.10.9",
     "morgan": "~1.9.1",
-    "nodemon": "^1.19.1"
+    "nodemon": "^1.19.1",
+    "uuidv4": "^6.2.4"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "yarn prettier:fix"
+    }
   },
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-http": "^4.3.0",
-    "mocha": "^6.2.0"
+    "husky": "^4.3.0",
+    "mocha": "^6.2.0",
+    "prettier": "^2.1.2"
   }
 }

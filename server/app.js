@@ -6,6 +6,7 @@ const logger = require("morgan");
 const cors = require("cors");
 const indexRouter = require("./routes/index");
 const pingRouter = require("./routes/ping");
+const pollsRouter = require("./routes/polls/polls");
 
 /*Register and SignIn*/
 const register = require("./routes/auth/register");
@@ -14,7 +15,6 @@ const signin = require("./routes/auth/signin");
 const { json, urlencoded } = express;
 
 var app = express();
-
 
 app.use(logger("dev"));
 app.use(json());
@@ -28,6 +28,7 @@ app.use("/ping", pingRouter);
 /*Register and SignIn*/
 app.use("/api", register);
 app.use("/api", signin);
+app.use("/api/polls", pollsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

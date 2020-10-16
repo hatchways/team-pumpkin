@@ -1,13 +1,13 @@
-const jwt = require("jsonwebtoken");
+const jwt = require('jsonwebtoken');
 //Environment variable
-require("dotenv").config();
+require('dotenv').config();
 
 const authentication = (req, res, next) => {
   //Get token from header
-  const token = req.header("auth-token");
+  const token = req.header('auth-token');
 
   if (!token) {
-    return res.status(401).json({ msg: "No token. Access Denied." });
+    return res.status(401).json({ msg: 'No token. Access Denied.' });
   }
 
   //Verify token
@@ -18,7 +18,7 @@ const authentication = (req, res, next) => {
     req.user = decodedToken.user;
     next();
   } catch (err) {
-    return res.status(401).json({ msg: "Token is invalid" });
+    return res.status(401).json({ msg: 'Token is invalid' });
   }
 };
 
