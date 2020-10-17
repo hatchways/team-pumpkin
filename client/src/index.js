@@ -1,14 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
+import { AppProvider } from './AppProvider';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
-import { GlobalContext, globalValue } from './utils';
 
 ReactDOM.render(
-  <GlobalContext.Provider value={globalValue}>
+  <AppProvider>
     <App />
-  </GlobalContext.Provider>,
+  </AppProvider>,
 
   document.getElementById('root'),
 );
