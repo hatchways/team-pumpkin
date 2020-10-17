@@ -9,6 +9,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     width: '100%',
     height: theme.spacing(13.5),
+    backgroundColor: theme.palette.secondary.light,
     position: 'sticky',
     top: 0,
   },

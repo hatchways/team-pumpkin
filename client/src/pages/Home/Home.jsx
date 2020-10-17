@@ -1,10 +1,22 @@
 import { Box, makeStyles } from '@material-ui/core';
-import React, { useState } from 'react';
-import { Button, PollsModal } from '../../components';
-import { theme } from '../../themes/theme';
+import React from 'react';
+import { FriendList } from '../../components';
 
 const useStyles = makeStyles((theme) => ({
-  mainContainer: {},
+  mainContainer: {
+    backgroundColor: theme.palette.primary.dark,
+    height: '100vh',
+    display: 'flex',
+  },
+  right: {
+    flex: 8,
+  },
+  left: {
+    flex: 2,
+    borderRightColor: theme.palette.secondary.dark,
+    borderRight: 'solid',
+    borderWidth: 1,
+  },
   button: {
     '&:hover': {
       backgroundColor: theme.palette.secondary.main,
@@ -14,15 +26,19 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
   const classes = useStyles();
-  const [openPoll, setOpenPoll] = useState(false);
+  // const [openPoll, setOpenPoll] = useState(false);
 
-  const handlePollModal = () => setOpenPoll(!openPoll);
+  // const handlePollModal = () => setOpenPoll(!openPoll);
   return (
     <Box className={classes.mainContainer}>
-      <Button className={classes.button} backgroundColor={theme.palette.secondary.main} onClick={handlePollModal}>
+      {/* <Button className={classes.button} backgroundColor={theme.palette.secondary.main} onClick={handlePollModal}>
         open modal
       </Button>
-      <PollsModal open={openPoll} onClose={handlePollModal} />
+      <PollsModal open={openPoll} onClose={handlePollModal} /> */}
+      <Box className={classes.left}>
+        <FriendList friendList={Array(10).fill({ name: 'demo' })} />
+      </Box>
+      <Box className={classes.right}></Box>
     </Box>
   );
 };

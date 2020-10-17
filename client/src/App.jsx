@@ -20,6 +20,7 @@ const App = () => {
   return (
     <>
       {!!appContext.user && appContext.user.success && <Header />}
+      <Header />
       <Switch>
         <Suspense fallback={<LoadingScreen />}>
           <Route exact path='/signup' component={SignUpScreen} />
