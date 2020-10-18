@@ -2,16 +2,23 @@ const express = require('express');
 const router = express.Router();
 const authentication = require('../../middleware/authentication');
 const PollsMongoModel = require('../../models/Polls');
+const { cloudinary } = require('../../cloudinary/cloudinary');
 const { uuid } = require('uuidv4');
 
 router.post('/create', authentication, async (req, res) => {
   try {
     const userId = req.user.user.id;
-    const { question, friend, imageData } = req.body;
+    const { question, friend, imagesData } = req.body;
+    const uploadedResponseToCloudinaryForFirstImage = await cloudinary.uploader.upload(imagesData[0], {
+      upload_preset: 'team_pumpkin',
+    });
+    const uploadedResponseToCloudinaryForSecondImage = await cloudinary.uploader.upload(imagesData[1], {
+      upload_preset: 'team_pumpkin',
+    });
     const poll = {
       pollId: uuid(),
-      url1: imageData,
-      url2: imageData,
+      url1: uploadedResponseToCloudinaryForFirstImage.url,
+      url2: uploadedResponseToCloudinaryForSecondImage.url,
       friend,
       question,
     };
@@ -50,16 +57,22 @@ router.post('/create', authentication, async (req, res) => {
 router.put('/update', authentication, async (req, res) => {
   try {
     const userId = req.user.user.id;
-    const { question, friend, imageData, pollId } = req.body;
+    const { question, friend, imagesData, pollId } = req.body;
     const userPollsData = await PollsMongoModel.findOne({
       userId,
     });
     if (!!userPollsData) {
       const existingUserPollIndex = userPollsData.polls.findIndex((elem) => elem.pollId === pollId);
+      const uploadedResponseToCloudinaryForFirstImage = await cloudinary.uploader.upload(imagesData[0], {
+        upload_preset: 'team_pumpkin',
+      });
+      const uploadedResponseToCloudinaryForSecondImage = await cloudinary.uploader.upload(imagesData[1], {
+        upload_preset: 'team_pumpkin',
+      });
       userPollsData.polls[existingUserPollIndex] = {
         pollId,
-        url1: imageData,
-        url2: imageData,
+        url1: uploadedResponseToCloudinaryForFirstImage.url,
+        url2: uploadedResponseToCloudinaryForSecondImage.url,
         friend,
         question,
       };

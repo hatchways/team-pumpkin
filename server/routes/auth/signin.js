@@ -66,6 +66,7 @@ router.post(
 
       jwtSign(payload, process.env.JWT_SECRET, res, userObject);
     } catch (err) {
+      console.log(err);
       res.status(500).send('Server error:(');
     }
   },
