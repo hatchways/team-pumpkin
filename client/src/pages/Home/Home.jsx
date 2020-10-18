@@ -1,6 +1,6 @@
 import { Box, makeStyles } from '@material-ui/core';
 import React from 'react';
-import { FriendList } from '../../components';
+import { FriendList, Friends, Pools } from '../../components';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -10,6 +10,10 @@ const useStyles = makeStyles((theme) => ({
   },
   right: {
     flex: 8,
+    display: 'flex',
+    flexDirection: 'column',
+    height: '100%',
+    width: '100%',
   },
   left: {
     flex: 2,
@@ -22,6 +26,12 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.secondary.main,
     },
   },
+  pools: {
+    flex: 1,
+  },
+  friendList: {
+    flex: 1,
+  },
 }));
 
 const Home = () => {
@@ -30,9 +40,12 @@ const Home = () => {
   return (
     <Box className={classes.mainContainer}>
       <Box className={classes.left}>
-        <FriendList friendList={Array(10).fill({ name: 'demo' })} />
+        <Friends friendList={Array(10).fill({ name: 'demo' })} />
       </Box>
-      <Box className={classes.right}></Box>
+      <Box className={classes.right}>
+        <Pools className={classes.pools} />
+        <FriendList className={classes.friendList} />
+      </Box>
     </Box>
   );
 };
