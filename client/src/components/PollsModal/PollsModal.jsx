@@ -68,6 +68,9 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 17,
     textAlign: 'center',
   },
+  error: {
+    color: theme.palette.primary.main,
+  },
 }));
 
 const mockFriendList = ['Zeeshan', 'Allen', 'Saad', 'Conner', ' Aecio'];
@@ -77,11 +80,14 @@ const PollsModal = ({ open, onClose, className }) => {
   const [question, handleQuestion, resetQuestion] = useValue('');
   const [friend, setFriend] = useState('');
   const [files, setFiles] = useState([]);
+  const [error, setError] = useState({ type: '', description: '' });
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
     multiple: true,
     onDrop: (acceptedFiles) => {
+      setError({ type: '', description: '' });
+      if (acceptedFiles.length !== 2) return setError({ type: 'image', description: 'Maximum two images are allowed' });
       setFiles(acceptedFiles);
     },
   });
@@ -129,6 +135,11 @@ const PollsModal = ({ open, onClose, className }) => {
             <Typography className={classes.dopZoneText} variant='body2'>
               Drop an image here or select a file
             </Typography>
+            {error.type === 'image' && (
+              <Typography className={classes.error} variant='inherit'>
+                {error.description}
+              </Typography>
+            )}
           </div>
         </Box>
       </Box>

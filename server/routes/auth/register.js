@@ -33,6 +33,7 @@ router.post(
     //destruct name, email, and pw from request
     const { name, email, password } = req.body;
 
+    console.log(process.env.JWT_SECRET);
     try {
       //See if user exists
       let user = await User.findOne({ email });
@@ -66,6 +67,7 @@ router.post(
         email,
       });
 
+      //Sign JWT
       // jwt.sign(
       //   payload,
       //   process.env.JWT_SECRET,
@@ -76,11 +78,18 @@ router.post(
       //   }
       // );
 
-      jwtSign(payload, process.env.JWT_SECRET, res, userObject);
+      jwtSign(payload, process.env.JWT_SECRET, 1.577e7, res, userObject);
     } catch (err) {
       res.status(500).send('Server error');
     }
   },
 );
+router.get('/test', authentication, async (req, res) => {
+  try {
+    res.json({ msg: 'ok' });
+  } catch (err) {
+    res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;
