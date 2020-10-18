@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useValue } from '../../utils/';
 import { Modal } from '../common/Modal/Modal';
 import { InputField } from '../common/InputField/InputField';
+import FriendItem from './FriendItem';
 
 const useStyles = makeStyles((theme) => ({
   friendModal: {
@@ -26,9 +27,10 @@ const FriendModal = ({ open, onClose, className }) => {
           <InputField name='friendlist' placeholder='Enter name of list'></InputField>
           {/* List of friends */}
         </Box>
+        <h2>Add Friends:</h2>
         <List alignItems='flex-start'>
           {mockFriendList.map((friend) => (
-            <ListItem alignItems='center'>{friend}</ListItem>
+            <FriendItem name={friend}></FriendItem>
           ))}
         </List>
       </Grid>
