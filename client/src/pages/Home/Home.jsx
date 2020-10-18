@@ -26,15 +26,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
   const classes = useStyles();
-  // const [openPoll, setOpenPoll] = useState(false);
 
-  // const handlePollModal = () => setOpenPoll(!openPoll);
   return (
     <Box className={classes.mainContainer}>
-      {/* <Button className={classes.button} backgroundColor={theme.palette.secondary.main} onClick={handlePollModal}>
-        open modal
-      </Button>
-      <PollsModal open={openPoll} onClose={handlePollModal} /> */}
       <Box className={classes.left}>
         <FriendList friendList={Array(10).fill({ name: 'demo' })} />
       </Box>

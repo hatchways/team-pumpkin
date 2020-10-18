@@ -39,7 +39,7 @@ const FriendList = ({ friendList, ...rest }) => {
 
       <Box className={classes.list}>
         {friendList.map((friend, id) => (
-          <Avatar key={id} name={friend.name} />
+          <Avatar key={id} name={friend.name} {...rest} />
         ))}
       </Box>
     </Box>
