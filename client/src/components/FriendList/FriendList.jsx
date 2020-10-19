@@ -4,7 +4,9 @@ import React from 'react';
 import { HomeFrame } from '..';
 
 const useStyles = makeStyles((theme) => ({
-  mainContainer: {},
+  mainContainer: {
+    padding: theme.spacing(5),
+  },
 }));
 
 const FriendList = ({ className }) => {

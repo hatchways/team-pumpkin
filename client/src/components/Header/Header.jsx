@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.secondary.light,
     position: 'sticky',
     top: 0,
+    zIndex: 1200,
   },
   left: {
     flex: 4,

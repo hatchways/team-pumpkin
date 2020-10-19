@@ -1,4 +1,5 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
+import clsx from 'clsx';
 import React from 'react';
 import { theme } from '../../../themes/theme';
 import { Button } from '../Button/Button';
@@ -10,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
   header: {
     flex: 2,
     display: 'flex',
-    padding: theme.spacing(4),
+    paddingBottom: theme.spacing(4),
     justifyContent: 'space-between',
     fontWeight: 'bold',
   },
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const HomeFrame = ({ children, onClick, buttonLabel, header }) => {
+const HomeFrame = ({ className, children, onClick, buttonLabel, header }) => {
   const classes = useStyles();
   return (
     <Box className={classes.mainContainer}>
@@ -39,7 +40,7 @@ const HomeFrame = ({ children, onClick, buttonLabel, header }) => {
           {buttonLabel}
         </Button>
       </Box>
-      <Box className={classes.children}>{children}</Box>
+      <Box className={clsx([classes.children, className])}>{children}</Box>
     </Box>
   );
 };

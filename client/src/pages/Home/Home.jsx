@@ -9,14 +9,13 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
   },
   right: {
-    flex: 8,
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
-    width: '100%',
+    width: '80%',
   },
   left: {
-    flex: 2,
+    width: '20%',
     borderRightColor: theme.palette.secondary.dark,
     borderRight: 'solid',
     borderWidth: 1,
@@ -28,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
   },
   polls: {
     flex: 1,
-    border: `1px solid green`,
   },
   friendList: {
     flex: 1,
