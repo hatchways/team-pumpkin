@@ -8,6 +8,11 @@ const useStyles = makeStyles({
     color: 'white',
     backgroundColor: '#62cd4d',
   },
+  removeFriendButton: {
+    borderRadius: 25,
+    color: 'white',
+    backgroundColor: '#D5D5D5',
+  },
 });
 
 const FriendItem = ({ name, friends, id }) => {
@@ -17,11 +22,11 @@ const FriendItem = ({ name, friends, id }) => {
 
   const handleAdd = (event) => {
     event.preventDefault();
-    if (friends.includeds(id)) {
-      //Remove the friend from the friends list
-    } else {
-      //Add friend to friends list
-    }
+    // if (friends.includeds(id)) {
+    //   //Remove the friend from the friends list
+    // } else {
+    //   //Add friend to friends list
+    // }
     setClicked(!clicked);
     console.log(clicked);
   };
@@ -32,8 +37,12 @@ const FriendItem = ({ name, friends, id }) => {
         <Avatar />
       </ListItemAvatar>
       <ListItemText primary={name}></ListItemText>
-      <Button className={classes.addFriendButton} variant='contained' onClick={handleAdd}>
-        Add
+      <Button
+        className={clicked ? classes.removeFriendButton : classes.addFriendButton}
+        variant='contained'
+        onClick={handleAdd}
+      >
+        {clicked ? 'Remove' : 'Add'}
       </Button>
     </ListItem>
   );
