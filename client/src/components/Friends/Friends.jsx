@@ -20,12 +20,14 @@ const useStyles = makeStyles((theme) => ({
   },
 
   list: {
-    flex: 8,
+    flex: 14,
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
     width: '100%',
-    justifyContent: 'space-evenly',
+  },
+  avatar: {
+    marginBottom: theme.spacing(2),
   },
 }));
 
@@ -39,7 +41,7 @@ const Friends = ({ friendList, ...rest }) => {
 
       <Box className={classes.list}>
         {friendList.map((friend, id) => (
-          <Avatar key={id} name={friend.name} {...rest} />
+          <Avatar className={classes.avatar} key={id} name={friend.name} {...rest} />
         ))}
       </Box>
     </Box>

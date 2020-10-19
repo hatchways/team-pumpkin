@@ -3,6 +3,7 @@ export { Avatar } from './common/Avatar/Avatar';
 export { Button } from './common/Button/Button';
 export { HomeFrame } from './common/HomeFrame/HomeFrame';
 export { InputField } from './common/InputField/InputField';
+export { ListContainer } from './common/ListContainer/ListContainer';
 export { Modal } from './common/Modal/Modal';
 export { PollViewer } from './common/PollViewer/PollViewer';
 export { Select } from './common/Select/Select';

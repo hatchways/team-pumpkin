@@ -5,7 +5,6 @@ import { FriendList, Friends, Polls } from '../../components';
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
     backgroundColor: theme.palette.primary.dark,
-    height: '100vh',
     display: 'flex',
   },
   right: {
@@ -42,7 +41,19 @@ const Home = () => {
         <Friends friendList={Array(10).fill({ name: 'demo' })} />
       </Box>
       <Box className={classes.right}>
-        <Polls className={classes.polls} />
+        <Polls
+          listOfPolls={Array(3).fill({
+            question: 'Which is best?',
+            numberOfAnswer: 24,
+            url1:
+              'https://img1.looper.com/img/gallery/things-about-thanos-that-didnt-make-it-into-the-mcu/intro-1590779038.jpg',
+            url2:
+              'https://img1.looper.com/img/gallery/things-about-thanos-that-didnt-make-it-into-the-mcu/intro-1590779038.jpg',
+            imgCount1: 20,
+            imgCount2: 20,
+          })}
+          className={classes.polls}
+        />
         <FriendList className={classes.friendList} />
       </Box>
     </Box>

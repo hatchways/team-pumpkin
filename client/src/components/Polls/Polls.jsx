@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Polls = ({ className }) => {
+const Polls = ({ className, listOfPolls }) => {
   const classes = useStyles();
   const [openPoll, setOpenPoll] = useState(false);
 
@@ -39,20 +39,9 @@ const Polls = ({ className }) => {
           </>
         }
       >
-        {Array(3)
-          .fill({
-            question: 'Which is best?',
-            numberOfAnswer: 24,
-            url1:
-              'https://img1.looper.com/img/gallery/things-about-thanos-that-didnt-make-it-into-the-mcu/intro-1590779038.jpg',
-            url2:
-              'https://img1.looper.com/img/gallery/things-about-thanos-that-didnt-make-it-into-the-mcu/intro-1590779038.jpg',
-            imgCount1: 20,
-            imgCount2: 20,
-          })
-          .map((elem, id) => (
-            <PollViewer key={id} {...elem} />
-          ))}
+        {listOfPolls.map((elem, id) => (
+          <PollViewer key={id} {...elem} />
+        ))}
       </HomeFrame>
     </Box>
   );

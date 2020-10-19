@@ -1,4 +1,5 @@
 import { Avatar as MuiAvatar, Badge, Box, makeStyles, Typography, withStyles } from '@material-ui/core';
+import clsx from 'clsx';
 import React from 'react';
 import { theme } from '../../../themes/theme';
 
@@ -42,10 +43,10 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-const Avatar = ({ isVisibleIcon, iconOnClick, Icon, isOnline, url, name, onClick }) => {
+const Avatar = ({ className, isVisibleIcon, iconOnClick, Icon, isOnline, url, name, onClick }) => {
   const classes = useStyles();
   return (
-    <Box className={classes.mainContainer}>
+    <Box className={clsx([classes.mainContainer, className])}>
       {isVisibleIcon && <Icon size={theme.spacing(4)} onClick={iconOnClick} color={theme.palette.secondary.dark} />}
       <StyledBadge
         overlap='circle'
