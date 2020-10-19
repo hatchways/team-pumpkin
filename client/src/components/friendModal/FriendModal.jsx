@@ -47,32 +47,64 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const mockFriendList = [
-  'Michael Jordan',
-  'Lebron James',
-  'Kobe Bryant',
-  'Magic Johnson',
-  'Larry Bird',
-  'Jerry West',
-  'Dwyane Wade',
-  'Chris Bosh',
-  'Chris Paul',
-  'Kevin Durant',
+  {
+    id: 1,
+    name: 'Michael Jordan',
+  },
+  {
+    id: 2,
+    name: 'Lebron James',
+  },
+  {
+    id: 3,
+    name: 'Kobe Bryant',
+  },
+  {
+    id: 4,
+    name: 'Magic Johnson',
+  },
+  {
+    id: 5,
+    name: 'Larry Bird',
+  },
+  {
+    id: 6,
+    name: 'Jerry West',
+  },
+  {
+    id: 7,
+    name: 'Dwyane Wade',
+  },
+  {
+    id: 8,
+    name: 'Chris Bosh',
+  },
+  {
+    id: 9,
+    name: 'Chris Paul',
+  },
+  {
+    id: 10,
+    name: 'Kevin Durant',
+  },
 ];
 
 const FriendModal = ({ open, onClose, className }) => {
   const classes = useStyles();
 
   const [friendListName, handleFriendListName, setFriendListName] = useValue('');
-  const [friends, setFriends] = useState('');
+  const [friends, setFriends] = useState([]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
 
     // If the friend list doesn't have a name
     if (!friendListName) {
+      console.log('No Friend list name');
     }
     // If no friends are added to the list
     else if (!friends) {
+      console.log('No friends added to the list');
     } else {
       // TODO add user info
       const newList = {
@@ -81,13 +113,15 @@ const FriendModal = ({ open, onClose, className }) => {
       };
 
       // Create the friend list
+      console.log(friendListName);
+      console.log(friends);
     }
-    console.log(friendListName);
-    console.log(friends);
     // onClose();
   };
 
-  const handleAdd = () => {};
+  const handleChange = (newList) => {
+    setFriends(newList);
+  };
 
   return (
     <Modal className={className} open={open} onClose={onClose} title='Create a friend list'>
@@ -102,7 +136,7 @@ const FriendModal = ({ open, onClose, className }) => {
           {mockFriendList.map((friend) => (
             <div>
               <Divider />
-              <FriendItem name={friend} checked={false}></FriendItem>
+              <FriendItem name={friend.name} checked={false} friends={friends} onChange={setFriends}></FriendItem>
             </div>
           ))}
         </List>
