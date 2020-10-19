@@ -62,14 +62,23 @@ const mockFriendList = [
 const FriendModal = ({ open, onClose, className }) => {
   const classes = useStyles();
 
-  const [friendListName, setFriendListName] = useValue('');
+  const [friendListName, handleFriendListName, setFriendListName] = useValue('');
   const [friends, setFriends] = useState('');
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log(friendListName);
+    console.log(friends);
+    onClose();
+  };
+
+  const handleAdd = () => {};
 
   return (
     <Modal className={className} open={open} onClose={onClose} title='Create a friend list'>
       <Grid container direction='column'>
         <Box className={classes.friendModal}>
-          <InputField name='friendlist' placeholder='Enter name of list'></InputField>
+          <InputField name='friendlist' placeholder='Enter name of list' onChange={handleFriendListName}></InputField>
           {/* List of friends */}
         </Box>
         <h2 style={{ marginLeft: 20 }}>Add friends:</h2>
@@ -83,7 +92,9 @@ const FriendModal = ({ open, onClose, className }) => {
           ))}
         </List>
         <Box className={classes.buttonContainer}>
-          <Button className={classes.creatButton}>Create</Button>
+          <Button className={classes.creatButton} onClick={handleSubmit}>
+            Create
+          </Button>
         </Box>
       </Grid>
     </Modal>
