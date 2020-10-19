@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const User = require("../models/User");
+const User = require("../../models/User");
 
-const authentication = require("../middleware/authentication");
+const authentication = require("../../middleware/authentication");
 
 //@route            POST /api/add-friend/:id
 //@desc             Make this user a friend of the current user
@@ -149,6 +149,7 @@ router.delete("/remove-friend/:id", [authentication], async function(req, res) {
     }
 });
 
+
 //@route            DELETE /api/cancel-friend-request/:id
 //@desc             Remove this friend or delete the sent friend request
 //@access           Private
@@ -191,6 +192,7 @@ router.delete("/cancel-friend-request/:id", [authentication], async function(req
     }
 });
 
+
 //@route                GET /api/friends
 //@desc                 Get all the friends for a user
 //@access               Private
@@ -204,6 +206,7 @@ router.get("/friends", [authentication], async function(req, res){
     }
 });
 
+
 //@route                GET /api/friend-requests-sent
 //@desc                 Get all the friend requests sent by a user
 //@access               Private
@@ -216,6 +219,7 @@ router.get("/friend-requests-sent", [authentication], async function(req, res){
         res.status(500).send("Server error");
     }
 });
+
 
 //@route                GET /api/friend-requests-received
 //@desc                 Get all the friend requests made to a user
@@ -262,17 +266,5 @@ router.get("/suggested-friends", [authentication], async function(req, res){
         res.status(500).send("Server error");
     }
 });
-
-
-// //Test function -  return all users in database
-// router.get("/allusers", async function(req, res){
-//     try {
-//         const allUsers = await User.find();
-//         res.json(allUsers);
-//     } catch (error) {
-//         console.log(error.message);
-//         res.status(500).send("Server error");
-//     }
-// });
 
 module.exports = router;
