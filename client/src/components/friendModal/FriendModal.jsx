@@ -1,4 +1,4 @@
-import { Box, makeStyles, List, ListItem, Grid, Divider, Button } from '@material-ui/core';
+import { Box, makeStyles, List, ListItem, Grid, Divider, Button, withStyles } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useValue } from '../../utils/';
 import { Modal } from '../common/Modal/Modal';
@@ -67,9 +67,24 @@ const FriendModal = ({ open, onClose, className }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    // If the friend list doesn't have a name
+    if (!friendListName) {
+    }
+    // If no friends are added to the list
+    else if (!friends) {
+    } else {
+      // TODO add user info
+      const newList = {
+        friendListName,
+        friends,
+      };
+
+      // Create the friend list
+    }
     console.log(friendListName);
     console.log(friends);
-    onClose();
+    // onClose();
   };
 
   const handleAdd = () => {};
@@ -87,7 +102,7 @@ const FriendModal = ({ open, onClose, className }) => {
           {mockFriendList.map((friend) => (
             <div>
               <Divider />
-              <FriendItem name={friend}></FriendItem>
+              <FriendItem name={friend} checked={false}></FriendItem>
             </div>
           ))}
         </List>
