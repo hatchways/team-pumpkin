@@ -2,6 +2,7 @@ import { Box, Divider, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import React from 'react';
 import { AiTwotoneSetting } from 'react-icons/ai';
+import { GrClose } from 'react-icons/gr';
 import { theme } from '../../../themes/theme';
 import { Avatar } from '../Avatar/Avatar';
 
@@ -9,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   mainContainer: {
     backgroundColor: theme.palette.secondary.light,
     width: '100%',
-    maxWidth: theme.spacing(39),
+    maxWidth: theme.spacing(42),
     borderRadius: 3,
     display: 'flex',
     flexDirection: 'column',
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ListContainer = ({ className }) => {
+const ListContainer = ({ className, listOfFriend, title }) => {
   const classes = useStyles();
 
   return (
@@ -45,24 +46,19 @@ const ListContainer = ({ className }) => {
       <Box className={classes.headerContainer}>
         <Box>
           <Typography className={classes.header} variant='h5'>
-            Fashion
+            {title}
           </Typography>
           <Typography className={classes.numberOfFriends} variant='body1'>
-            14 friends
+            {listOfFriend.length} friends
           </Typography>
         </Box>
         <AiTwotoneSetting size={theme.spacing(3.75)} color={theme.palette.secondary.dark} />
       </Box>
       <Divider light />
       <Box className={classes.list}>
-        <Avatar className={classes.avatar} name='demo' />
-        <Avatar className={classes.avatar} name='demo' />
-        <Avatar className={classes.avatar} name='demo' />
-        <Avatar className={classes.avatar} name='demo' />
-        <Avatar className={classes.avatar} name='demo' />
-        <Avatar className={classes.avatar} name='demo' />
-        <Avatar className={classes.avatar} name='demo' />
-        <Avatar className={classes.avatar} name='demo' />
+        {listOfFriend.map((friend, id) => (
+          <Avatar key={id} Icon={GrClose} className={classes.avatar} {...friend} />
+        ))}
       </Box>
     </Box>
   );

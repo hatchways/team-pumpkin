@@ -17,17 +17,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FriendList = ({ className }) => {
+const FriendList = ({ className, listOfCategories }) => {
   const classes = useStyles();
   return (
     <Box className={clsx([classes.mainContainer, className])}>
       <HomeFrame className={classes.listContainer} buttonLabel='Create list' header='Friend lists'>
-        <ListContainer className={classes.list} />
-        <ListContainer className={classes.list} />
-        <ListContainer className={classes.list} />
-        <ListContainer className={classes.list} />
-        <ListContainer className={classes.list} />
-        <ListContainer className={classes.list} />
+        {listOfCategories.map((category, id) => (
+          <ListContainer key={id} className={classes.list} title={category.title} listOfFriend={category.category} />
+        ))}
       </HomeFrame>
     </Box>
   );

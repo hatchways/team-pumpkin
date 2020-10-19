@@ -43,11 +43,11 @@ const StyledBadge = withStyles((theme) => ({
   },
 }))(Badge);
 
-const Avatar = ({ className, isVisibleIcon, iconOnClick, Icon, isOnline, url, name, onClick }) => {
+const Avatar = ({ className, iconOnClick, Icon, isOnline, url, name, onClick }) => {
   const classes = useStyles();
   return (
     <Box className={clsx([classes.mainContainer, className])}>
-      {isVisibleIcon && <Icon size={theme.spacing(4)} onClick={iconOnClick} color={theme.palette.secondary.dark} />}
+      {Icon && <Icon size={theme.spacing(2)} onClick={iconOnClick} color={theme.palette.secondary.dark} />}
       <StyledBadge
         overlap='circle'
         anchorOrigin={{

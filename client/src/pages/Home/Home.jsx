@@ -11,10 +11,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
-    width: '80%',
+    width: '85%',
   },
   left: {
-    width: '20%',
+    width: '15%',
     borderRightColor: theme.palette.secondary.dark,
     borderRight: 'solid',
     borderWidth: 1,
@@ -54,7 +54,17 @@ const Home = () => {
           })}
           className={classes.polls}
         />
-        <FriendList className={classes.friendList} />
+        <FriendList
+          listOfCategories={Array(4).fill({
+            title: 'Fashion',
+            category: Array(5).fill({
+              name: 'demo',
+              url:
+                'https://img1.looper.com/img/gallery/things-about-thanos-that-didnt-make-it-into-the-mcu/intro-1590779038.jpg',
+            }),
+          })}
+          className={classes.friendList}
+        />
       </Box>
     </Box>
   );
