@@ -193,6 +193,49 @@ router.delete("/cancel-friend-request/:id", [authentication], async function(req
 });
 
 
+//@route            DELETE /api/reject-friend-request/:id
+//@desc             Reject friend request made by a user
+//@access           Private
+router.delete("/reject-friend-request/:id", [authentication], async function(req, res) {
+    
+    //The ID passed in the params will be the ID of the user who you want to add as a friend
+    //We have the current user's id stored as part of the authentication middleware
+    const friendId = req.params.id;
+    const userId = req.user.id;
+    try {
+        const user = await User.findById(userId);
+        const friend = await User.findById(friendId);
+
+        if(!friend){
+            //If the friend ID passed in does not exist in the database
+            return res.status(400).json({ msg: "User does not exist" });
+        }
+
+        //Ensure the user has sent a friend request to another user
+        //Delete the request
+        const friendIndex = user.receivedFriendRequests.indexOf(friendId);
+        const userIndex = friend.outgoingFriendRequests.indexOf(userId);
+
+        if(friendIndex  !== -1 && userIndex !== -1){
+            user.receivedFriendRequests.splice(friendIndex, 1);
+            friend.outgoingFriendRequests.splice(userIndex, 1);
+        } else{
+            return res.status(400).json({msg: "Have not received a friend request from this user."})
+        }
+
+        await user.save();
+        await friend.save();
+        res.json({msg: "Friend request rejected."});
+    } catch (error) {
+        console.log(error.message);
+        if (error.kind == "ObjectId") {
+            return res.status(400).json({ msg: "User does not exist" });
+          }
+        res.status(500).send("Server error");
+    }
+});
+
+
 //@route                GET /api/friends
 //@desc                 Get all the friends for a user
 //@access               Private
