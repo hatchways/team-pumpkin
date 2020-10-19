@@ -1,6 +1,6 @@
 import { Box, makeStyles } from '@material-ui/core';
 import React from 'react';
-import { FriendList, Friends, Pools } from '../../components';
+import { FriendList, Friends, Polls } from '../../components';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -26,8 +26,9 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.secondary.main,
     },
   },
-  pools: {
+  polls: {
     flex: 1,
+    border: `1px solid green`,
   },
   friendList: {
     flex: 1,
@@ -43,7 +44,7 @@ const Home = () => {
         <Friends friendList={Array(10).fill({ name: 'demo' })} />
       </Box>
       <Box className={classes.right}>
-        <Pools className={classes.pools} />
+        <Polls className={classes.polls} />
         <FriendList className={classes.friendList} />
       </Box>
     </Box>

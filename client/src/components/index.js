@@ -9,5 +9,5 @@ export { FriendList } from './FriendList/FriendList';
 export { Friends } from './Friends/Friends';
 export { Header } from './Header/Header';
 export { LoadingScreen } from './Loader/Loader';
+export { Polls } from './Polls/Polls';
 export { PollsModal } from './PollsModal/PollsModal';
-export { Pools } from './Pools/Pools';
