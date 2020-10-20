@@ -1,25 +1,27 @@
-import { MuiThemeProvider } from '@material-ui/core';
-import React, { Suspense } from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
+import React, { Suspense, useContext } from 'react';
+import { Route, Switch } from 'react-router-dom';
 import './App.css';
-import { LoadingScreen } from './components';
+import { Header, LoadingScreen } from './components';
 import { HomeScreen, LoginScreen, SignUpScreen } from './LazyComponents';
-import LandingPage from './pages/Landing';
-import { theme } from './themes/theme';
+import { GlobalContext } from './utils';
 
-function App() {
+const App = () => {
+  const stateContext = useContext(GlobalContext);
+
   return (
-    <MuiThemeProvider theme={theme}>
-      <BrowserRouter>
+    <>
+      {!!stateContext.user && <Header />}
+      <Header />
+      {!!stateContext.user && <Header />}
+      <Switch>
         <Suspense fallback={<LoadingScreen />}>
-          <Route exact path='/' component={LandingPage} />
           <Route exact path='/signup' component={SignUpScreen} />
           <Route exact path='/login' component={LoginScreen} />
           <Route exact path='/home' component={HomeScreen} />
         </Suspense>
-      </BrowserRouter>
-    </MuiThemeProvider>
+      </Switch>
+    </>
   );
-}
+};
 
 export default App;

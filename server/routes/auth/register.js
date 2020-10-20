@@ -89,12 +89,5 @@ router.post(
     }
   }
 );
-router.get("/test", authentication, async (req, res) => {
-  try {
-    res.json({ msg: "ok" });
-  } catch (err) {
-    res.status(500).send("Server Error");
-  }
-});
 
 module.exports = router;
