@@ -1,5 +1,6 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
+import { AiOutlineLogout } from 'react-icons/ai';
 import { Avatar, Button, PollsModal } from '../';
 import Logo from '../../assets/logo-trans.png';
 import { theme } from '../../themes/theme';
@@ -35,6 +36,9 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     cursor: 'pointer',
   },
+  logOut: {
+    cursor: 'pointer',
+  },
 }));
 
 const Header = () => {
@@ -42,6 +46,10 @@ const Header = () => {
   const [openPoll, setOpenPoll] = useState(false);
 
   const handlePollModal = () => setOpenPoll(!openPoll);
+  const handleLogOut = () => {
+    localStorage.removeItem('user');
+    window.location.reload();
+  };
   return (
     <Box className={classes.mainContainer}>
       <PollsModal open={openPoll} onClose={handlePollModal} />
@@ -71,6 +79,7 @@ const Header = () => {
           Create Poll
         </Button>
         <Avatar name='My Profile' url='https://img1.grunge.com/img/uploads/2018/05/characters-destroyed-thanos.jpg' />
+        <AiOutlineLogout className={classes.logOut} size={theme.spacing(4)} onClick={handleLogOut} />
       </Box>
     </Box>
   );

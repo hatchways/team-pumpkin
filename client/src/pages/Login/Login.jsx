@@ -77,18 +77,17 @@ const Login = () => {
         });
         return;
       }
-      console.log('this is user', values);
       const result = await signInCall(values);
-      console.log('response', result);
       const status = result.status;
       const data = result.data;
       if (status === 200) {
         const { userObject } = data;
         localStorage.setItem('user', JSON.stringify(userObject));
         reset();
+        history.push('/home');
+        window.location.reload();
       } else {
         const error = result.data.error.msg;
-        console.log('this is err', result);
         setApiError(error);
       }
     } catch (err) {

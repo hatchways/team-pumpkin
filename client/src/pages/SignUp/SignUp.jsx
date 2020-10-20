@@ -81,6 +81,8 @@ const SignUp = () => {
         const { userObject } = data;
         localStorage.setItem('user', JSON.stringify(userObject));
         reset();
+        history.push('/home');
+        window.location.reload();
       } else {
         const error = result.data.error.msg;
         setApiError(error);
