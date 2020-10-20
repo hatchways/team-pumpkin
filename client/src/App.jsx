@@ -11,7 +11,6 @@ const App = () => {
   return (
     <>
       {!!stateContext.user && <Header />}
-      <Header />
       <Switch>
         <Suspense fallback={<LoadingScreen />}>
           <Route exact path='/signup' component={SignUpScreen} />

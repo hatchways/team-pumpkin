@@ -77,22 +77,18 @@ const Login = () => {
         });
         return;
       }
-      const user = { email, password };
-      const result = await signInCall(user);
+      console.log('this is user', values);
+      const result = await signInCall(values);
+      console.log('response', result);
       const status = result.status;
       const data = result.data;
       if (status === 200) {
-        const { userObject, token } = data;
-        const { name, email } = userObject;
-        const userDetails = {
-          name,
-          email,
-          token,
-        };
-        localStorage.setItem('user', JSON.stringify(userDetails));
+        const { userObject } = data;
+        localStorage.setItem('user', JSON.stringify(userObject));
         reset();
       } else {
         const error = result.data.error.msg;
+        console.log('this is err', result);
         setApiError(error);
       }
     } catch (err) {

@@ -74,19 +74,12 @@ const SignUp = () => {
         });
         return;
       }
-      const user = { name, email, password };
-      const result = await signUpCall(user);
+      const result = await signUpCall(values);
       const status = result.status;
       const data = result.data;
       if (status === 200) {
-        const { userObject, token } = data;
-        const { name, email } = userObject;
-        const userDetails = {
-          name,
-          email,
-          token,
-        };
-        localStorage.setItem('user', JSON.stringify(userDetails));
+        const { userObject } = data;
+        localStorage.setItem('user', JSON.stringify(userObject));
         reset();
       } else {
         const error = result.data.error.msg;
