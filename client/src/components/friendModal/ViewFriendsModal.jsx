@@ -1,7 +1,6 @@
-import { makeStyles, List, Grid, Divider, Button, Tabs, Tab, Typography } from '@material-ui/core';
+import { makeStyles, Grid, Tabs, Tab, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import { Modal } from '../common/Modal/Modal';
-import { theme } from '../../themes/theme';
 import { ViewFriends } from './ViewFriends';
 
 const useStyles = makeStyles((theme) => ({

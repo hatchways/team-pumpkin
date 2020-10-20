@@ -1,7 +1,5 @@
 import React from 'react';
-import { Grid, makeStyles, Typography, Paper, List, Divider } from '@material-ui/core';
-import { theme } from '../../themes/theme';
-import { Button } from '../common/Button/Button';
+import { makeStyles, Paper, List, Divider } from '@material-ui/core';
 import { ViewFriendItem } from './ViewFriendItem';
 
 const useStyles = makeStyles((theme) => ({

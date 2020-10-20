@@ -19,8 +19,6 @@ const ViewFriendItem = ({ friend, typeOfFriendRequest }) => {
 
   const [clicked, setClicked] = useState(false);
 
-  let typeOfFriendRequestNumber;
-
   const handleAdd = (id) => {
     //TODO: integrate backend to make friend request
     setClicked(!clicked);
