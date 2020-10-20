@@ -1,5 +1,5 @@
 import React, { Suspense, useContext, useState } from 'react';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import { Header, LoadingScreen } from './components';
 import { HomeScreen, LoginScreen, SignUpScreen } from './LazyComponents';
