@@ -1,9 +1,10 @@
-import { Box, makeStyles, List, ListItem, Grid, Divider, Button, withStyles } from '@material-ui/core';
+import { Box, makeStyles, List, Grid, Divider, Button } from '@material-ui/core';
 import React, { useState } from 'react';
 import { useValue } from '../../utils/';
 import { Modal } from '../common/Modal/Modal';
 import { InputField } from '../common/InputField/InputField';
 import FriendItem from './FriendItem';
+import { theme } from '../../themes/theme';
 
 const useStyles = makeStyles((theme) => ({
   friendModal: {
@@ -14,8 +15,8 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 25,
   },
   creatButton: {
-    backgroundColor: '#000000',
-    color: '#ffffff',
+    backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.secondary.light,
     borderRadius: 25,
     width: 120,
     height: 50,
@@ -134,10 +135,10 @@ const FriendModal = ({ open, onClose, className }) => {
 
         <List className={classes.friendList} alignItems='flex-start'>
           {mockFriendList.map((friend) => (
-            <div>
+            <li key={friend.id}>
               <Divider />
               <FriendItem friend={friend} checked={false} friends={friends} onChange={setFriends}></FriendItem>
-            </div>
+            </li>
           ))}
         </List>
         <Box className={classes.buttonContainer}>

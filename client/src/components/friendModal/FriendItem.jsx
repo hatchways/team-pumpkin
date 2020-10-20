@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { ListItem, ListItemAvatar, ListItemText, Button, Avatar, makeStyles } from '@material-ui/core';
-import { blue } from '@material-ui/core/colors';
+import { theme } from '../../themes/theme';
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   addFriendButton: {
     borderRadius: 25,
-    color: 'white',
+    color: theme.palette.secondary.light,
     backgroundColor: '#62cd4d',
   },
   removeFriendButton: {
     borderRadius: 25,
-    color: 'white',
-    backgroundColor: '#D5D5D5',
+    color: theme.palette.secondary.light,
+    backgroundColor: theme.palette.secondary.dark,
   },
-});
+}));
 
 const FriendItem = ({ friend, friends, onChange }) => {
   const classes = useStyles();
