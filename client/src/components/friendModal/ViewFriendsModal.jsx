@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ViewFriendsModal = ({ open, onClose, className }) => {
+const ViewFriendsModal = ({ open, onClose, className, ...rest }) => {
   const classes = useStyles();
 
   const [tabValue, setTabValue] = useState(0);
