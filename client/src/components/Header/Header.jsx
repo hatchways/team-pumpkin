@@ -1,6 +1,6 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
-import React from 'react';
-import { Avatar, Button } from '../';
+import React, { useState } from 'react';
+import { Avatar, Button, PollsModal } from '../';
 import Logo from '../../assets/logo-trans.png';
 import { theme } from '../../themes/theme';
 
@@ -9,8 +9,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     width: '100%',
     height: theme.spacing(13.5),
+    backgroundColor: theme.palette.secondary.light,
     position: 'sticky',
     top: 0,
+    zIndex: 1200,
   },
   left: {
     flex: 4,
@@ -37,8 +39,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = () => {
   const classes = useStyles();
+  const [openPoll, setOpenPoll] = useState(false);
+
+  const handlePollModal = () => setOpenPoll(!openPoll);
   return (
     <Box className={classes.mainContainer}>
+      <PollsModal open={openPoll} onClose={handlePollModal} />
       <Box className={classes.left}>
         <Box className={classes.leftTop}>
           <img className={classes.logo} src={Logo} alt='logo' />
@@ -60,6 +66,7 @@ const Header = () => {
           color={theme.palette.secondary.main}
           backgroundColor={theme.palette.secondary.light}
           variant='outlined'
+          onClick={handlePollModal}
         >
           Create Poll
         </Button>
