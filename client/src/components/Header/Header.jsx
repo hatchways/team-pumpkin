@@ -1,6 +1,7 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import { Avatar, Button, PollsModal } from '../';
+import { ViewFriendsModal } from '../friendModal/ViewFriendsModal';
 import Logo from '../../assets/logo-trans.png';
 import { theme } from '../../themes/theme';
 
@@ -40,18 +41,24 @@ const useStyles = makeStyles((theme) => ({
 const Header = () => {
   const classes = useStyles();
   const [openPoll, setOpenPoll] = useState(false);
+  const [openFriends, setOpenFriends] = useState(false);
 
+  function handleFriendsModal() {
+    setOpenFriends(!openFriends);
+  }
   const handlePollModal = () => setOpenPoll(!openPoll);
+
   return (
     <Box className={classes.mainContainer}>
       <PollsModal open={openPoll} onClose={handlePollModal} />
+      <ViewFriendsModal open={openFriends} onClose={handleFriendsModal} />
       <Box className={classes.left}>
         <Box className={classes.leftTop}>
           <img className={classes.logo} src={Logo} alt='logo' />
         </Box>
       </Box>
       <Box className={classes.right}>
-        <Typography variant='h6' className={classes.headerOption}>
+        <Typography variant='h6' className={classes.headerOption} onClick={handleFriendsModal}>
           Friends
         </Typography>
         <Typography variant='h6' className={classes.headerOption}>
