@@ -1,13 +1,7 @@
 import { Box, makeStyles } from '@material-ui/core';
-<<<<<<< HEAD
-import React, { useState } from 'react';
-import { Button, PollsModal } from '../../components';
-import FriendModal from '../../components/friendModal/FriendModal';
-import { theme } from '../../themes/theme';
-=======
+
 import React from 'react';
 import { FriendList, Friends, Polls } from '../../components';
->>>>>>> ee163066a11ff2e00abe27e765c4a6383df928c9
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -41,24 +35,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
   const classes = useStyles();
-<<<<<<< HEAD
-  const [openPoll, setOpenPoll] = useState(false);
-  const [openFriendPoll, setFriendOpenPoll] = useState(false);
-
-  const handlePollModal = () => setOpenPoll(!openPoll);
-  const handleFriendPollModal = () => setFriendOpenPoll(!openFriendPoll);
-  return (
-    <Box className={classes.mainContainer}>
-      <Button className={classes.button} backgroundColor={theme.palette.secondary.main} onClick={handlePollModal}>
-        open modal
-      </Button>
-      <br></br>
-      <Button className={classes.button} backgroundColor={theme.palette.secondary.main} onClick={handleFriendPollModal}>
-        Friend Modal
-      </Button>
-      <PollsModal open={openPoll} onClose={handlePollModal} />
-      <FriendModal open={openFriendPoll} onClose={handleFriendPollModal} />
-=======
 
   return (
     <Box className={classes.mainContainer}>
@@ -91,7 +67,6 @@ const Home = () => {
           className={classes.friendList}
         />
       </Box>
->>>>>>> ee163066a11ff2e00abe27e765c4a6383df928c9
     </Box>
   );
 };
