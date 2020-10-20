@@ -15,36 +15,20 @@ router.post('/create', authentication, async (req, res) => {
     const uploadedResponseToCloudinaryForSecondImage = await cloudinary.uploader.upload(imagesData[1], {
       upload_preset: 'team_pumpkin',
     });
-    const poll = {
+
+    const newUserPollData = {
+      userId,
       url1: uploadedResponseToCloudinaryForFirstImage.url,
       url2: uploadedResponseToCloudinaryForSecondImage.url,
       friend,
       question,
+      votesForUrl1: [],
+      votesForUrl2: [],
     };
-    const polls = [poll];
-    const userPollsData = await PollsMongoModel.findOne({
-      userId,
-    });
-    if (!!userPollsData) {
-      const response = await PollsMongoModel.updateOne(
-        { userId },
-        {
-          $push: {
-            polls: poll,
-          },
-        },
-      );
+    const newUserPollDataSaveToMongo = new PollsMongoModel(newUserPollData);
+    newUserPollDataSaveToMongo.save().then((response) => {
       res.status(200).json(response);
-    } else {
-      const newUserPollData = {
-        userId,
-        polls,
-      };
-      const newUserPollDataSaveToMongo = new PollsMongoModel(newUserPollData);
-      newUserPollDataSaveToMongo.save().then((response) => {
-        res.status(200).json(response);
-      });
-    }
+    });
   } catch (err) {
     const error = {
       msg: err,
@@ -57,7 +41,7 @@ router.post('/create', authentication, async (req, res) => {
 router.put('/update', authentication, async (req, res) => {
   try {
     const userId = req.user.id;
-    const { question, friend, imagesData, pollId } = req.body;
+    const { question, friend, imagesData, _id } = req.body;
 
     const uploadedResponseToCloudinaryForFirstImage = await cloudinary.uploader.upload(imagesData[0], {
       upload_preset: 'team_pumpkin',
@@ -67,13 +51,13 @@ router.put('/update', authentication, async (req, res) => {
     });
 
     const response = await PollsMongoModel.updateOne(
-      { userId, 'polls._id': pollId },
+      { userId, _id },
       {
         $set: {
-          'polls.$.question': question,
-          'polls.$.friend': friend,
-          'polls.$.url1': uploadedResponseToCloudinaryForFirstImage.url,
-          'polls.$.url2': uploadedResponseToCloudinaryForSecondImage.url,
+          question,
+          friend,
+          url1: uploadedResponseToCloudinaryForFirstImage.url,
+          url2: uploadedResponseToCloudinaryForSecondImage.url,
         },
       },
     );
@@ -89,16 +73,8 @@ router.put('/update', authentication, async (req, res) => {
 
 router.delete('/delete', authentication, async (req, res) => {
   try {
-    const userId = req.user.id;
-    const { pollId } = req.body;
-    const response = await PollsMongoModel.update(
-      { userId },
-      {
-        $pull: {
-          polls: { _id: pollId },
-        },
-      },
-    );
+    const { _id } = req.body;
+    const response = await PollsMongoModel.deleteOne({ _id });
     res.status(200).json(response);
   } catch (err) {
     const error = {
