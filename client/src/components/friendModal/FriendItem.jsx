@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   },
 });
 
-const FriendItem = ({ name, friends, onChange }) => {
+const FriendItem = ({ friend, friends, onChange }) => {
   const classes = useStyles();
 
   const [clicked, setClicked] = useState(false);
@@ -27,10 +27,8 @@ const FriendItem = ({ name, friends, onChange }) => {
       //Add friend to friends list
       //   console.add(id);
       setClicked(!clicked);
-      const newList = [...friends, { name }];
+      const newList = [...friends, { name: friend.name, id: friend.id }];
       onChange(newList);
-      console.log(name);
-      console.log(newList);
     }
   };
 
@@ -39,7 +37,7 @@ const FriendItem = ({ name, friends, onChange }) => {
       <ListItemAvatar>
         <Avatar />
       </ListItemAvatar>
-      <ListItemText primary={name}></ListItemText>
+      <ListItemText primary={friend.name}></ListItemText>
       <Button
         className={clicked ? classes.removeFriendButton : classes.addFriendButton}
         variant='contained'

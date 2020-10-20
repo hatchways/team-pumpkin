@@ -136,7 +136,7 @@ const FriendModal = ({ open, onClose, className }) => {
           {mockFriendList.map((friend) => (
             <div>
               <Divider />
-              <FriendItem name={friend.name} checked={false} friends={friends} onChange={setFriends}></FriendItem>
+              <FriendItem friend={friend} checked={false} friends={friends} onChange={setFriends}></FriendItem>
             </div>
           ))}
         </List>
