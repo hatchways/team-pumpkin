@@ -1,15 +1,33 @@
-import { makeStyles, Grid, Tabs, Tab, Typography } from '@material-ui/core';
+import { makeStyles, Grid, Tabs, Tab, Typography, List, Divider } from '@material-ui/core';
 import React, { useState } from 'react';
 import { Modal } from '../common/Modal/Modal';
-import { ViewFriends } from './ViewFriends';
+import { ViewFriendItem } from './ViewFriendItem';
 
 const useStyles = makeStyles((theme) => ({
   modalContent: {
-    width: 900,
-    minHeight: 900,
+    width: '100%',
+    minHeight: 500,
   },
   headerOption: {
     fontWeight: 'bold',
+  },
+  friendList: {
+    maxHeight: 500,
+    minHeight: 500,
+    overflow: 'auto',
+    '&::-webkit-scrollbar': {
+      width: '0.1em',
+    },
+    '&::-webkit-scrollbar-track': {
+      boxShadow: 'inset 0 0 6px gray',
+      webkitBoxShadow: 'inset 0 0 6px gray',
+    },
+    '&::-webkit-scrollbar-thumb': {
+      backgroundColor: '#000000',
+      outline: '1px solid black',
+    },
+    scrollbarColor: 'black lightgrey',
+    scrollbarWidth: 'thin',
   },
 }));
 
@@ -22,37 +40,67 @@ const ViewFriendsModal = ({ open, onClose, className, ...rest }) => {
     setTabValue(newValue);
   };
 
+  const friendList1 = Array(20).fill({ name: 'demo' });
+  const friendList2 = Array(5).fill({ name: 'demo' });
+  const friendList3 = Array(10).fill({ name: 'demo' });
+
   return (
-    <Modal className={className} open={open} onClose={onClose} maxWidth='md'>
+    <Modal className={className} open={open} onClose={onClose} maxWidth='sm'>
       <Grid container direction='column' className={classes.modalContent}>
         <Tabs value={tabValue} onChange={handleChange} centered variant='fullWidth'>
           <Tab
             label={
-              <Typography variant='h6' className={classes.headerOption}>
-                Suggested Friends
+              <Typography variant='h7' className={classes.headerOption}>
+                Suggestions
               </Typography>
             }
           />
           <Tab
             label={
-              <Typography variant='h6' className={classes.headerOption}>
-                All Friends
+              <Typography variant='h7' className={classes.headerOption}>
+                Friends
               </Typography>
             }
           />
           <Tab
             label={
-              <Typography variant='h6' className={classes.headerOption}>
-                Friend Requests
+              <Typography variant='h7' className={classes.headerOption}>
+                Requests
               </Typography>
             }
           />
         </Tabs>
+
         {tabValue === 0 && (
-          <ViewFriends friendList={Array(20).fill({ name: 'demo' })} typeOfFriendRequest='Suggested' />
+          <List alignItems='flex-start' className={classes.friendList}>
+            {friendList1.map((friend) => (
+              <li key={friend.id} className={classes.scrollbar}>
+                <Divider />
+                <ViewFriendItem friend={friend} typeOfFriendRequest='Suggested' />
+              </li>
+            ))}
+          </List>
         )}
-        {tabValue === 1 && <ViewFriends friendList={Array(5).fill({ name: 'demo' })} typeOfFriendRequest='Friends' />}
-        {tabValue === 2 && <ViewFriends friendList={Array(2).fill({ name: 'demo' })} typeOfFriendRequest='Received' />}
+        {tabValue === 1 && (
+          <List alignItems='flex-start' className={classes.friendList}>
+            {friendList2.map((friend) => (
+              <li key={friend.id} className={classes.scrollbar}>
+                <Divider />
+                <ViewFriendItem friend={friend} typeOfFriendRequest='Friends' />
+              </li>
+            ))}
+          </List>
+        )}
+        {tabValue === 2 && (
+          <List alignItems='flex-start' className={classes.friendList}>
+            {friendList3.map((friend) => (
+              <li key={friend.id} className={classes.scrollbar}>
+                <Divider />
+                <ViewFriendItem friend={friend} typeOfFriendRequest='Received' />
+              </li>
+            ))}
+          </List>
+        )}
       </Grid>
     </Modal>
   );

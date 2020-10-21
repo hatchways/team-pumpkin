@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   removeFriendButton: {
     borderRadius: 25,
     color: theme.palette.secondary.light,
-    backgroundColor: theme.palette.secondary.dark,
+    backgroundColor: theme.palette.primary.main,
   },
 }));
 
@@ -18,6 +18,12 @@ const ViewFriendItem = ({ friend, typeOfFriendRequest }) => {
   const classes = useStyles();
 
   const [clicked, setClicked] = useState(false);
+
+  /** Change the primary/clicked colour of the button depending on which tab we're in*/
+  function resolveTypeOfButton() {
+    if (typeOfFriendRequest === 'Friends') return clicked ? classes.addFriendButton : classes.removeFriendButton;
+    else return clicked ? classes.removeFriendButton : classes.addFriendButton;
+  }
 
   const handleAdd = (id) => {
     //TODO: integrate backend to make friend request
@@ -30,11 +36,7 @@ const ViewFriendItem = ({ friend, typeOfFriendRequest }) => {
         <Avatar />
       </ListItemAvatar>
       <ListItemText primary={friend.name}></ListItemText>
-      <Button
-        className={clicked ? classes.removeFriendButton : classes.addFriendButton}
-        variant='contained'
-        onClick={handleAdd}
-      >
+      <Button className={resolveTypeOfButton()} variant='contained' onClick={handleAdd}>
         {/** The button and functionality will change according to what type of request was made */}
         {typeOfFriendRequest === 'Suggested' && (clicked ? 'Cancel' : 'Add')}
         {typeOfFriendRequest === 'Friends' && (clicked ? 'Cancel' : 'Remove Friend')}

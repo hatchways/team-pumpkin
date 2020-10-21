@@ -44,6 +44,8 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: '#000000',
       outline: '1px solid black',
     },
+    scrollbarColor: 'black lightgrey',
+    scrollbarWidth: 'thin',
   },
 }));
 
