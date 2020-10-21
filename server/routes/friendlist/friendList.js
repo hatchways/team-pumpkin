@@ -59,4 +59,21 @@ router.post(
   }
 );
 
+/*
+    Type: GET route
+    Desc: Get all friend lists
+    Acc: private
+    Params: none
+*/
+router.get("/lists", authentication, async (req, res) => {
+  try {
+    //Find the friend lists and sort by most recent
+    const friendLists = await FriendList.find().populate().sort({ date: -1 });
+
+    res.json(friendLists);
+  } catch (err) {
+    res.status(500).send("Retrieving friend-Lists error");
+  }
+});
+
 module.exports = router;
