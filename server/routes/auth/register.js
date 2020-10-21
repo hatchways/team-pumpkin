@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { check, validationResult } = require("express-validator");
+const {check, validationResult} = require("express-validator");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 
@@ -24,26 +24,26 @@ router.post(
     check(
       "password",
       "Please enter a password with 6 or more characters"
-    ).isLength({ min: 6 }),
+    ).isLength({min: 6}),
   ],
   async (req, res) => {
     //Check for errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({ errors: errors.array() });
+      return res.status(400).json({errors: errors.array()});
     }
 
     //destruct name, email, and pw from request
-    const { name, email, password } = req.body;
+    const {name, email, password} = req.body;
 
     console.log(process.env.JWT_SECRET);
     try {
       //See if user exists
-      let user = await User.findOne({ email });
+      let user = await User.findOne({email});
       if (user) {
         return res
           .status(400)
-          .json({ error: { msg: "User already exists with that email" } });
+          .json({error: {msg: "User already exists with that email"}});
       }
 
       user = new User({
@@ -72,7 +72,6 @@ router.post(
         email,
       });
 
-      //Sign JWT
       // jwt.sign(
       //   payload,
       //   process.env.JWT_SECRET,
@@ -85,6 +84,7 @@ router.post(
 
       jwtSign(payload, process.env.JWT_SECRET, 1.577e7, res, userObject);
     } catch (err) {
+      console.log(err.message);
       res.status(500).send("Server error");
     }
   }
