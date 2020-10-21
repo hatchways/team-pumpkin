@@ -15,9 +15,9 @@ const User = require("../../models/User");
 */
 router.post(
   "/add",
-
+  authentication,
   [
-    check("user", "User is required").not().isEmpty(),
+    check("userId", "User is required").not().isEmpty(),
     check("friendListName", "Friend List name is required").not().isEmpty(),
   ],
   async (req, res) => {
@@ -27,10 +27,10 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    try {
-      //Destructuring
-      const { userId, friendListName, friends } = req.body;
+    //Destructuring
+    const { userId, friendListName, friends } = req.body;
 
+    try {
       //Make sure that the friend list name is unique
       let friendList = await FriendList.findOne({ friendListName });
       if (friendList) {
@@ -46,11 +46,17 @@ router.post(
         friends,
       });
 
-      const friendListPayload = await friendList.save();
+      console.log(friends);
 
-      res.json(friendListPayload);
+      await friendList.save();
+
+      console.log(friendList);
+
+      return res.json(friendList);
     } catch (err) {
       res.status(500).send("Friend List Error");
     }
   }
 );
+
+module.exports = router;
