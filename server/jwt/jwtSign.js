@@ -4,7 +4,7 @@ module.exports = function (payload, secret, expireIn, res, userObject) {
   jwt.sign(payload, secret, { expiresIn: expireIn }, (err, token) => {
     if (err) throw err;
     //Store the token in cookie
-    res.cookie("auth-token", token);
+    res.cookie("auth-token", token, { httpOnly: true });
     res.json({ success: true, userObject });
   });
 };
