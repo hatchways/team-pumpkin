@@ -1,9 +1,11 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { useCookies } from 'react-cookie';
 import { AiOutlineLogout } from 'react-icons/ai';
 import { Avatar, Button, PollsModal } from '../';
 import Logo from '../../assets/logo-trans.png';
 import { theme } from '../../themes/theme';
+import { GlobalContext } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -44,6 +46,11 @@ const useStyles = makeStyles((theme) => ({
 const Header = () => {
   const classes = useStyles();
   const [openPoll, setOpenPoll] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies(['auth-token']);
+
+  const user = useContext(GlobalContext).user;
+
+  console.log('cookie', cookies);
 
   const handlePollModal = () => setOpenPoll(!openPoll);
   const handleLogOut = () => {
@@ -78,7 +85,7 @@ const Header = () => {
         >
           Create Poll
         </Button>
-        <Avatar name='My Profile' url='https://img1.grunge.com/img/uploads/2018/05/characters-destroyed-thanos.jpg' />
+        <Avatar name={user.name} url='https://img1.grunge.com/img/uploads/2018/05/characters-destroyed-thanos.jpg' />
         <AiOutlineLogout className={classes.logOut} size={theme.spacing(4)} onClick={handleLogOut} />
       </Box>
     </Box>

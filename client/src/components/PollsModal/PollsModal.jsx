@@ -1,7 +1,9 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
+import clsx from 'clsx';
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { AiOutlineExpand } from 'react-icons/ai';
+import { createPost } from '../../api';
 import { theme } from '../../themes/theme';
 import { useValue } from '../../utils/';
 import { Button } from '../common/Button/Button';
@@ -71,6 +73,15 @@ const useStyles = makeStyles((theme) => ({
   error: {
     color: theme.palette.primary.main,
   },
+  removeContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'column',
+  },
+  removeButton: {
+    marginTop: theme.spacing(1),
+  },
 }));
 
 const mockFriendList = ['Zeeshan', 'Allen', 'Saad', 'Conner', ' Aecio'];
@@ -85,22 +96,31 @@ const PollsModal = ({ open, onClose, className }) => {
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
     multiple: true,
-    onDrop: (acceptedFiles) => {
+    onDrop: async (acceptedFiles) => {
       setError({ type: '', description: '' });
       if (acceptedFiles.length !== 2) return setError({ type: 'image', description: 'Maximum two images are allowed' });
-      setFiles(acceptedFiles);
+      acceptedFiles.forEach((file) => {
+        const fileReader = new FileReader();
+        fileReader.readAsDataURL(file);
+        return (fileReader.onload = (event) => setFiles([...files, event.target.result]));
+      });
     },
   });
 
+  console.log('this is file', files);
+
   const handleFriend = (event) => setFriend(event.target.value);
 
-  const handleSubmit = (event) => {
+  const handleRemoveFiles = () => setFiles([]);
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log(question, friend, files);
-    resetQuestion();
-    setFriend('');
-    setFiles([]);
-    onClose();
+    const response = await createPost({ question, friend, imagesData: files });
+    console.log('this is response', response);
+    // resetQuestion();
+    // setFriend('');
+    // setFiles([]);
+    // onClose();
   };
 
   return (
@@ -128,17 +148,32 @@ const PollsModal = ({ open, onClose, className }) => {
         </Box>
         <Box className={classes.modalContentRight}>
           <div {...getRootProps()} className={classes.dropZone}>
-            <input {...getInputProps()} />
-            <Box className={classes.dropIconContainer}>
-              <AiOutlineExpand color={theme.palette.secondary.dark} className={classes.dropIcon} size={100} />
-            </Box>
-            <Typography className={classes.dopZoneText} variant='body2'>
-              Drop an image here or select a file
-            </Typography>
-            {error.type === 'image' && (
-              <Typography className={classes.error} variant='inherit'>
-                {error.description}
-              </Typography>
+            {files.length !== 2 ? (
+              <>
+                <input {...getInputProps()} />
+                <Box className={classes.dropIconContainer}>
+                  <AiOutlineExpand color={theme.palette.secondary.dark} className={classes.dropIcon} size={100} />
+                </Box>
+                <Typography className={classes.dopZoneText} variant='body2'>
+                  Drop an image here or select a file
+                </Typography>
+                {error.type === 'image' && (
+                  <Typography className={classes.error} variant='inherit'>
+                    {error.description}
+                  </Typography>
+                )}
+              </>
+            ) : (
+              <Box className={classes.removeContainer}>
+                <Typography>{files.length} Images Selected</Typography>
+                <Button
+                  onClick={handleRemoveFiles}
+                  className={clsx([classes.button, classes.removeButton])}
+                  backgroundColor={theme.palette.secondary.main}
+                >
+                  Remove
+                </Button>
+              </Box>
             )}
           </div>
         </Box>

@@ -9,6 +9,7 @@ router.post('/create', authentication, async (req, res) => {
     console.log('this is user', req.user);
     const userId = req.user.id;
     const { question, friend, imagesData } = req.body;
+    console.log('this is req', req.body);
     const uploadedResponseToCloudinaryForFirstImage = await cloudinary.uploader.upload(imagesData[0], {
       upload_preset: 'team_pumpkin',
     });

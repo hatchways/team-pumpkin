@@ -85,7 +85,7 @@ const Login = () => {
         localStorage.setItem('user', JSON.stringify(userObject));
         reset();
         history.push('/home');
-        window.location.reload();
+        // window.location.reload();
       } else {
         const error = result.data.error.msg;
         setApiError(error);

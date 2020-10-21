@@ -7,6 +7,7 @@ import { GlobalContext } from './utils';
 
 const App = () => {
   const stateContext = useContext(GlobalContext);
+  console.log('cookie', document.cookie);
 
   return (
     <>
