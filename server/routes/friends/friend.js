@@ -200,7 +200,7 @@ router.delete("/outgoing-requests/:id", [authentication], async function (
 //@route            DELETE /api/received-request/:id
 //@desc             Reject friend request made by a user
 //@access           Private
-router.delete("/received-request/:id", [authentication], async function (
+router.delete("/received-requests/:id", [authentication], async function (
   req,
   res
 ) {
