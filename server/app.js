@@ -15,6 +15,10 @@ const signin = require("./routes/auth/signin");
 const friendList = require("./routes/friendlist/friendList");
 
 const { json, urlencoded } = express;
+/*Friend requests*/
+const friend = require("./routes/friends/friend");
+
+const { json, urlencoded } = express;
 
 var app = express();
 
@@ -33,6 +37,8 @@ app.use("/api", signin);
 
 /*FriendList*/
 app.use("/api/friendList", friendList);
+/*Friend Requests*/
+app.use("/api", friend);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
