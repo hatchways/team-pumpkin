@@ -11,10 +11,12 @@ const pingRouter = require("./routes/ping");
 const register = require("./routes/auth/register");
 const signin = require("./routes/auth/signin");
 
+/*Friend List*/
+const friendList = require("./routes/friendlist/friendList");
+
 const { json, urlencoded } = express;
 
 var app = express();
-
 
 app.use(logger("dev"));
 app.use(json());
@@ -28,6 +30,9 @@ app.use("/ping", pingRouter);
 /*Register and SignIn*/
 app.use("/api", register);
 app.use("/api", signin);
+
+/*FriendList*/
+app.use("/api/friendList", friendList);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

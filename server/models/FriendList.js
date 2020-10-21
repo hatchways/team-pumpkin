@@ -6,7 +6,7 @@ const FriendListSchema = new mongoose.Schema({
     ref: "user",
     required: true,
   },
-  frientListName: {
+  friendListName: {
     type: String,
     required: true,
   },
