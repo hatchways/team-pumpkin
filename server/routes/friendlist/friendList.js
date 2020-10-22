@@ -11,13 +11,13 @@ const User = require("../../models/User");
     Type: POST route
     Desc: Create a new Friends list
     Acc: private
-    Params: userId, friendListname, friends
+    Params: user, friendListname, friends
 */
 router.post(
   "/add",
   authentication,
   [
-    check("userId", "User is required").not().isEmpty(),
+    check("user", "User is required").not().isEmpty(),
     check("friendListName", "Friend List name is required").not().isEmpty(),
   ],
   async (req, res) => {
@@ -28,7 +28,7 @@ router.post(
     }
 
     //Destructuring
-    const { userId, friendListName, friends } = req.body;
+    const { user, friendListName, friends } = req.body;
 
     try {
       //Make sure that the friend list name is unique
@@ -41,7 +41,7 @@ router.post(
 
       //Create a new FriendList object
       friendList = new FriendList({
-        userId,
+        user,
         friendListName,
         friends,
       });
@@ -60,6 +60,26 @@ router.post(
 );
 
 /*
+    Type: DELETE route
+    Desc: DELETE a friend list
+    Acc: private
+    Params: none
+*/
+router.delete("/list/:list_id", authentication, async (req, res) => {
+  try {
+    const friendList = await FriendList.findById(req.param.list_id);
+    if (!friendList)
+      return res.status(400).json({ msg: "Friend List not found" });
+
+    await friendList.remove();
+
+    res.json({ msg: "Friend list removed" });
+  } catch (err) {
+    return res.status(500).send("Server error");
+  }
+});
+
+/*
     Type: GET route
     Desc: Get all friend lists
     Acc: private
@@ -75,5 +95,16 @@ router.get("/lists", authentication, async (req, res) => {
     res.status(500).send("Retrieving friend-Lists error");
   }
 });
+
+/*
+    Type: Patch route
+    Desc: Update friends in friend list
+    Acc: private
+    param: listId, friendListName, friends
+*/
+// router.patch("/list/:list_id", authentication, async (req, res) => {
+//   try {
+//   } catch (err) {}
+// });
 
 module.exports = router;

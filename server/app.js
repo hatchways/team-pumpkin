@@ -18,8 +18,6 @@ const { json, urlencoded } = express;
 /*Friend requests*/
 const friend = require("./routes/friends/friend");
 
-const { json, urlencoded } = express;
-
 var app = express();
 
 app.use(logger("dev"));
