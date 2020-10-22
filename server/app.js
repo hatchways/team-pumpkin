@@ -34,7 +34,7 @@ app.use("/api", register);
 app.use("/api", signin);
 
 /*FriendList*/
-app.use("/api/friendList", friendList);
+app.use("/api/friendLists", friendList);
 /*Friend Requests*/
 app.use("/api", friend);
 

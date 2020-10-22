@@ -14,7 +14,7 @@ const User = require("../../models/User");
     Params: user, friendListname, friends
 */
 router.post(
-  "/add",
+  "/lists",
   authentication,
   [
     check("user", "User is required").not().isEmpty(),
@@ -65,7 +65,7 @@ router.post(
     Acc: private
     Params: none
 */
-router.delete("/list/:list_id", authentication, async (req, res) => {
+router.delete("/lists/:list_id", authentication, async (req, res) => {
   try {
     const friendList = await FriendList.findById(req.param.list_id);
     if (!friendList)
@@ -108,7 +108,7 @@ router.get("/lists", authentication, async (req, res) => {
     Acc: private
     Params: none
 */
-router.get("/list/:list_id", authentication, async (req, res) => {
+router.get("/lists/:list_id", authentication, async (req, res) => {
   try {
     const friendList = await FriendList.findById(req.params.list_id);
     if (!friendList)
