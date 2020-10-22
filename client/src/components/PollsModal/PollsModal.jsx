@@ -90,6 +90,7 @@ const PollsModal = ({ open, onClose, className }) => {
   const classes = useStyles();
   const [question, handleQuestion, resetQuestion] = useValue('');
   const [friend, setFriend] = useState('');
+  const [disable, setDisable] = useState(false);
   const [files, setFiles] = useState([]);
   const [error, setError] = useState({ type: '', description: '' });
 
@@ -114,8 +115,9 @@ const PollsModal = ({ open, onClose, className }) => {
     formData.append('friend', friend);
     formData.append('img1', files[0]);
     formData.append('img2', files[1]);
-    const response = await createPost(formData);
-    console.log('this is response', await response);
+    setDisable(true);
+    await createPost(formData);
+    setDisable(false);
     resetQuestion();
     setFriend('');
     setFiles([]);
@@ -178,7 +180,12 @@ const PollsModal = ({ open, onClose, className }) => {
         </Box>
       </Box>
       <Box className={classes.buttonContainer}>
-        <Button onClick={handleSubmit} className={classes.button} backgroundColor={theme.palette.secondary.main}>
+        <Button
+          onClick={handleSubmit}
+          className={classes.button}
+          disabled={disable}
+          backgroundColor={theme.palette.secondary.main}
+        >
           Create
         </Button>
       </Box>
