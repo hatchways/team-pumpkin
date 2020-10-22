@@ -97,6 +97,23 @@ router.get("/lists", authentication, async (req, res) => {
 });
 
 /*
+    Type: GET route
+    Desc: Get a friend lists
+    Acc: private
+    Params: none
+*/
+router.get("/list/:list_id", authentication, async (req, res) => {
+  try {
+    const friendList = await FriendList.findById(req.param.list_id);
+    if (!friendList)
+      return res.status(400).json({ msg: "Friend list not found" });
+    res.json(friendList);
+  } catch (err) {
+    res.status(500).send("friend list error");
+  }
+});
+
+/*
     Type: Patch route
     Desc: Update friends in friend list
     Acc: private
@@ -122,6 +139,8 @@ router.patch(
 
       //Get the existing friend list
       const friendList = await FriendList.findById(req.param.list_id);
+      if (!friendList)
+        return res.status(400).json({ msg: "Friend list not found" });
 
       friendList.friendListName = req.body.friendListName;
       friendList.friends = req.body.friends;
