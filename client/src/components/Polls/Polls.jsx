@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Polls = ({ className, listOfPolls }) => {
+  console.log('this is list of polls from polls', listOfPolls);
   const classes = useStyles();
   const [openPoll, setOpenPoll] = useState(false);
 
@@ -39,9 +40,15 @@ const Polls = ({ className, listOfPolls }) => {
           </>
         }
       >
-        {listOfPolls.map((elem, id) => (
-          <PollViewer key={id} {...elem} />
-        ))}
+        {listOfPolls === undefined || listOfPolls.length === 0 ? (
+          <Typography variant='h2'>No polls available</Typography>
+        ) : (
+          <>
+            {listOfPolls.map((elem, id) => (
+              <PollViewer key={id} {...elem} />
+            ))}
+          </>
+        )}
       </HomeFrame>
     </Box>
   );

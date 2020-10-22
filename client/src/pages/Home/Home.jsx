@@ -1,5 +1,5 @@
 import { Box, makeStyles } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { getPolls } from '../../api';
 import { FriendList, Friends, Polls } from '../../components';
@@ -37,15 +37,15 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   const classes = useStyles();
   const [polls, setPolls] = useState([]);
-  const { data, isLoading, isFetching, error } = useQuery('polls', getPolls);
+  const { data, isLoading, isFetching } = useQuery('polls', getPolls);
 
-  // const pollsFromBE = getPolls();
+  useEffect(() => {
+    setPolls(data);
+  }, [data]);
 
-  // useEffect(() => {
-  //   setPolls(pollsFromBE);
-  // }, [pollsFromBE]);
+  console.log('this is polls', data);
 
-  console.log('this is polls', polls);
+  console.log('this is fethching', isFetching, isLoading);
 
   return (
     <Box className={classes.mainContainer}>
@@ -53,19 +53,7 @@ const Home = () => {
         <Friends friendList={Array(10).fill({ name: 'demo' })} />
       </Box>
       <Box className={classes.right}>
-        <Polls
-          listOfPolls={Array(3).fill({
-            question: 'Which is best?',
-            numberOfAnswer: 24,
-            url1:
-              'https://img1.looper.com/img/gallery/things-about-thanos-that-didnt-make-it-into-the-mcu/intro-1590779038.jpg',
-            url2:
-              'https://img1.looper.com/img/gallery/things-about-thanos-that-didnt-make-it-into-the-mcu/intro-1590779038.jpg',
-            imgCount1: 20,
-            imgCount2: 20,
-          })}
-          className={classes.polls}
-        />
+        <Polls listOfPolls={polls} className={classes.polls} />
         <FriendList
           listOfCategories={Array(4).fill({
             title: 'Fashion',

@@ -12,7 +12,6 @@
     "react-dropzone": "^11.2.0",
     "react-icons": "^3.11.0",
     "react-query": "^2.25.2",
-    "react-query-devtools": "^2.6.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.0.1"
   },
@@ -47,6 +46,7 @@
   },
   "devDependencies": {
     "husky": "^4.3.0",
-    "prettier": "^2.1.2"
+    "prettier": "^2.1.2",
+    "react-query-devtools": "^2.6.0"
   }
 }

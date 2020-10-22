@@ -45,15 +45,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PollViewer = ({ question, numberOfAnswer, url1, url2, imgCount1, imgCount2 }) => {
+const PollViewer = ({ question, numberOfAnswer, url1, url2, votesForUrl1, votesForUrl2 }) => {
   const classes = useStyles();
+
+  const numberOfVotesForUrl1 = votesForUrl1.length;
+  const numberOfVotesForUrl2 = votesForUrl2.length;
+  const totalVotes = numberOfVotesForUrl1 + numberOfVotesForUrl2;
   return (
     <Box className={classes.mainContainer}>
       <Typography className={classes.header} variant='h4'>
         {question}
       </Typography>
       <Typography className={classes.answer} variant='h5'>
-        {`${numberOfAnswer} ${numberOfAnswer === 1 ? 'answer' : 'answers'}`}
+        {`${totalVotes} ${numberOfAnswer === 1 ? 'answer' : 'answers'}`}
       </Typography>
       <Box className={classes.imagesContainer}>
         <Box className={classes.imageContainer}>
@@ -61,7 +65,7 @@ const PollViewer = ({ question, numberOfAnswer, url1, url2, imgCount1, imgCount2
           <Box className={classes.iconContainer}>
             <BsFillHeartFill size={theme.spacing(3.75)} color={theme.palette.primary.main} />
             <Typography className={classes.likeCount} component='span'>
-              {imgCount1}
+              {numberOfVotesForUrl1}
             </Typography>
           </Box>
         </Box>
@@ -71,7 +75,7 @@ const PollViewer = ({ question, numberOfAnswer, url1, url2, imgCount1, imgCount2
           <Box className={classes.iconContainer}>
             <BsFillHeartFill size={theme.spacing(3.75)} color={theme.palette.primary.main} />
             <Typography className={classes.likeCount} component='span'>
-              {imgCount2}
+              {numberOfVotesForUrl2}
             </Typography>
           </Box>
         </Box>
