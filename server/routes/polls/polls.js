@@ -85,4 +85,18 @@ router.delete('/delete', authentication, async (req, res) => {
   }
 });
 
+router.get('/view', authentication, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const response = await PollsMongoModel.find({ userId });
+    res.status(200).json(response);
+  } catch (err) {
+    const error = {
+      msg: err,
+    };
+    console.log(err);
+    res.status(400).json(error);
+  }
+});
+
 module.exports = router;
