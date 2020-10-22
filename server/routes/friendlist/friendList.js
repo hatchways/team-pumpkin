@@ -120,12 +120,12 @@ router.get("/lists/:list_id", authentication, async (req, res) => {
 });
 
 /*
-    Type: Patch route
+    Type: Put route
     Desc: Update friends in friend list
     Acc: private
     param: listId, friendListName, friends
 */
-router.patch(
+router.put(
   "/lists/:list_id",
   authentication,
   [
@@ -134,6 +134,7 @@ router.patch(
   ],
   async (req, res) => {
     try {
+      console.log("edit");
       //Errors from express validation
       const errors = validationResult(req);
       if (!errors.isEmpty()) {
@@ -141,15 +142,15 @@ router.patch(
       }
 
       //Destructuring
-      const { friendListName, friends, user } = req.body;
+      const { friendListName, friends } = req.body;
 
       //Get the existing friend list
-      const friendList = await FriendList.findById(req.param.list_id);
+      const friendList = await FriendList.findById(req.params.list_id);
       if (!friendList)
         return res.status(400).json({ msg: "Friend list not found" });
 
-      friendList.friendListName = req.body.friendListName;
-      friendList.friends = req.body.friends;
+      friendList.friendListName = friendListName;
+      friendList.friends = friends;
 
       await friendList.save();
 
@@ -159,5 +160,32 @@ router.patch(
     }
   }
 );
+
+/*
+    Type: Patch route
+    Desc: Update individual friend in friend list
+    Acc: private
+    param: listId, friendListName, friends
+*/
+router.patch("/lists/:list_id", authentication, async (req, res) => {
+  try {
+    const { user, friendListName, friends } = req.body;
+    const updateFriendList = { friendListName, friends };
+
+    FriendList.findByIdAndUpdate(req.params.list_id, updateFriendList, {
+      lean: true,
+      omitUndefined: true,
+    })
+      .then((result) => {
+        res.status(200).json(result);
+      })
+      .catch((err) => {
+        res.status(500).json(err);
+      });
+    //Update list
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 module.exports = router;
