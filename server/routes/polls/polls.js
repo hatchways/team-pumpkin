@@ -32,8 +32,8 @@ router.post('/create', authentication, async (req, res) => {
 
     const newUserPollData = {
       userId,
-      // url1: uploadedResponseToCloudinaryForFirstImage.url,
-      // url2: uploadedResponseToCloudinaryForSecondImage.url,
+      url1: uploadedResponseToCloudinaryForFirstImage.url,
+      url2: uploadedResponseToCloudinaryForSecondImage.url,
       friend,
       question,
     };
