@@ -46,11 +46,11 @@ router.post(
         friends,
       });
 
-      console.log(friends);
+      // console.log(friends);
 
       await friendList.save();
 
-      console.log(friendList);
+      // console.log(friendList);
 
       return res.json(friendList);
     } catch (err) {
@@ -88,7 +88,13 @@ router.delete("/list/:list_id", authentication, async (req, res) => {
 router.get("/lists", authentication, async (req, res) => {
   try {
     //Find the friend lists and sort by most recent
-    const friendLists = await FriendList.find().populate().sort({ date: -1 });
+    // const friendLists = await FriendList.find().populate().sort({ date: -1 });
+
+    const friendLists = await FriendList.find({
+      user: req.user.id,
+    })
+      .populate()
+      .sort({ createdAt: "descending" });
 
     res.json(friendLists);
   } catch (err) {
@@ -104,7 +110,7 @@ router.get("/lists", authentication, async (req, res) => {
 */
 router.get("/list/:list_id", authentication, async (req, res) => {
   try {
-    const friendList = await FriendList.findById(req.param.list_id);
+    const friendList = await FriendList.findById(req.params.list_id);
     if (!friendList)
       return res.status(400).json({ msg: "Friend list not found" });
     res.json(friendList);
