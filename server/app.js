@@ -7,6 +7,7 @@ const cors = require('cors');
 const indexRouter = require('./routes/index');
 const pingRouter = require('./routes/ping');
 const pollsRouter = require('./routes/polls/polls');
+const friend = require('./routes/friends/friend');
 const fileupload = require('express-fileupload');
 
 /*Register and SignIn*/
@@ -32,6 +33,10 @@ app.use(
   }),
 );
 app.use(urlencoded({ limit: '50mb', extended: false }));
+app.use(logger('dev'));
+app.use(json());
+app.use(cors());
+app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(join(__dirname, 'public')));
 
@@ -41,6 +46,9 @@ app.use('/ping', pingRouter);
 app.use('/api', register);
 app.use('/api', signin);
 app.use('/api/polls', pollsRouter);
+
+/*Friend Requests*/
+app.use('/api', friend);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

@@ -6,6 +6,7 @@ import { Avatar, Button, PollsModal } from '../';
 import Logo from '../../assets/logo-trans.png';
 import { theme } from '../../themes/theme';
 import { GlobalContext } from '../../utils';
+import { ViewFriendsModal } from '../friendModal/ViewFriendsModal';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -51,22 +52,28 @@ const Header = () => {
   const user = useContext(GlobalContext).user;
 
   console.log('cookie', cookies);
+  const [openFriends, setOpenFriends] = useState(false);
 
+  function handleFriendsModal() {
+    setOpenFriends(!openFriends);
+  }
   const handlePollModal = () => setOpenPoll(!openPoll);
   const handleLogOut = () => {
     localStorage.removeItem('user');
     window.location.reload();
   };
+
   return (
     <Box className={classes.mainContainer}>
       <PollsModal open={openPoll} onClose={handlePollModal} />
+      <ViewFriendsModal open={openFriends} onClose={handleFriendsModal} />
       <Box className={classes.left}>
         <Box className={classes.leftTop}>
           <img className={classes.logo} src={Logo} alt='logo' />
         </Box>
       </Box>
       <Box className={classes.right}>
-        <Typography variant='h6' className={classes.headerOption}>
+        <Typography variant='h6' className={classes.headerOption} onClick={handleFriendsModal}>
           Friends
         </Typography>
         <Typography variant='h6' className={classes.headerOption}>
