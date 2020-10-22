@@ -126,7 +126,7 @@ router.get("/lists/:list_id", authentication, async (req, res) => {
     param: listId, friendListName, friends
 */
 router.patch(
-  "/list/:list_id",
+  "/lists/:list_id",
   authentication,
   [
     check("user", "User is required").not().isEmpty(),
