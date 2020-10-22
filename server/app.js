@@ -8,8 +8,6 @@ const indexRouter = require('./routes/index');
 const pingRouter = require('./routes/ping');
 const pollsRouter = require('./routes/polls/polls');
 const fileupload = require('express-fileupload');
-// var multer = require('multer');
-// var upload = multer();
 
 /*Register and SignIn*/
 const register = require('./routes/auth/register');
@@ -25,18 +23,6 @@ app.use(
   }),
 );
 
-// app.use(
-//   upload.fields([
-//     {
-//       name: 'img1',
-//       maxCount: 1,
-//     },
-//     {
-//       name: 'img2',
-//       maxCount: 1,
-//     },
-//   ]),
-// );
 app.use(logger('dev'));
 app.use(json({ limit: '50mb' }));
 app.use(

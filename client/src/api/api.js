@@ -37,7 +37,7 @@ const createPost = async (payload) => {
     console.log('this is payload', payload);
     const result = await fetch('/api/polls/create', {
       method: 'POST',
-      headers: { 'Content-Type': 'multipart/form-data' },
+      // headers: { 'Content-Type': 'multipart/form-data' },
       body: payload,
       credentials: 'include',
     });

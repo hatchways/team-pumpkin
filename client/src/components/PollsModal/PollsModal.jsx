@@ -99,16 +99,9 @@ const PollsModal = ({ open, onClose, className }) => {
     onDrop: async (acceptedFiles) => {
       setError({ type: '', description: '' });
       if (acceptedFiles.length !== 2) return setError({ type: 'image', description: 'Maximum two images are allowed' });
-      // acceptedFiles.forEach((file) => {
-      //   const fileReader = new FileReader();
-      //   fileReader.readAsDataURL(file);
-      //   return (fileReader.onload = (event) => setFiles([...files, event.target.result]));
-      // });
       setFiles(acceptedFiles);
     },
   });
-
-  console.log('this is file', files);
 
   const handleFriend = (event) => setFriend(event.target.value);
 
@@ -121,18 +114,12 @@ const PollsModal = ({ open, onClose, className }) => {
     formData.append('friend', friend);
     formData.append('img1', files[0]);
     formData.append('img2', files[1]);
-    // const payload = {
-    //   question,
-    //   friend,
-    //   img1: files[0],
-    //   img2: files[1],
-    // };
     const response = await createPost(formData);
     console.log('this is response', await response);
-    // resetQuestion();
-    // setFriend('');
-    // setFiles([]);
-    // onClose();
+    resetQuestion();
+    setFriend('');
+    setFiles([]);
+    onClose();
   };
 
   return (

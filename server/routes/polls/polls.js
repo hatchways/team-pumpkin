@@ -9,26 +9,14 @@ router.post('/create', authentication, async (req, res) => {
     console.log('this is user');
     const userId = req.user.id;
     const { question, friend } = req.body;
-    console.log('this is from files', req.files);
-    console.log('this is from body', req.body);
 
-    const uploadedResponseToCloudinaryForFirstImage = await cloudinary.uploader.upload(
-      req.files.img1.tempFilePath,
-      (err, result) => {
-        console.log('this is error from cloudinary', err);
-        console.log('this is success from cloudinary', result);
-      },
-    );
+    const uploadedResponseToCloudinaryForFirstImage = await cloudinary.uploader.upload(req.files.img1.tempFilePath, {
+      upload_preset: 'team_pumpkin',
+    });
 
-    const uploadedResponseToCloudinaryForSecondImage = await cloudinary.uploader.upload(
-      req.files.img2.tempFilePath,
-      (err, result) => {
-        console.log('this is error from cloudinary', err);
-        console.log('this is success from cloudinary', result);
-      },
-    );
-
-    console.log('this is response from cloudinary', uploadedResponseToCloudinaryForFirstImage);
+    const uploadedResponseToCloudinaryForSecondImage = await cloudinary.uploader.upload(req.files.img2.tempFilePath, {
+      upload_preset: 'team_pumpkin',
+    });
 
     const newUserPollData = {
       userId,
