@@ -45,9 +45,21 @@ const createPost = async (payload) => {
     const response = await result.json();
     return response;
   } catch (err) {
-    console.log('this is a test', err);
     return err;
   }
 };
 
-export { signInCall, signUpCall, createPost };
+const getPolls = async () => {
+  try {
+    const result = await fetch('/api/polls/view', {
+      method: 'GET',
+      credentials: 'include',
+    });
+    const response = await result.json();
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
+export { signInCall, signUpCall, createPost, getPolls };

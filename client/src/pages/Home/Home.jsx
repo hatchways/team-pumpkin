@@ -1,5 +1,7 @@
 import { Box, makeStyles } from '@material-ui/core';
-import React from 'react';
+import React, { useState } from 'react';
+import { useQuery } from 'react-query';
+import { getPolls } from '../../api';
 import { FriendList, Friends, Polls } from '../../components';
 
 const useStyles = makeStyles((theme) => ({
@@ -34,6 +36,16 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
   const classes = useStyles();
+  const [polls, setPolls] = useState([]);
+  const { data, isLoading, isFetching, error } = useQuery('polls', getPolls);
+
+  // const pollsFromBE = getPolls();
+
+  // useEffect(() => {
+  //   setPolls(pollsFromBE);
+  // }, [pollsFromBE]);
+
+  console.log('this is polls', polls);
 
   return (
     <Box className={classes.mainContainer}>

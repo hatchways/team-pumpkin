@@ -1,4 +1,5 @@
 import React, { Suspense, useContext } from 'react';
+import { ReactQueryDevtools } from 'react-query-devtools';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import './App.css';
 import { Header, LoadingScreen } from './components';
@@ -20,6 +21,7 @@ const App = () => {
           <Route exact path='/home' component={HomeScreen} />
         </Suspense>
       </Switch>
+      <ReactQueryDevtools initialIsOpen={false} />
     </>
   );
 };
