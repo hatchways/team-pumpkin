@@ -102,9 +102,37 @@ router.get("/lists", authentication, async (req, res) => {
     Acc: private
     param: listId, friendListName, friends
 */
-// router.patch("/list/:list_id", authentication, async (req, res) => {
-//   try {
-//   } catch (err) {}
-// });
+router.patch(
+  "/list/:list_id",
+  authentication,
+  [
+    check("user", "User is required").not().isEmpty(),
+    check("friendListName", "Friend List name is required").not().isEmpty(),
+  ],
+  async (req, res) => {
+    try {
+      //Errors from express validation
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) {
+        return res.status(400).json({ errors: errors.array() });
+      }
+
+      //Destructuring
+      const { friendListName, friends, user } = req.body;
+
+      //Get the existing friend list
+      const friendList = await FriendList.findById(req.param.list_id);
+
+      friendList.friendListName = req.body.friendListName;
+      friendList.friends = req.body.friends;
+
+      await friendList.save();
+
+      res.json(friendList);
+    } catch (err) {
+      res.status(500).send("Edit friend list error");
+    }
+  }
+);
 
 module.exports = router;
