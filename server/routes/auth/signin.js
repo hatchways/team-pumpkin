@@ -53,7 +53,7 @@ router.post(
       //User object
       const userObject = await User.findById(payload.user.id).select('-password');
 
-      //Sign JWT
+      // //Sign JWT
       // jwt.sign(
       //   payload,
       //   process.env.JWT_SECRET,
@@ -66,7 +66,7 @@ router.post(
 
       jwtSign(payload, process.env.JWT_SECRET, 1.577e7, res, userObject);
     } catch (err) {
-      console.log(err);
+      console.log(err.message);
       res.status(500).send('Server error:(');
     }
   },
