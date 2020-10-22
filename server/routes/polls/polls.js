@@ -6,25 +6,36 @@ const { cloudinary } = require('../../cloudinary/cloudinary');
 
 router.post('/create', authentication, async (req, res) => {
   try {
-    console.log('this is user', req.user);
+    console.log('this is user');
     const userId = req.user.id;
-    const { question, friend, imagesData } = req.body;
-    console.log('this is req', req.body);
-    const uploadedResponseToCloudinaryForFirstImage = await cloudinary.uploader.upload(imagesData[0], {
-      upload_preset: 'team_pumpkin',
-    });
-    const uploadedResponseToCloudinaryForSecondImage = await cloudinary.uploader.upload(imagesData[1], {
-      upload_preset: 'team_pumpkin',
-    });
+    const { question, friend } = req.body;
+    console.log('this is from files', req.files);
+    console.log('this is from body', req.body);
+
+    const uploadedResponseToCloudinaryForFirstImage = await cloudinary.uploader.upload(
+      req.files.img1.tempFilePath,
+      (err, result) => {
+        console.log('this is error from cloudinary', err);
+        console.log('this is success from cloudinary', result);
+      },
+    );
+
+    const uploadedResponseToCloudinaryForSecondImage = await cloudinary.uploader.upload(
+      req.files.img2.tempFilePath,
+      (err, result) => {
+        console.log('this is error from cloudinary', err);
+        console.log('this is success from cloudinary', result);
+      },
+    );
+
+    console.log('this is response from cloudinary', uploadedResponseToCloudinaryForFirstImage);
 
     const newUserPollData = {
       userId,
-      url1: uploadedResponseToCloudinaryForFirstImage.url,
-      url2: uploadedResponseToCloudinaryForSecondImage.url,
+      // url1: uploadedResponseToCloudinaryForFirstImage.url,
+      // url2: uploadedResponseToCloudinaryForSecondImage.url,
       friend,
       question,
-      votesForUrl1: [],
-      votesForUrl2: [],
     };
     const newUserPollDataSaveToMongo = new PollsMongoModel(newUserPollData);
     newUserPollDataSaveToMongo.save().then((response) => {
@@ -42,12 +53,12 @@ router.post('/create', authentication, async (req, res) => {
 router.put('/update', authentication, async (req, res) => {
   try {
     const userId = req.user.id;
-    const { question, friend, imagesData, _id } = req.body;
+    const { question, friend, img1, img2, _id } = req.body;
 
-    const uploadedResponseToCloudinaryForFirstImage = await cloudinary.uploader.upload(imagesData[0], {
+    const uploadedResponseToCloudinaryForFirstImage = await cloudinary.uploader.upload(img1, {
       upload_preset: 'team_pumpkin',
     });
-    const uploadedResponseToCloudinaryForSecondImage = await cloudinary.uploader.upload(imagesData[1], {
+    const uploadedResponseToCloudinaryForSecondImage = await cloudinary.uploader.upload(img2, {
       upload_preset: 'team_pumpkin',
     });
 

@@ -7,6 +7,9 @@ const cors = require('cors');
 const indexRouter = require('./routes/index');
 const pingRouter = require('./routes/ping');
 const pollsRouter = require('./routes/polls/polls');
+const fileupload = require('express-fileupload');
+// var multer = require('multer');
+// var upload = multer();
 
 /*Register and SignIn*/
 const register = require('./routes/auth/register');
@@ -16,15 +19,33 @@ const { json, urlencoded } = express;
 
 var app = express();
 
+app.use(
+  fileupload({
+    useTempFiles: true,
+  }),
+);
+
+// app.use(
+//   upload.fields([
+//     {
+//       name: 'img1',
+//       maxCount: 1,
+//     },
+//     {
+//       name: 'img2',
+//       maxCount: 1,
+//     },
+//   ]),
+// );
 app.use(logger('dev'));
-app.use(json());
+app.use(json({ limit: '50mb' }));
 app.use(
   cors({
     credentials: true,
     origin: ['http://localhost:3000'],
   }),
 );
-app.use(urlencoded({ extended: false }));
+app.use(urlencoded({ limit: '50mb', extended: false }));
 app.use(cookieParser());
 app.use(express.static(join(__dirname, 'public')));
 

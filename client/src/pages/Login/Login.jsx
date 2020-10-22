@@ -78,20 +78,14 @@ const Login = () => {
         return;
       }
       const result = await signInCall(values);
-      const status = result.status;
-      const data = result.data;
-      if (status === 200) {
-        const { userObject } = data;
-        localStorage.setItem('user', JSON.stringify(userObject));
-        reset();
-        history.push('/home');
-        // window.location.reload();
-      } else {
-        const error = result.data.error.msg;
-        setApiError(error);
-      }
+
+      localStorage.setItem('user', JSON.stringify(result));
+      reset();
+      history.push('/home');
+      window.location.reload();
     } catch (err) {
       console.warn(err);
+      setApiError(err);
     }
   };
 
