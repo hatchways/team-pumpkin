@@ -1,10 +1,10 @@
 const jwt = require("jsonwebtoken");
 
 module.exports = function (payload, secret, expireIn, res, userObject) {
-  jwt.sign(payload, secret, { expiresIn: expireIn }, (err, token) => {
+  jwt.sign(payload, secret, {expiresIn: expireIn}, (err, token) => {
     if (err) throw err;
     //Store the token in cookie
-    res.cookie("auth-token", token, { httpOnly: true });
-    res.json({ success: true, userObject });
+    res.cookie("auth-token", token, {httpOnly: true});
+    res.json({success: true, userObject});
   });
 };

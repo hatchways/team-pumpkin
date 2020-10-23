@@ -251,7 +251,7 @@ router.get("/friends", [authentication], async function (req, res) {
     const user = await (await User.findById(req.user.id))
       .populate("friends", ["name"])
       .execPopulate();
-    res.json(user.friends);
+    res.json({friends: user.friends});
   } catch (error) {
     console.log(error.message);
     res.status(500).send("Server error");
@@ -266,7 +266,7 @@ router.get("/outgoing-requests", [authentication], async function (req, res) {
     const user = await (await User.findById(req.user.id))
       .populate("outgoingFriendRequests", ["name"])
       .execPopulate();
-    res.json(user.outgoingFriendRequests);
+    res.json({outgoingRequests: user.outgoingFriendRequests});
   } catch (error) {
     console.log(error.message);
     res.status(500).send("Server error");
@@ -281,7 +281,7 @@ router.get("/received-requests", [authentication], async function (req, res) {
     const user = await (await User.findById(req.user.id))
       .populate("receivedFriendRequests", ["name"])
       .execPopulate();
-    res.json(user.receivedFriendRequests);
+    res.json({receivedRequests: user.receivedFriendRequests});
   } catch (error) {
     console.log(error.message);
     res.status(500).send("Server error");
@@ -329,7 +329,7 @@ router.get("/suggested-friends", [authentication], async function (req, res) {
           numbersAdded.unshift(rand);
         }
       }
-      return res.json(suggestedFriends);
+      return res.json({suggestedFriends});
     }
   } catch (error) {
     console.log(error.message);

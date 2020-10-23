@@ -1,6 +1,6 @@
 const createError = require("http-errors");
 const express = require("express");
-const { join } = require("path");
+const {join} = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const cors = require("cors");
@@ -14,7 +14,7 @@ const signin = require("./routes/auth/signin");
 /*Friend List*/
 const friendList = require("./routes/friendlist/friendList");
 
-const { json, urlencoded } = express;
+const {json, urlencoded} = express;
 /*Friend requests*/
 const friend = require("./routes/friends/friend");
 
@@ -22,8 +22,13 @@ var app = express();
 
 app.use(logger("dev"));
 app.use(json());
-app.use(cors());
-app.use(urlencoded({ extended: false }));
+app.use(
+  cors({
+    credentials: true,
+    origin: ["http://localhost:3000"],
+  })
+);
+app.use(urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(join(__dirname, "public")));
 
@@ -51,7 +56,7 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.json({ error: err });
+  res.json({error: err});
 });
 
 module.exports = app;
