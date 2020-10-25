@@ -43,9 +43,9 @@ const Home = () => {
     setPolls(data);
   }, [data]);
 
-  console.log('this is polls', data);
-
-  console.log('this is fethching', isFetching, isLoading);
+  const handlePolls = (info) => {
+    setPolls(info);
+  };
 
   return (
     <Box className={classes.mainContainer}>
@@ -53,7 +53,7 @@ const Home = () => {
         <Friends friendList={Array(10).fill({ name: 'demo' })} />
       </Box>
       <Box className={classes.right}>
-        <Polls listOfPolls={polls} className={classes.polls} />
+        <Polls handlePolls={handlePolls} listOfPolls={polls} className={classes.polls} />
         <FriendList
           listOfCategories={Array(4).fill({
             title: 'Fashion',

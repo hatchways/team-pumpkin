@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Polls = ({ className, listOfPolls }) => {
+const Polls = ({ className, listOfPolls, handlePolls }) => {
   console.log('this is list of polls from polls', listOfPolls);
   const classes = useStyles();
   const [openPoll, setOpenPoll] = useState(false);
@@ -26,7 +26,7 @@ const Polls = ({ className, listOfPolls }) => {
   const handlePollModal = () => setOpenPoll(!openPoll);
   return (
     <Box className={clsx([classes.mainContainer, className])}>
-      <PollsModal open={openPoll} onClose={handlePollModal} />
+      <PollsModal handlePolls={handlePolls} open={openPoll} onClose={handlePollModal} />
       <HomeFrame
         className={classes.pollsContainer}
         onClick={handlePollModal}

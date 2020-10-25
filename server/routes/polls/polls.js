@@ -26,9 +26,13 @@ router.post('/create', authentication, async (req, res) => {
       question,
     };
     const newUserPollDataSaveToMongo = new PollsMongoModel(newUserPollData);
-    newUserPollDataSaveToMongo.save().then((response) => {
+    newUserPollDataSaveToMongo.save().then(async (resp) => {
+      const response = await PollsMongoModel.find({ userId });
       res.status(200).json(response);
     });
+    // .then((response) => {
+    //   res.status(200).json(response);
+    // });
   } catch (err) {
     const error = {
       msg: err,

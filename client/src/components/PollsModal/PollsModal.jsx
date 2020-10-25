@@ -57,6 +57,9 @@ const useStyles = makeStyles((theme) => ({
     border: `1px solid ${theme.palette.primary.dark}`,
     padding: theme.spacing(5),
     boxShadow: `-1px -1px 5px 6px ${theme.palette.primary.dark}`,
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   dropIcon: {},
   dropIconContainer: {
@@ -72,6 +75,7 @@ const useStyles = makeStyles((theme) => ({
   },
   error: {
     color: theme.palette.primary.main,
+    textAlign: 'center',
   },
   removeContainer: {
     display: 'flex',
@@ -82,11 +86,16 @@ const useStyles = makeStyles((theme) => ({
   removeButton: {
     marginTop: theme.spacing(1),
   },
+  miscError: {
+    display: 'flex',
+    justifyContent: 'center',
+    color: theme.palette.primary.main,
+  },
 }));
 
 const mockFriendList = ['Zeeshan', 'Allen', 'Saad', 'Conner', ' Aecio'];
 
-const PollsModal = ({ open, onClose, className }) => {
+const PollsModal = ({ open, onClose, className, handlePolls }) => {
   const classes = useStyles();
   const [question, handleQuestion, resetQuestion] = useValue('');
   const [friend, setFriend] = useState('');
@@ -110,13 +119,20 @@ const PollsModal = ({ open, onClose, className }) => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setError({ type: '', description: '' });
+    if (friend.length === 0 || question.length === 0 || files.length !== 2) {
+      setError({ type: 'misc', description: 'Fill all the input field' });
+      return;
+    }
     const formData = new FormData();
+
     formData.append('question', question);
     formData.append('friend', friend);
     formData.append('img1', files[0]);
     formData.append('img2', files[1]);
     setDisable(true);
-    await createPost(formData);
+    const response = await createPost(formData);
+    handlePolls(response);
     setDisable(false);
     resetQuestion();
     setFriend('');
@@ -179,6 +195,11 @@ const PollsModal = ({ open, onClose, className }) => {
           </div>
         </Box>
       </Box>
+      {error.type === 'misc' && (
+        <Typography className={classes.miscError} variant='inherit'>
+          {error.description}
+        </Typography>
+      )}
       <Box className={classes.buttonContainer}>
         <Button
           onClick={handleSubmit}
