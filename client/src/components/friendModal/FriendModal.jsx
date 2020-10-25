@@ -49,6 +49,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+//List of userIds and names
+const friendList = [];
+
 const mockFriendList = [
   {
     id: 1,
