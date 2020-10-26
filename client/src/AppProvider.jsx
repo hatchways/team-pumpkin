@@ -1,4 +1,5 @@
 import { MuiThemeProvider } from '@material-ui/core';
+import PropTypes from 'prop-types';
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { theme } from './themes/theme';
@@ -12,6 +13,10 @@ const AppProvider = ({ children }) => {
       </MuiThemeProvider>
     </GlobalContext.Provider>
   );
+};
+
+AppProvider.propTypes = {
+  children: PropTypes.node,
 };
 
 export { AppProvider };
