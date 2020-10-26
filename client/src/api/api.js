@@ -11,7 +11,7 @@ const signUpCall = async (user) => {
 
 const signInCall = async (user) => {
   try {
-    const response = await apiCall.post('/api/signin', user);
+    const response = await apiCall.post('/signin', user);
     return response;
   } catch (err) {
     return err;

@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
 import { ListItem, ListItemAvatar, ListItemText, Button, Avatar, makeStyles } from '@material-ui/core';
+import {
+  postAcceptFriendRequest,
+  postNewFriendRequest,
+  deleteFriend,
+  deleteOutgoingFriendRequest,
+  deleteReceivedFriendRequest,
+} from '../../api/friendsApi';
 
 const useStyles = makeStyles((theme) => ({
   addFriendButton: {
@@ -19,12 +26,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ViewFriendItem = ({ friend, typeOfFriendRequest }) => {
+const ViewFriendItem = ({ friend, typeOfFriendRequest, refresh, setRefresh }) => {
   const classes = useStyles();
 
   const [clicked, setClicked] = useState(false);
+  const [rejectClicked, setRejectClicked] = useState(false);
 
-  /** Change the primary/clicked colour of the button depending on which tab we're in*/
+  /** Change the primary/clicked colour of the button depending on which tab we're in */
   function resolveTypeOfButton() {
     if (typeOfFriendRequest === 'Friends') return clicked ? classes.addFriendButton : classes.removeFriendButton;
     else if (typeOfFriendRequest === 'Received')
@@ -32,9 +40,50 @@ const ViewFriendItem = ({ friend, typeOfFriendRequest }) => {
     else return clicked ? classes.removeFriendButton : classes.addFriendButton;
   }
 
-  const handleAdd = (id) => {
-    //TODO: integrate backend to make friend request
+  const handleClick = async () => {
+    let response;
+    //The button is not disabled when clicked, so we need to handle both states of "clicked"
+    if (typeOfFriendRequest === 'Suggested') {
+      if (!clicked) {
+        response = await postNewFriendRequest(friend._id);
+        if (response.status === 200) {
+          console.log('Added new friend');
+        } else {
+          console.log(response.data);
+        }
+      } else {
+        response = await deleteOutgoingFriendRequest(friend._id);
+        if (response.status === 200) {
+          console.log('Deleted friend request');
+        } else {
+          console.log(response.data);
+        }
+      }
+    } else if (typeOfFriendRequest === 'Friends') {
+      response = await deleteFriend(friend._id);
+      if (response.status === 200) {
+        console.log('Deleted friend');
+      } else {
+        console.log(response.data);
+      }
+    } else {
+      response = await postAcceptFriendRequest(friend._id);
+    }
     setClicked(!clicked);
+    setRefresh(!refresh);
+  };
+
+  //Extra functionality for the reject button in the Received Requests tab
+  //The button is disabled when it is clicked
+  const handleReject = async () => {
+    const response = await deleteReceivedFriendRequest(friend._id);
+    if (response.status === 200) {
+      console.log('Friend request rejected.');
+    } else {
+      console.log(response.data);
+    }
+    setRejectClicked(!rejectClicked);
+    setRefresh(!refresh);
   };
 
   return (
@@ -46,14 +95,25 @@ const ViewFriendItem = ({ friend, typeOfFriendRequest }) => {
       <Button
         className={resolveTypeOfButton()}
         variant='contained'
-        onClick={handleAdd}
-        disabled={typeOfFriendRequest !== 'Suggested' && clicked}
+        onClick={handleClick}
+        disabled={(typeOfFriendRequest !== 'Suggested' && clicked) || rejectClicked}
       >
         {/** The button and functionality will change according to what type of request was made */}
         {typeOfFriendRequest === 'Suggested' && (clicked ? 'Cancel' : 'Add')}
         {typeOfFriendRequest === 'Friends' && (clicked ? 'Removed' : 'Remove Friend')}
         {typeOfFriendRequest === 'Received' && (clicked ? 'Added' : 'Accept')}
       </Button>
+      {/**  There should be two buttons on the Received friend request tab only */}
+      {typeOfFriendRequest === 'Received' && (
+        <Button
+          className={classes.removeFriendButton}
+          variant='contained'
+          onClick={handleReject}
+          disabled={rejectClicked}
+        >
+          {rejectClicked ? 'Rejected' : 'Reject'}
+        </Button>
+      )}
     </ListItem>
   );
 };

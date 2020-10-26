@@ -299,14 +299,16 @@ router.get("/suggested-friends", [authentication], async function (req, res) {
     //Ensure that suggested friends do not include users who are already friends
     //If the total users in the database, excluding friends and yourself
     //is less than 20, then suggest all the users in the database
-    userCount -= user.friends.length + 1;
+    userCount -= user.friends.length + user.outgoingFriendRequests.length + 1;
     if (userCount <= 20) {
       let allUsers = await User.find();
       allUsers = allUsers.filter(
         (oneUser) =>
-          !user.friends.includes(oneUser.id) && oneUser.id !== user.id
+          !user.friends.includes(oneUser._id) &&
+          !user.outgoingFriendRequests.includes(oneUser._id) &&
+          oneUser._id !== user._id
       );
-      return res.json(allUsers);
+      return res.json({suggestedFriends: allUsers});
     } else {
       const suggestedFriends = [];
       const numbersAdded = [];
@@ -321,8 +323,9 @@ router.get("/suggested-friends", [authentication], async function (req, res) {
           randomUser = await User.findOne().skip(rand).lean();
 
           if (
-            !user.friends.includes(randomUser.id) &&
-            randomUser.id !== user.id
+            !user.friends.includes(randomUser._id) &&
+            !user.outgoingFriendRequests.includes(randomUser._id) &&
+            randomUser._id !== user._id
           ) {
             suggestedFriends.unshift(randomUser);
           }
