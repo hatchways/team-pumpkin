@@ -18,7 +18,7 @@ router.post("/friends", [authentication], async function (req, res) {
 
     //If the ID passed in does not exist in the database
     if (!friend) {
-      return res.status(400).json({msg: "User does not exist"});
+      return res.status(400).json({ msg: "User does not exist" });
     }
 
     //Make sure that the user has received a request from this friend
@@ -38,21 +38,21 @@ router.post("/friends", [authentication], async function (req, res) {
       //Cannot add them yourself
       return res
         .status(400)
-        .json({msg: "Please wait for the user to accept your request."});
+        .json({ msg: "Please wait for the user to accept your request." });
     } else {
       //Cannot add a friend unless a request is made and approved
       return res
         .status(400)
-        .json({msg: "Cannot add friend. Make a friend request first"});
+        .json({ msg: "Cannot add friend. Make a friend request first" });
     }
     await user.save();
     await friend.save();
-    res.json({msg: "Added friend"});
+    res.json({ msg: "Added friend" });
   } catch (error) {
     console.log(error.message);
     if (error.kind == "ObjectId") {
       //If the friend ID passed in does not exist in the database
-      return res.status(400).json({msg: "User does not exist."});
+      return res.status(400).json({ msg: "User does not exist." });
     }
     res.status(500).send("Server error");
   }
@@ -72,7 +72,7 @@ router.delete("/friends/:id", [authentication], async function (req, res) {
 
     if (!friend) {
       //If the friend ID passed in does not exist in the database
-      return res.status(400).json({msg: "User does not exist"});
+      return res.status(400).json({ msg: "User does not exist" });
     }
 
     //Ensure user and friend are friends
@@ -84,17 +84,17 @@ router.delete("/friends/:id", [authentication], async function (req, res) {
       user.friends.splice(friendIndex, 1);
       friend.friends.splice(userIndex, 1);
     } else {
-      return res.status(400).json({msg: "Not friend of this user."});
+      return res.status(400).json({ msg: "Not friend of this user." });
     }
 
     await user.save();
     await friend.save();
-    res.json({msg: "Friend removed successfully."});
+    res.json({ msg: "Friend removed successfully." });
   } catch (error) {
     console.log(error.message);
     if (error.kind == "ObjectId") {
       //If the friend ID passed in does not exist in the database
-      return res.status(400).json({msg: "User does not exist."});
+      return res.status(400).json({ msg: "User does not exist." });
     }
     res.status(500).send("Server error");
   }
@@ -112,26 +112,26 @@ router.post("/outgoing-requests", [authentication], async function (req, res) {
     if (friendId === userId) {
       return res
         .status(400)
-        .json({msg: "You cannot send a friend request to yourself"});
+        .json({ msg: "You cannot send a friend request to yourself" });
     }
 
     const user = await User.findById(userId);
     const friend = await User.findById(friendId);
-
+    console.log(friend);
     if (!friend) {
       //If the friend ID passed in does not exist in the database
-      return res.status(400).json({msg: "User does not exist"});
+      return res.status(400).json({ msg: "User does not exist" });
     }
 
     //Cannot make multiple friend requests to the same user
     if (user.outgoingFriendRequests.includes(friendId)) {
       return res
         .status(400)
-        .json({msg: "You have already sent a friend request to this user."});
+        .json({ msg: "You have already sent a friend request to this user." });
     } else if (user.friends.includes(friendId)) {
       return res
         .status(400)
-        .json({msg: "You are already friends with this user."});
+        .json({ msg: "You are already friends with this user." });
     } else {
       user.outgoingFriendRequests.unshift(friendId);
       friend.receivedFriendRequests.unshift(userId);
@@ -139,13 +139,13 @@ router.post("/outgoing-requests", [authentication], async function (req, res) {
       await user.save();
       await friend.save();
 
-      res.json({msg: "Friend request sent"});
+      res.json({ msg: "Friend request sent" });
     }
   } catch (error) {
     console.log(error.message);
     if (error.kind == "ObjectId") {
       //If the friend ID passed in does not exist in the database
-      return res.status(400).json({msg: "User does not exist."});
+      return res.status(400).json({ msg: "User does not exist." });
     }
     res.status(500).send("Server error");
   }
@@ -168,7 +168,7 @@ router.delete("/outgoing-requests/:id", [authentication], async function (
 
     if (!friend) {
       //If the friend ID passed in does not exist in the database
-      return res.status(400).json({msg: "User does not exist"});
+      return res.status(400).json({ msg: "User does not exist" });
     }
 
     //Ensure the user has sent a friend request to another user
@@ -182,16 +182,16 @@ router.delete("/outgoing-requests/:id", [authentication], async function (
     } else {
       return res
         .status(400)
-        .json({msg: "Have not sent a friend request to this user."});
+        .json({ msg: "Have not sent a friend request to this user." });
     }
 
     await user.save();
     await friend.save();
-    res.json({msg: "Friend request cancelled successfully."});
+    res.json({ msg: "Friend request cancelled successfully." });
   } catch (error) {
     console.log(error.message);
     if (error.kind == "ObjectId") {
-      return res.status(400).json({msg: "User does not exist"});
+      return res.status(400).json({ msg: "User does not exist" });
     }
     res.status(500).send("Server error");
   }
@@ -214,7 +214,7 @@ router.delete("/received-requests/:id", [authentication], async function (
 
     if (!friend) {
       //If the friend ID passed in does not exist in the database
-      return res.status(400).json({msg: "User does not exist"});
+      return res.status(400).json({ msg: "User does not exist" });
     }
 
     //Ensure the user has sent a friend request to another user
@@ -228,16 +228,16 @@ router.delete("/received-requests/:id", [authentication], async function (
     } else {
       return res
         .status(400)
-        .json({msg: "Have not received a friend request from this user."});
+        .json({ msg: "Have not received a friend request from this user." });
     }
 
     await user.save();
     await friend.save();
-    res.json({msg: "Friend request rejected."});
+    res.json({ msg: "Friend request rejected." });
   } catch (error) {
     console.log(error.message);
     if (error.kind == "ObjectId") {
-      return res.status(400).json({msg: "User does not exist"});
+      return res.status(400).json({ msg: "User does not exist" });
     }
     res.status(500).send("Server error");
   }

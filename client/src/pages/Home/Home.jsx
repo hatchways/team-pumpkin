@@ -61,7 +61,7 @@ const Home = () => {
           listOfCategories={Array(3).fill({
             title: 'Fashion',
             category: Array(5).fill({
-              name: 'demo',
+              name: 'friend',
               url:
                 'https://img1.looper.com/img/gallery/things-about-thanos-that-didnt-make-it-into-the-mcu/intro-1590779038.jpg',
             }),

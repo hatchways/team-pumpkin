@@ -1,10 +1,11 @@
 import { Box, Divider, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { AiTwotoneSetting } from 'react-icons/ai';
 import { GrClose } from 'react-icons/gr';
 import { theme } from '../../../themes/theme';
 import { Avatar } from '../Avatar/Avatar';
+import ListItem from './ListItem';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -30,16 +31,49 @@ const useStyles = makeStyles((theme) => ({
   list: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'left',
     paddingBottom: theme.spacing(3),
   },
   avatar: {
     marginTop: theme.spacing(2),
+    '&:hover': {
+      transform: `scale(1.1)`,
+      transition: 'transform 0.25s ease',
+    },
+  },
+  settingButton: {
+    display: 'flex',
+    borderRadius: 45,
+    '&:hover': {
+      transform: `scale(1.2)`,
+      transition: 'transform 0.25s ease',
+    },
   },
 }));
 
 const ListContainer = ({ className, listOfFriend, title }) => {
   const classes = useStyles();
+
+  const [friends, setFriends] = useState(listOfFriend);
+
+  // useEffect(() => {
+  //   setFriends(listOfFriend);
+  // });
+
+  const handleOnClickSetting = (e) => {
+    e.preventDefault();
+    //Should open friendlist modal for the current friendlist card
+    console.log(`Edit List `, title);
+  };
+
+  //TODO change to Id
+  const handleFriendClick = (e) => {
+    e.preventDefault();
+    console.log('Friend Clicked', e.target.text);
+    const name = e.target.getAttribute('id');
+    setFriends(friends.filter((item) => item.name === name));
+    console.log(listOfFriend);
+  };
 
   return (
     <Box className={clsx([classes.mainContainer, className])}>
@@ -52,12 +86,19 @@ const ListContainer = ({ className, listOfFriend, title }) => {
             {listOfFriend.length} friends
           </Typography>
         </Box>
-        <AiTwotoneSetting size={theme.spacing(3.75)} color={theme.palette.secondary.dark} />
+
+        <AiTwotoneSetting
+          className={classes.settingButton}
+          size={theme.spacing(3.75)}
+          color={theme.palette.secondary.dark}
+          onClick={handleOnClickSetting}
+        />
       </Box>
       <Divider light />
       <Box className={classes.list}>
         {listOfFriend.map((friend, id) => (
-          <Avatar key={id} Icon={GrClose} className={classes.avatar} {...friend} />
+          // <Avatar key={id} Icon={GrClose} className={classes.avatar} {...friend} onClick={handleFriendClick} />
+          <ListItem id={id} icon={GrClose} friend={friend} className={classes.avatar} onClick={handleFriendClick} />
         ))}
       </Box>
     </Box>

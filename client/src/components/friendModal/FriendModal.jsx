@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 //List of userIds and names
-const friendList = [];
+const friendList = ['5f88c88039064b0194c9773e', '5f88c8a2e3d2cbc4e1a1885c'];
 
 const mockFriendList = [
   {
