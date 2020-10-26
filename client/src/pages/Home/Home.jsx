@@ -1,12 +1,7 @@
 import { Box, makeStyles } from '@material-ui/core';
-<<<<<<< HEAD
-
-import React from 'react';
-=======
 import React, { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import { getPolls } from '../../api';
->>>>>>> zeeshan-in-create-polls-36
 import { FriendList, Friends, Polls } from '../../components';
 
 const useStyles = makeStyles((theme) => ({
