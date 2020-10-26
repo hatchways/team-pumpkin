@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Modal } from '../common/Modal/Modal';
 import { ViewFriendItem } from './ViewFriendItem';
 import { getFriends, getReceivedRequests, getSuggestedFriends } from '../../api/friendsApi';
-import { signInCall } from '../../api/api';
 
 const useStyles = makeStyles((theme) => ({
   modalContent: {

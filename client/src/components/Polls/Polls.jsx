@@ -18,14 +18,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Polls = ({ className, listOfPolls }) => {
+const Polls = ({ className, listOfPolls, handlePolls }) => {
+  console.log('this is list of polls from polls', listOfPolls);
   const classes = useStyles();
   const [openPoll, setOpenPoll] = useState(false);
 
   const handlePollModal = () => setOpenPoll(!openPoll);
   return (
     <Box className={clsx([classes.mainContainer, className])}>
-      <PollsModal open={openPoll} onClose={handlePollModal} />
+      <PollsModal handlePolls={handlePolls} open={openPoll} onClose={handlePollModal} />
       <HomeFrame
         className={classes.pollsContainer}
         onClick={handlePollModal}
@@ -39,9 +40,15 @@ const Polls = ({ className, listOfPolls }) => {
           </>
         }
       >
-        {listOfPolls.map((elem, id) => (
-          <PollViewer key={id} {...elem} />
-        ))}
+        {listOfPolls === undefined || listOfPolls.length === 0 ? (
+          <Typography variant='h2'>No polls available</Typography>
+        ) : (
+          <>
+            {listOfPolls.map((elem, id) => (
+              <PollViewer key={id} {...elem} />
+            ))}
+          </>
+        )}
       </HomeFrame>
     </Box>
   );

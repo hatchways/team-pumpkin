@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
   name: {
@@ -17,21 +17,33 @@ const UserSchema = new mongoose.Schema({
   friends: [
     {
       type: mongoose.Schema.Types.ObjectId,
+<<<<<<< HEAD
       ref: "user",
+=======
+      ref: 'user',
+>>>>>>> zeeshan-in-create-polls-36
     },
   ],
   receivedFriendRequests: [
     {
       type: mongoose.Schema.Types.ObjectId,
+<<<<<<< HEAD
       ref: "user",
+=======
+      ref: 'user',
+>>>>>>> zeeshan-in-create-polls-36
     },
   ],
   outgoingFriendRequests: [
     {
       type: mongoose.Schema.Types.ObjectId,
+<<<<<<< HEAD
       ref: "user",
+=======
+      ref: 'user',
+>>>>>>> zeeshan-in-create-polls-36
     },
   ],
 });
 
-module.exports = User = mongoose.model("user", UserSchema);
+module.exports = User = mongoose.model('user', UserSchema);

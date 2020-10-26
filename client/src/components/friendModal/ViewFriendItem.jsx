@@ -84,6 +84,7 @@ const ViewFriendItem = ({ friend, typeOfFriendRequest, refresh, setRefresh }) =>
     }
     setRejectClicked(!rejectClicked);
     setRefresh(!refresh);
+
   };
 
   return (

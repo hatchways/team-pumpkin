@@ -1,9 +1,13 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { useCookies } from 'react-cookie';
+import { AiOutlineLogout } from 'react-icons/ai';
 import { Avatar, Button, PollsModal } from '../';
 import { ViewFriendsModal } from '../friendModal/ViewFriendsModal';
 import Logo from '../../assets/logo-trans.png';
 import { theme } from '../../themes/theme';
+import { GlobalContext } from '../../utils';
+import { ViewFriendsModal } from '../friendModal/ViewFriendsModal';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -36,17 +40,29 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 'bold',
     cursor: 'pointer',
   },
+  logOut: {
+    cursor: 'pointer',
+  },
 }));
 
 const Header = () => {
   const classes = useStyles();
   const [openPoll, setOpenPoll] = useState(false);
+  const [cookies, setCookie, removeCookie] = useCookies(['auth-token']);
+
+  const user = useContext(GlobalContext).user;
+
+  console.log('cookie', cookies);
   const [openFriends, setOpenFriends] = useState(false);
 
   function handleFriendsModal() {
     setOpenFriends(!openFriends);
   }
   const handlePollModal = () => setOpenPoll(!openPoll);
+  const handleLogOut = () => {
+    localStorage.removeItem('user');
+    window.location.reload();
+  };
 
   return (
     <Box className={classes.mainContainer}>
@@ -77,7 +93,8 @@ const Header = () => {
         >
           Create Poll
         </Button>
-        <Avatar name='My Profile' url='https://img1.grunge.com/img/uploads/2018/05/characters-destroyed-thanos.jpg' />
+        <Avatar name={user.name} url='https://img1.grunge.com/img/uploads/2018/05/characters-destroyed-thanos.jpg' />
+        <AiOutlineLogout className={classes.logOut} size={theme.spacing(4)} onClick={handleLogOut} />
       </Box>
     </Box>
   );
