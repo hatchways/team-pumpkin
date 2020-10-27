@@ -45,7 +45,7 @@ app.use('/ping', pingRouter);
 /*Register and SignIn*/
 app.use('/api', register);
 app.use('/api', signin);
-app.use('/api/polls', pollsRouter);
+app.use('/api', pollsRouter);
 
 /*Friend Requests*/
 app.use('/api', friend);
