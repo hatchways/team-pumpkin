@@ -24,6 +24,8 @@ router.post('/create', authentication, async (req, res) => {
       url2: uploadedResponseToCloudinaryForSecondImage.url,
       friend,
       question,
+      votesForUrl1: [],
+      votesForUrl2: [],
     };
     const newUserPollDataSaveToMongo = new PollsMongoModel(newUserPollData);
     newUserPollDataSaveToMongo.save().then(async (resp) => {
