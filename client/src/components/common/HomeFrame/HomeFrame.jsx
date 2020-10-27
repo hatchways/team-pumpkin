@@ -23,22 +23,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const HomeFrame = ({ className, children, onClick, buttonLabel, header }) => {
+const HomeFrame = ({ className, children, onClick, buttonLabel, header, isButton = true }) => {
   const classes = useStyles();
   return (
     <Box className={classes.mainContainer}>
       <Box className={classes.header}>
         <Typography variant='h3'>{header}</Typography>
-        <Button
-          className={classes.button}
-          borderColor={theme.palette.secondary.dark}
-          color={theme.palette.secondary.main}
-          backgroundColor={theme.palette.secondary.light}
-          variant='outlined'
-          onClick={onClick}
-        >
-          {buttonLabel}
-        </Button>
+        {isButton && (
+          <Button
+            className={classes.button}
+            borderColor={theme.palette.secondary.dark}
+            color={theme.palette.secondary.main}
+            backgroundColor={theme.palette.secondary.light}
+            variant='outlined'
+            onClick={onClick}
+          >
+            {buttonLabel}
+          </Button>
+        )}
       </Box>
       <Box className={clsx([classes.children, className])}>{children}</Box>
     </Box>

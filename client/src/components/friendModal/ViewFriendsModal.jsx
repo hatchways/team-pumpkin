@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { Modal } from '../common/Modal/Modal';
 import { ViewFriendItem } from './ViewFriendItem';
 import { getFriends, getReceivedRequests, getSuggestedFriends } from '../../api/friendsApi';
-import { LoadingScreen } from '../Loader/Loader';
 
 const useStyles = makeStyles((theme) => ({
   modalContent: {
@@ -37,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+//TODO: Use Query and useEffect to cleanup code
 const ViewFriendsModal = ({ open, onClose, className, ...rest }) => {
   const classes = useStyles();
 

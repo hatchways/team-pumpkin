@@ -1,5 +1,6 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
+import clsx from 'clsx';
 import { Avatar } from '../common/Avatar/Avatar';
 
 const useStyles = makeStyles((theme) => ({
@@ -31,11 +32,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Friends = ({ friendList, ...rest }) => {
+const Friends = ({ friendList, className, ...rest }) => {
   const classes = useStyles();
   return (
     <Box className={classes.mainContainer}>
-      <Typography className={classes.header} variant='h3'>
+      <Typography className={clsx([classes.header, className])} variant='h3'>
         Friends
       </Typography>
 
