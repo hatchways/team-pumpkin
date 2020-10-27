@@ -4,15 +4,17 @@ const authentication = require('../../middleware/authentication');
 const PollsMongoModel = require('../../models/Polls');
 const { cloudinary } = require('../../cloudinary/cloudinary');
 
-router.post('/create', authentication, async (req, res) => {
+router.post('/polls', authentication, async (req, res) => {
   try {
-    console.log('this is user', req.user);
+    console.log('this is user');
     const userId = req.user.id;
-    const { question, friend, imagesData } = req.body;
-    const uploadedResponseToCloudinaryForFirstImage = await cloudinary.uploader.upload(imagesData[0], {
+    const { question, friend } = req.body;
+
+    const uploadedResponseToCloudinaryForFirstImage = await cloudinary.uploader.upload(req.files.img1.tempFilePath, {
       upload_preset: 'team_pumpkin',
     });
-    const uploadedResponseToCloudinaryForSecondImage = await cloudinary.uploader.upload(imagesData[1], {
+
+    const uploadedResponseToCloudinaryForSecondImage = await cloudinary.uploader.upload(req.files.img2.tempFilePath, {
       upload_preset: 'team_pumpkin',
     });
 
@@ -24,7 +26,8 @@ router.post('/create', authentication, async (req, res) => {
       question,
     };
     const newUserPollDataSaveToMongo = new PollsMongoModel(newUserPollData);
-    newUserPollDataSaveToMongo.save().then((response) => {
+    newUserPollDataSaveToMongo.save().then(async (resp) => {
+      const response = await PollsMongoModel.find({ userId });
       res.status(200).json(response);
     });
   } catch (err) {
@@ -36,15 +39,16 @@ router.post('/create', authentication, async (req, res) => {
   }
 });
 
-router.put('/update', authentication, async (req, res) => {
+router.put('/polls/:_id', authentication, async (req, res) => {
   try {
     const userId = req.user.id;
-    const { question, friend, imagesData, _id } = req.body;
+    const { question, friend } = req.body;
+    const { _id } = req.params;
 
-    const uploadedResponseToCloudinaryForFirstImage = await cloudinary.uploader.upload(imagesData[0], {
+    const uploadedResponseToCloudinaryForFirstImage = await cloudinary.uploader.upload(req.files.img1.tempFilePath, {
       upload_preset: 'team_pumpkin',
     });
-    const uploadedResponseToCloudinaryForSecondImage = await cloudinary.uploader.upload(imagesData[1], {
+    const uploadedResponseToCloudinaryForSecondImage = await cloudinary.uploader.upload(req.files.img2.tempFilePath, {
       upload_preset: 'team_pumpkin',
     });
 
@@ -69,10 +73,24 @@ router.put('/update', authentication, async (req, res) => {
   }
 });
 
-router.delete('/delete', authentication, async (req, res) => {
+router.delete('/polls/:_id', authentication, async (req, res) => {
   try {
-    const { _id } = req.body;
+    const { _id } = req.params;
     const response = await PollsMongoModel.deleteOne({ _id });
+    res.status(200).json(response);
+  } catch (err) {
+    const error = {
+      msg: err,
+    };
+    console.log(err);
+    res.status(400).json(error);
+  }
+});
+
+router.get('/polls/view', authentication, async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const response = await PollsMongoModel.find({ userId });
     res.status(200).json(response);
   } catch (err) {
     const error = {
