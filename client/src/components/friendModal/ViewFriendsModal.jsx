@@ -1,8 +1,9 @@
-import { makeStyles, Grid, Tabs, Tab, Typography, List, Divider } from '@material-ui/core';
+import { makeStyles, Grid, Tabs, Tab, Typography, List, Divider, CircularProgress } from '@material-ui/core';
 import React, { useState } from 'react';
 import { Modal } from '../common/Modal/Modal';
 import { ViewFriendItem } from './ViewFriendItem';
 import { getFriends, getReceivedRequests, getSuggestedFriends } from '../../api/friendsApi';
+import { LoadingScreen } from '../Loader/Loader';
 
 const useStyles = makeStyles((theme) => ({
   modalContent: {
@@ -30,6 +31,10 @@ const useStyles = makeStyles((theme) => ({
     scrollbarColor: 'black lightgrey',
     scrollbarWidth: 'thin',
   },
+  loader: {
+    marginLeft: '50%',
+    marginTop: '50%',
+  },
 }));
 
 const ViewFriendsModal = ({ open, onClose, className, ...rest }) => {
@@ -50,6 +55,7 @@ const ViewFriendsModal = ({ open, onClose, className, ...rest }) => {
     friends: [],
     suggestedFriends: [],
     receivedRequests: [],
+    isLoading: false,
   });
 
   //If the modal was closed, then on reopening it should clear the data and start again
@@ -61,15 +67,15 @@ const ViewFriendsModal = ({ open, onClose, className, ...rest }) => {
       receivedRequests: [],
     });
     getSuggestedFriendsArray();
-    setNewLoad(!newLoad);
+    setNewLoad(false);
   } else if (!open && !newLoad) {
-    setNewLoad(!newLoad);
+    setNewLoad(true);
   }
 
   const handleChange = (event, newValue) => {
     //If a button was clicked in another tab, then the data needs to be refreshed, so clear the current data
     if (refresh) {
-      setRefresh(!refresh);
+      setRefresh(false);
       setFriendsArray({
         friends: [],
         suggestedFriends: [],
@@ -90,30 +96,33 @@ const ViewFriendsModal = ({ open, onClose, className, ...rest }) => {
 
   async function getSuggestedFriendsArray() {
     try {
+      setFriendsArray({ ...friendsArray, suggestedFriends: [], isLoading: true });
       const response = await getSuggestedFriends();
       const { status, data } = response;
       if (status === 200) {
-        setFriendsArray({ ...friendsArray, suggestedFriends: data.suggestedFriends });
+        setFriendsArray({ ...friendsArray, suggestedFriends: data.suggestedFriends, isLoading: false });
       }
     } catch (err) {}
   }
 
   async function getCurrentFriends() {
     try {
+      setFriendsArray({ ...friendsArray, friends: [], isLoading: true });
       const response = await getFriends();
       const { status, data } = response;
       if (status === 200) {
-        setFriendsArray({ ...friendsArray, friends: data.friends });
+        setFriendsArray({ ...friendsArray, friends: data.friends, isLoading: false });
       }
     } catch (err) {}
   }
 
   async function getReceivedFriendRequests() {
     try {
+      setFriendsArray({ ...friendsArray, receivedRequests: [], isLoading: true });
       const response = await getReceivedRequests();
       const { status, data } = response;
       if (status === 200) {
-        setFriendsArray({ ...friendsArray, receivedRequests: data.receivedRequests });
+        setFriendsArray({ ...friendsArray, receivedRequests: data.receivedRequests, isLoading: false });
       }
     } catch (err) {}
   }
@@ -144,10 +153,12 @@ const ViewFriendsModal = ({ open, onClose, className, ...rest }) => {
             }
           />
         </Tabs>
-
+        {tabValue === 0 && friendsArray.isLoading && <CircularProgress className={classes.loader} />}
+        {tabValue === 1 && friendsArray.isLoading && <CircularProgress />}
+        {tabValue === 2 && friendsArray.isLoading && <CircularProgress />}
         {tabValue === 0 && (
           <List alignItems='flex-start' className={classes.friendList}>
-            {friendsArray.suggestedFriends &&
+            {friendsArray.suggestedFriends.length !== 0 &&
               friendsArray.suggestedFriends.map((friend) => (
                 <li key={friend.id} className={classes.scrollbar}>
                   <Divider />
@@ -163,7 +174,7 @@ const ViewFriendsModal = ({ open, onClose, className, ...rest }) => {
         )}
         {tabValue === 1 && (
           <List alignItems='flex-start' className={classes.friendList}>
-            {friendsArray.friends &&
+            {friendsArray.friends.length !== 0 &&
               friendsArray.friends.map((friend) => (
                 <li key={friend.id} className={classes.scrollbar}>
                   <Divider />
@@ -179,7 +190,7 @@ const ViewFriendsModal = ({ open, onClose, className, ...rest }) => {
         )}
         {tabValue === 2 && (
           <List alignItems='flex-start' className={classes.friendList}>
-            {friendsArray.receivedRequests &&
+            {friendsArray.receivedRequests.length !== 0 &&
               friendsArray.receivedRequests.map((friend) => (
                 <li key={friend.id} className={classes.scrollbar}>
                   <Divider />
