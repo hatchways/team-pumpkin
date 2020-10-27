@@ -69,7 +69,7 @@ const Home = () => {
           className={classes.friendList}
         />
 
-        <FriendList listOfCategories={friendLists} className={classes.friendList}></FriendList>
+        {/* <FriendList listOfCategories={friendLists} className={classes.friendList}></FriendList> */}
       </Box>
     </Box>
   );

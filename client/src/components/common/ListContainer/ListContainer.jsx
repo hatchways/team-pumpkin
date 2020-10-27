@@ -6,6 +6,7 @@ import { GrClose } from 'react-icons/gr';
 import { theme } from '../../../themes/theme';
 import { Avatar } from '../Avatar/Avatar';
 import ListItem from './ListItem';
+import FriendModal from '../../friendModal/FriendModal';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -56,6 +57,8 @@ const ListContainer = ({ className, listOfFriend, title }) => {
 
   const [friends, setFriends] = useState(listOfFriend);
 
+  const [openModal, setOpenModal] = useState(false);
+
   // useEffect(() => {
   //   setFriends(listOfFriend);
   // });
@@ -64,14 +67,16 @@ const ListContainer = ({ className, listOfFriend, title }) => {
     e.preventDefault();
     //Should open friendlist modal for the current friendlist card
     console.log(`Edit List `, title);
+    //Type PUT or PATCH
+    setOpenModal(!openModal);
   };
 
   //TODO change to Id
   const handleFriendClick = (e) => {
     e.preventDefault();
-    console.log('Friend Clicked', e.target.text);
     const name = e.target.getAttribute('id');
-    setFriends(friends.filter((item) => item.name === name));
+    console.log('Friend Clicked', e.target.id);
+    // setFriends(friends.filter((item) => item.name === name));
     console.log(listOfFriend);
   };
 
@@ -96,9 +101,11 @@ const ListContainer = ({ className, listOfFriend, title }) => {
       </Box>
       <Divider light />
       <Box className={classes.list}>
-        {listOfFriend.map((friend, id) => (
-          // <Avatar key={id} Icon={GrClose} className={classes.avatar} {...friend} onClick={handleFriendClick} />
-          <ListItem id={id} icon={GrClose} friend={friend} className={classes.avatar} onClick={handleFriendClick} />
+        {/* TODO find the friendlist to edit by id */}
+        <FriendModal open={openModal} onClose={handleOnClickSetting} />
+        {friends.map((friend, id) => (
+          <Avatar key={id} Icon={GrClose} className={classes.avatar} {...friend} onClick={handleFriendClick} />
+          // <ListItem id={id} icon={GrClose} friend={friend} className={classes.avatar} onClick={handleFriendClick} />
         ))}
       </Box>
     </Box>

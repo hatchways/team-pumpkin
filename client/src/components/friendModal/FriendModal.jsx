@@ -5,6 +5,7 @@ import { Modal } from '../common/Modal/Modal';
 import { InputField } from '../common/InputField/InputField';
 import FriendItem from './FriendItem';
 import { theme } from '../../themes/theme';
+import { createFriendList } from '../../api/api';
 
 const useStyles = makeStyles((theme) => ({
   friendModal: {
@@ -50,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 //List of userIds and names
-const friendList = ['5f88c88039064b0194c9773e', '5f88c8a2e3d2cbc4e1a1885c'];
+const friendList = ['5f95fb93a0364290200394a1'];
 
 const mockFriendList = [
   {
@@ -90,12 +91,12 @@ const mockFriendList = [
     name: 'Chris Paul',
   },
   {
-    id: 10,
-    name: 'Kevin Durant',
+    id: '5f95fb93a0364290200394a1',
+    name: 'Liang',
   },
 ];
 
-const FriendModal = ({ open, onClose, className }) => {
+const FriendModal = ({ open, onClose, className, friendList }) => {
   const classes = useStyles();
 
   const [friendListName, handleFriendListName, setFriendListName] = useValue('');
@@ -103,6 +104,15 @@ const FriendModal = ({ open, onClose, className }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    //Data
+    // const formData = new FormData();
+    // formData.append('user', localStorage.getItem('userDetails').id);
+    // formData.append('friendListName', friendListName);
+    //By Id
+    // formData.append('friends', friends);
+
+    // console.log(formData);
 
     // If the friend list doesn't have a name
     if (!friendListName) {
@@ -113,14 +123,17 @@ const FriendModal = ({ open, onClose, className }) => {
       console.log('No friends added to the list');
     } else {
       // TODO add user info
+      const user = '5f88c8a2e3d2cbc4e1a1885c';
+      // console.log(user);
       const newList = {
-        friendListName,
-        friends,
+        user: user,
+        friendListName: friendListName,
+        friends: friends,
       };
-
+      console.log(newList);
       // Create the friend list
-      console.log(friendListName);
-      console.log(friends);
+      const result = createFriendList(newList);
+      console.log(result);
     }
     // onClose();
   };

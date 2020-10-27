@@ -11,22 +11,34 @@ const signUpCall = async (user) => {
 
 const signInCall = async (user) => {
   try {
-    const response = await apiCall.post('/signin', user);
-    return response;
+    // const response = await apiCall.post('/signin', user);
+    // console.log(JSON.stringify(user));
+    const result = await fetch('/api/signin', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(user),
+      credentials: 'include',
+    });
+
+    const response = await result.json();
+    console.log(response);
+
+    return response.userObject;
   } catch (err) {
+    console.log('this is err', err);
     return err;
   }
 };
 
 const createFriendList = async (friendList) => {
   try {
-    console.log(friendList);
-    const result = await fetch('/api/friendLists/lists', {
+    const result = await fetch('http://localhost:3001/api/friendLists/lists', {
       method: 'POST',
-      // headers: { 'Content-Type': 'application/json' },
-      body: friendList,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(friendList),
       credentials: 'include',
     });
+    console.log(JSON.stringify(friendList));
 
     const response = await result.json();
     return response;
@@ -47,4 +59,4 @@ const getFriendLists = async () => {
   }
 };
 
-export { signInCall, signUpCall };
+export { signInCall, signUpCall, getFriendLists, createFriendList };

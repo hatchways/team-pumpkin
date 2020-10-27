@@ -35,6 +35,7 @@ const ListItem = ({ className, icon, id, friend, onClick }) => {
     e.preventDefault();
     console.log('click');
   };
+
   return <Avatar key={id} Icon={icon} className={className} {...friend} onClick={onClick} />;
 };
 

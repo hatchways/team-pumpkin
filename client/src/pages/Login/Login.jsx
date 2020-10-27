@@ -1,6 +1,7 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import React, { useState } from 'react';
+import { BsArrowCounterclockwise } from 'react-icons/bs';
 import { Link, useHistory } from 'react-router-dom';
 import { signInCall } from '../../api';
 import { Authentication, Button, InputField } from '../../components';
@@ -77,24 +78,32 @@ const Login = () => {
         });
         return;
       }
-      const user = { email, password };
-      const result = await signInCall(user);
-      const status = result.status;
-      const data = result.data;
-      if (status === 200) {
-        const { userObject, token } = data;
-        const { name, email } = userObject;
-        const userDetails = {
-          name,
-          email,
-          token,
-        };
-        localStorage.setItem('user', JSON.stringify(userDetails));
-        reset();
-      } else {
-        const error = result.data.error.msg;
-        setApiError(error);
-      }
+      // const user = { email, password };
+      // const result = await signInCall(user);
+      // console.log(result);
+      // const status = result.status;
+      // const data = result.data;
+
+      // if (status === 200) {
+      //   const { userObject, token } = data;
+      //   const { name, email } = userObject;
+      //   const userDetails = {
+      //     name,
+      //     email,
+      //     token,
+      //   };
+      //   localStorage.setItem('user', JSON.stringify(userDetails));
+      //   reset();
+      // } else {
+      //   const error = result.data.error.msg;
+      //   setApiError(error);
+      // }
+      const result = signInCall(values);
+      // console.log(values);
+      localStorage.setItem('user', JSON.stringify(result));
+      reset();
+      history.push('/home');
+      window.location.reload();
     } catch (err) {
       console.warn(err);
     }

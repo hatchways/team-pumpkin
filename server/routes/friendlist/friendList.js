@@ -32,7 +32,7 @@ router.post(
 
     try {
       //Make sure that the friend list name is unique
-      let friendList = await FriendList.findOne({ friendListName });
+      let friendList = await FriendList.findOne({ user, friendListName });
       if (friendList) {
         return res.status(400).json({
           error: { msg: "Already have a friend list of the same name." },
