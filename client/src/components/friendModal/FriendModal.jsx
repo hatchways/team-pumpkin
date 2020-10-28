@@ -96,7 +96,7 @@ const mockFriendList = [
   },
 ];
 
-const FriendModal = ({ open, onClose, className, friendList }) => {
+const FriendModal = ({ open, onClose, className, handleFriendLists }) => {
   const classes = useStyles();
 
   const [friendListName, handleFriendListName, setFriendListName] = useValue('');

@@ -17,21 +17,31 @@ const UserSchema = new mongoose.Schema({
   friends: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user"
-    }
+      ref: "user",
+    },
+  ],
+  friendLists: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "friendList",
+    },
   ],
   receivedFriendRequests: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user"
-    }
+      ref: "user",
+    },
   ],
   outgoingFriendRequests: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user"
-    }
-  ]
+      ref: "user",
+    },
+  ],
+  online: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = User = mongoose.model("user", UserSchema);

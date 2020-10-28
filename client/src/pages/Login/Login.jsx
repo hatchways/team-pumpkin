@@ -98,9 +98,10 @@ const Login = () => {
       //   const error = result.data.error.msg;
       //   setApiError(error);
       // }
-      const result = signInCall(values);
-      // console.log(values);
+      const result = await signInCall(values);
+      console.log(result);
       localStorage.setItem('user', JSON.stringify(result));
+
       reset();
       history.push('/home');
       window.location.reload();

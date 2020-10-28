@@ -1,7 +1,8 @@
 import { Box, makeStyles } from '@material-ui/core';
-
+import { setFocusHandler, useQuery } from 'react-query';
 import React, { useEffect, useState } from 'react';
 import { FriendList, Friends, Polls } from '../../components';
+import { getFriendLists } from '../../api/api';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -36,7 +37,20 @@ const useStyles = makeStyles((theme) => ({
 const Home = () => {
   const classes = useStyles();
 
+  // const { friendListData, isLoading, isFetching } = useQuery('friendlists', getFriendLists);
   const [friendLists, setFriendLists] = useState([]);
+
+  useEffect(async () => {
+    const result = await getFriendLists();
+    console.log('result', result);
+    // console.log('friendListData', friendListData);
+    setFriendLists(friendLists.push(result));
+    console.log('friendLists', friendLists[0]);
+  }, []);
+
+  const handleFriendLists = (info) => {
+    setFriendLists(info);
+  };
 
   return (
     <Box className={classes.mainContainer}>
@@ -69,7 +83,11 @@ const Home = () => {
           className={classes.friendList}
         />
 
-        {/* <FriendList listOfCategories={friendLists} className={classes.friendList}></FriendList> */}
+        {/* <FriendList
+          listOfCategories={friendLists[0]}
+          handleFriendLists={handleFriendLists}
+          className={classes.friendList}
+        ></FriendList> */}
       </Box>
     </Box>
   );

@@ -1,7 +1,8 @@
-import { Box, makeStyles } from '@material-ui/core';
+import { Box, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import React, { useState } from 'react';
-import { HomeFrame, ListContainer } from '..';
+import { ListContainer } from '..';
+import { HomeFrame } from '..';
 import FriendModal from '../friendModal/FriendModal';
 
 const useStyles = makeStyles((theme) => ({
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FriendList = ({ className, listOfCategories }) => {
+const FriendList = ({ className, listOfCategories, handleFriendLists }) => {
   const classes = useStyles();
 
   const [openModal, setOpenModal] = useState(false);
@@ -26,16 +27,25 @@ const FriendList = ({ className, listOfCategories }) => {
   const handleFriendModal = () => setOpenModal(!openModal);
   return (
     <Box className={clsx([classes.mainContainer, className])}>
-      <FriendModal open={openModal} onClose={handleFriendModal} />
+      <FriendModal handleFriendLists={handleFriendLists} open={openModal} onClose={handleFriendModal} />
       <HomeFrame
         className={classes.listContainer}
         onClick={handleFriendModal}
         buttonLabel='Create list'
         header='Friend lists'
       >
-        {listOfCategories.map((category, id) => (
-          <ListContainer key={id} className={classes.list} title={category.title} listOfFriend={category.category} />
-        ))}
+        {listOfCategories === undefined || listOfCategories.length === 0 ? (
+          <Typography variant='h2'>No polls available</Typography>
+        ) : (
+          listOfCategories.map((category, id) => (
+            <ListContainer
+              key={id}
+              className={classes.list}
+              title={category.friendListName}
+              listOfFriend={category.friends}
+            />
+          ))
+        )}
       </HomeFrame>
     </Box>
   );
