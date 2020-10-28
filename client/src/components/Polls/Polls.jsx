@@ -35,7 +35,7 @@ const Polls = ({ className, listOfPolls, handlePolls }) => {
           <>
             Polls
             <Typography className={classes.count} component='span'>
-              (37)
+              ({listOfPolls && listOfPolls.length})
             </Typography>
           </>
         }
