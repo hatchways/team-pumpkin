@@ -1,6 +1,7 @@
 import { Box, makeStyles } from '@material-ui/core';
 import { setFocusHandler, useQuery } from 'react-query';
 import React, { useEffect, useState } from 'react';
+import { getPolls } from '../../api';
 import { FriendList, Friends, Polls } from '../../components';
 import { getFriendLists } from '../../api/api';
 
@@ -36,13 +37,22 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
   const classes = useStyles();
+  const [polls, setPolls] = useState([]);
+  const [friendLists, setFriendLists] = useState([]);
+  const { data, isLoading, isFetching } = useQuery('polls', getPolls);
+
+  // useEffect(() => {}, [data]);
+
+  const handlePolls = (info) => {
+    setPolls(info);
+  };
 
   // const { friendListData, isLoading, isFetching } = useQuery('friendlists', getFriendLists);
-  const [friendLists, setFriendLists] = useState([]);
 
   useEffect(async () => {
+    setPolls(data);
     const result = await getFriendLists();
-    console.log('result', result);
+    console.log('result');
     // console.log('friendListData', friendListData);
     setFriendLists(friendLists.push(result));
     console.log('friendLists', friendLists);
@@ -58,21 +68,9 @@ const Home = () => {
         <Friends friendList={Array(10).fill({ name: 'demo' })} />
       </Box>
       <Box className={classes.right}>
-        <Polls
-          listOfPolls={Array(3).fill({
-            question: 'Which is best?',
-            numberOfAnswer: 24,
-            url1:
-              'https://img1.looper.com/img/gallery/things-about-thanos-that-didnt-make-it-into-the-mcu/intro-1590779038.jpg',
-            url2:
-              'https://img1.looper.com/img/gallery/things-about-thanos-that-didnt-make-it-into-the-mcu/intro-1590779038.jpg',
-            imgCount1: 20,
-            imgCount2: 20,
-          })}
-          className={classes.polls}
-        />
+        <Polls handlePolls={handlePolls} listOfPolls={polls} className={classes.polls} />
         {/* <FriendList
-          listOfCategories={Array(3).fill({
+          listOfCategories={Array(4).fill({
             title: 'Fashion',
             category: Array(5).fill({
               name: 'friend',
@@ -83,11 +81,11 @@ const Home = () => {
           className={classes.friendList}
         /> */}
 
-        <FriendList
+        {/* <FriendList
           listOfCategories={friendLists[0]}
           handleFriendLists={handleFriendLists}
           className={classes.friendList}
-        ></FriendList>
+        ></FriendList> */}
       </Box>
     </Box>
   );

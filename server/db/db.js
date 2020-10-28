@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const mongoURI = `mongodb+srv://${process.env.dbUser}:${process.env.dbPassword}@socialappcluster.eb9l8.mongodb.net/SocialAppCluster?retryWrites=true&w=majority`;
 
@@ -10,7 +10,7 @@ const connectDB = async function () {
             useCreateIndex: true
         });
 
-    console.log("Database has been connected");
+    console.log('Database has been connected');
   } catch (err) {
     console.log(err);
 

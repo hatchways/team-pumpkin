@@ -1,5 +1,6 @@
 import React, { Suspense, useContext, useState } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { ReactQueryDevtools } from 'react-query-devtools';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import './App.css';
 import { Header, LoadingScreen } from './components';
 import { HomeScreen, LoginScreen, SignUpScreen } from './LazyComponents';
@@ -17,10 +18,9 @@ const App = () => {
   return (
     <>
       {!!stateContext.user && <Header />}
-      <Header />
-      {!!stateContext.user && <Header />}
       <Switch>
         <Suspense fallback={<LoadingScreen />}>
+          <Redirect to={!!stateContext.user ? '/home' : '/login'} />
           <Route exact path='/signup' component={SignUpScreen} />
           <Route exact path='/login' component={LoginScreen} />
           <Route exact path='/home' component={HomeScreen} />
@@ -31,6 +31,7 @@ const App = () => {
           />
         </Suspense>
       </Switch>
+      <ReactQueryDevtools initialIsOpen={false} />
     </>
   );
 };

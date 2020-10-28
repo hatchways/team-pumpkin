@@ -1,15 +1,15 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const {check, validationResult} = require("express-validator");
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
+const { check, validationResult } = require('express-validator');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
-const jwtSign = require("../../jwt/jwtSign");
+const jwtSign = require('../../jwt/jwtSign');
 
-const authentication = require("../../middleware/authentication");
+const authentication = require('../../middleware/authentication');
 
 //User Model
-const User = require("../../models/User");
+const User = require('../../models/User');
 
 /*
     Type: POST route
@@ -17,32 +17,27 @@ const User = require("../../models/User");
     Acc: public
 */
 router.post(
-  "/register",
+  '/register',
   [
-    check("name", "Name is required").not().isEmpty(),
-    check("email", "Enter a valid email").isEmail(),
-    check(
-      "password",
-      "Please enter a password with 6 or more characters"
-    ).isLength({min: 6}),
+    check('name', 'Name is required').not().isEmpty(),
+    check('email', 'Enter a valid email').isEmail(),
+    check('password', 'Please enter a password with 6 or more characters').isLength({ min: 6 }),
   ],
   async (req, res) => {
     //Check for errors
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      return res.status(400).json({errors: errors.array()});
+      return res.status(400).json({ errors: errors.array() });
     }
 
     //destruct name, email, and pw from request
-    const {name, email, password} = req.body;
+    const { name, email, password } = req.body;
 
     try {
       //See if user exists
-      let user = await User.findOne({email});
+      let user = await User.findOne({ email });
       if (user) {
-        return res
-          .status(400)
-          .json({error: {msg: "User already exists with that email"}});
+        return res.status(400).json({ error: { msg: 'User already exists with that email' } });
       }
 
       user = new User({
@@ -84,9 +79,9 @@ router.post(
       jwtSign(payload, process.env.JWT_SECRET, 1.577e7, res, userObject);
     } catch (err) {
       console.log(err.message);
-      res.status(500).send("Server error");
+      res.status(500).send('Server error');
     }
-  }
+  },
 );
 
 module.exports = router;

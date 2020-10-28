@@ -78,35 +78,15 @@ const Login = () => {
         });
         return;
       }
-      // const user = { email, password };
-      // const result = await signInCall(user);
-      // console.log(result);
-      // const status = result.status;
-      // const data = result.data;
-
-      // if (status === 200) {
-      //   const { userObject, token } = data;
-      //   const { name, email } = userObject;
-      //   const userDetails = {
-      //     name,
-      //     email,
-      //     token,
-      //   };
-      //   localStorage.setItem('user', JSON.stringify(userDetails));
-      //   reset();
-      // } else {
-      //   const error = result.data.error.msg;
-      //   setApiError(error);
-      // }
       const result = await signInCall(values);
-      console.log(result);
-      localStorage.setItem('user', JSON.stringify(result));
 
+      localStorage.setItem('user', JSON.stringify(result));
       reset();
       history.push('/home');
       window.location.reload();
     } catch (err) {
       console.warn(err);
+      setApiError(err);
     }
   };
 
