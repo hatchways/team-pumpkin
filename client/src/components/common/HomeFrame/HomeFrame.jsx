@@ -28,7 +28,7 @@ const HomeFrame = ({ className, children, onClick, buttonLabel, header, isButton
   return (
     <Box className={classes.mainContainer}>
       <Box className={classes.header}>
-        <Typography variant='h3'>{header}</Typography>
+        {header && <Typography variant='h3'>{header}</Typography>}
         {isButton && (
           <Button
             className={classes.button}

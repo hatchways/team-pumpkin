@@ -23,18 +23,7 @@ const FriendsPollsList = ({ className, listOfPolls }) => {
   const classes = useStyles();
   return (
     <Box className={clsx([classes.mainContainer, className])}>
-      <HomeFrame
-        className={classes.pollsContainer}
-        isButton={false}
-        header={
-          <>
-            Friends Polls
-            <Typography className={classes.count} component='span'>
-              (57)
-            </Typography>
-          </>
-        }
-      >
+      <HomeFrame className={classes.pollsContainer} isButton={false}>
         {listOfPolls === undefined || listOfPolls.length === 0 ? (
           <Typography variant='h2'>No polls available</Typography>
         ) : (
