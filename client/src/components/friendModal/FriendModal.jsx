@@ -145,7 +145,7 @@ const FriendModal = ({ open, onClose, className, handleFriendLists }) => {
       const result = createFriendList(newList);
       console.log(result);
     }
-    // onClose();
+    onClose();
   };
 
   const handleChange = (newList) => {
