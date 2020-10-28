@@ -45,7 +45,7 @@ const Home = () => {
     console.log('result', result);
     // console.log('friendListData', friendListData);
     setFriendLists(friendLists.push(result));
-    console.log('friendLists', friendLists[0]);
+    console.log('friendLists', friendLists);
   }, []);
 
   const handleFriendLists = (info) => {
@@ -71,7 +71,7 @@ const Home = () => {
           })}
           className={classes.polls}
         />
-        <FriendList
+        {/* <FriendList
           listOfCategories={Array(3).fill({
             title: 'Fashion',
             category: Array(5).fill({
@@ -81,13 +81,13 @@ const Home = () => {
             }),
           })}
           className={classes.friendList}
-        />
+        /> */}
 
-        {/* <FriendList
+        <FriendList
           listOfCategories={friendLists[0]}
           handleFriendLists={handleFriendLists}
           className={classes.friendList}
-        ></FriendList> */}
+        ></FriendList>
       </Box>
     </Box>
   );

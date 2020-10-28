@@ -50,7 +50,7 @@ const ListContainer = ({ className, listOfFriend, title }) => {
             {title}
           </Typography>
           <Typography className={classes.numberOfFriends} variant='body1'>
-            {1} friends
+            {listOfFriend.length} friends
           </Typography>
         </Box>
         <AiTwotoneSetting size={theme.spacing(3.75)} color={theme.palette.secondary.dark} />

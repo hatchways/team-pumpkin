@@ -34,6 +34,7 @@ const FriendList = ({ className, listOfCategories, handleFriendLists }) => {
         buttonLabel='Create list'
         header='Friend lists'
       >
+        {console.log('num ', listOfCategories.length)}
         {listOfCategories === undefined || listOfCategories.length === 0 ? (
           <Typography variant='h2'>No polls available</Typography>
         ) : (
