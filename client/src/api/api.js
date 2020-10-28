@@ -1,6 +1,6 @@
 const signUpCall = async (user) => {
   try {
-    const result = await fetch('/api/register', {
+    const result = await fetch('http://localhost:3001/api/register', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(user),
@@ -16,7 +16,7 @@ const signUpCall = async (user) => {
 
 const signInCall = async (user) => {
   try {
-    const result = await fetch('/api/signin', {
+    const result = await fetch('http://localhost:3001/api/signin', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(user),
@@ -49,11 +49,11 @@ const createFriendList = async (friendList) => {
     return err;
   }
 };
-    
+
 const createPost = async (payload) => {
   try {
     console.log('this is payload', payload);
-    const result = await fetch('/api/polls', {
+    const result = await fetch('http://localhost:3001/api/polls', {
       method: 'POST',
       // headers: { 'Content-Type': 'multipart/form-data' },
       body: payload,
@@ -79,10 +79,10 @@ const getFriendLists = async () => {
     return err;
   }
 };
-  
+
 const getPolls = async () => {
   try {
-    const result = await fetch('/api/polls/view', {
+    const result = await fetch('http://localhost:3001/api/polls/view', {
       method: 'GET',
       credentials: 'include',
     });
@@ -93,4 +93,4 @@ const getPolls = async () => {
   }
 };
 
-export { signInCall, signUpCall, getFriendLists, createFriendList, createPost, getPolls }
+export { signInCall, signUpCall, getFriendLists, createFriendList, createPost, getPolls };
