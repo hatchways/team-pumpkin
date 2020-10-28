@@ -6,7 +6,6 @@ const { cloudinary } = require('../../cloudinary/cloudinary');
 
 router.post('/create', authentication, async (req, res) => {
   try {
-    console.log('this is user');
     const userId = req.user.id;
     const { question, friend } = req.body;
 
@@ -72,7 +71,6 @@ router.put('/update', authentication, async (req, res) => {
     const error = {
       msg: err,
     };
-    console.log('this is err', err);
     res.status(400).json(error);
   }
 });

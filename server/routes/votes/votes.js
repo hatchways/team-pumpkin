@@ -54,7 +54,6 @@ router.post('/votes/:pollId', authentication, async (req, res) => {
       return;
     }
   } catch (err) {
-    console.log(err);
     res.status(400).json(err);
   }
 });

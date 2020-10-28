@@ -1,6 +1,5 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import React, { useContext, useState } from 'react';
-import { useCookies } from 'react-cookie';
 import { AiOutlineLogout } from 'react-icons/ai';
 import { Avatar, Button, PollsModal } from '../';
 import Logo from '../../assets/logo-trans.png';
@@ -47,11 +46,9 @@ const useStyles = makeStyles((theme) => ({
 const Header = () => {
   const classes = useStyles();
   const [openPoll, setOpenPoll] = useState(false);
-  const [cookies, setCookie, removeCookie] = useCookies(['auth-token']);
 
   const user = useContext(GlobalContext).user;
 
-  console.log('cookie', cookies);
   const [openFriends, setOpenFriends] = useState(false);
 
   function handleFriendsModal() {
