@@ -15,7 +15,6 @@ router.post('/votes/:pollId', authentication, async (req, res) => {
     if (!pollOwnerSpecificPoll.votesForUrl1.includes(userId) && !pollOwnerSpecificPoll.votesForUrl2.includes(userId)) {
       await PollsMongoModel.updateOne({ userId: pollOwnerId, _id: pollId }, { $push: { [votesArray]: userId } });
       const response = await PollsMongoModel.find({ userId: pollOwnerId });
-      // await PollsMongoModel.find({ userId: pollOwnerId, _id: pollId });
       res.status(200).json(response);
       return;
     }
@@ -27,7 +26,6 @@ router.post('/votes/:pollId', authentication, async (req, res) => {
       await PollsMongoModel.updateOne({ userId: pollOwnerId, _id: pollId }, { $pull: { votesForUrl1: userId } });
       await PollsMongoModel.updateOne({ userId: pollOwnerId, _id: pollId }, { $push: { [votesArray]: userId } });
       const response = await PollsMongoModel.find({ userId: pollOwnerId });
-      // await PollsMongoModel.findOne({ userId: pollOwnerId, _id: pollId });
       res.status(200).json(response);
       return;
     }
@@ -39,7 +37,6 @@ router.post('/votes/:pollId', authentication, async (req, res) => {
       await PollsMongoModel.updateOne({ userId: pollOwnerId, _id: pollId }, { $pull: { votesForUrl2: userId } });
       await PollsMongoModel.updateOne({ userId: pollOwnerId, _id: pollId }, { $push: { [votesArray]: userId } });
       const response = await PollsMongoModel.find({ userId: pollOwnerId });
-      // await PollsMongoModel.findOne({ userId: pollOwnerId, _id: pollId });
       res.status(200).json(response);
       return;
     }
@@ -53,11 +50,11 @@ router.post('/votes/:pollId', authentication, async (req, res) => {
     ) {
       await PollsMongoModel.updateOne({ userId: pollOwnerId, _id: pollId }, { $pull: { [votesArray]: userId } });
       const response = await PollsMongoModel.find({ userId: pollOwnerId });
-      // await PollsMongoModel.findOne({ userId: pollOwnerId, _id: pollId });
       res.status(200).json(response);
       return;
     }
   } catch (err) {
+    console.log(err);
     res.status(400).json(err);
   }
 });

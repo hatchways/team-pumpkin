@@ -45,7 +45,7 @@ const Polls = ({ className, listOfPolls, handlePolls }) => {
         ) : (
           <>
             {listOfPolls.map((elem, id) => (
-              <PollViewer key={id} {...elem} />
+              <PollViewer key={id} {...elem} handlePolls={handlePolls} />
             ))}
           </>
         )}
