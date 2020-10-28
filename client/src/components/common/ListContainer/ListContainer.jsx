@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
   list: {
     display: 'flex',
     flexDirection: 'column',
-    alignItems: 'center',
+    alignItems: 'left',
     paddingBottom: theme.spacing(3),
   },
   avatar: {
@@ -58,7 +58,7 @@ const ListContainer = ({ className, listOfFriend, title }) => {
       <Divider light />
       <Box className={classes.list}>
         {listOfFriend.map((friend, id) => (
-          <Avatar key={id} Icon={GrClose} className={classes.avatar} {...friend} />
+          <Avatar key={id} Icon={GrClose} className={classes.avatar} {...friend} name='friend' />
           // <ListItem ></ListItem>
         ))}
       </Box>

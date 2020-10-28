@@ -93,4 +93,17 @@ const getPolls = async () => {
   }
 };
 
-export { signInCall, signUpCall, getFriendLists, createFriendList, createPost, getPolls };
+const getFriends = async () => {
+  try {
+    const result = await fetch('http://localhost:3001/api/friends', {
+      method: 'GET',
+      credentials: 'include',
+    });
+    const response = await result.json();
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
+export { signInCall, signUpCall, getFriendLists, createFriendList, createPost, getPolls, getFriends };

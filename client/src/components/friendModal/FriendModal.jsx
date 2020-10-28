@@ -1,11 +1,11 @@
 import { Box, makeStyles, List, Grid, Divider, Button } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useValue } from '../../utils/';
 import { Modal } from '../common/Modal/Modal';
 import { InputField } from '../common/InputField/InputField';
 import FriendItem from './FriendItem';
 import { theme } from '../../themes/theme';
-import { createFriendList } from '../../api/api';
+import { createFriendList, getFriends } from '../../api/api';
 
 const useStyles = makeStyles((theme) => ({
   friendModal: {
@@ -51,56 +51,66 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 //List of userIds and names
-const friendList = ['5f95fb93a0364290200394a1'];
+// const friendList = ['5f95fb93a0364290200394a1'];
 
-const mockFriendList = [
-  {
-    id: 1,
-    name: 'Michael Jordan',
-  },
-  {
-    id: 2,
-    name: 'Lebron James',
-  },
-  {
-    id: 3,
-    name: 'Kobe Bryant',
-  },
-  {
-    id: 4,
-    name: 'Magic Johnson',
-  },
-  {
-    id: 5,
-    name: 'Larry Bird',
-  },
-  {
-    id: 6,
-    name: 'Jerry West',
-  },
-  {
-    id: 7,
-    name: 'Dwyane Wade',
-  },
-  {
-    id: 8,
-    name: 'Chris Bosh',
-  },
-  {
-    id: 9,
-    name: 'Chris Paul',
-  },
-  {
-    id: '5f95fb93a0364290200394a1',
-    name: 'Liang',
-  },
-];
+// const mockFriendList = [
+//   {
+//     id: 1,
+//     name: 'Michael Jordan',
+//   },
+//   {
+//     id: 2,
+//     name: 'Lebron James',
+//   },
+//   {
+//     id: 3,
+//     name: 'Kobe Bryant',
+//   },
+//   {
+//     id: 4,
+//     name: 'Magic Johnson',
+//   },
+//   {
+//     id: 5,
+//     name: 'Larry Bird',
+//   },
+//   {
+//     id: 6,
+//     name: 'Jerry West',
+//   },
+//   {
+//     id: 7,
+//     name: 'Dwyane Wade',
+//   },
+//   {
+//     id: 8,
+//     name: 'Chris Bosh',
+//   },
+//   {
+//     id: 9,
+//     name: 'Chris Paul',
+//   },
+//   {
+//     id: '5f95fb93a0364290200394a1',
+//     name: 'Liang',
+//   },
+// ];
 
 const FriendModal = ({ open, onClose, className, handleFriendLists }) => {
   const classes = useStyles();
 
   const [friendListName, handleFriendListName, setFriendListName] = useValue('');
   const [friends, setFriends] = useState([]);
+  const [myFriends, setMyFriends] = useState([]);
+
+  const fetchFriends = async () => {
+    const res = await getFriends();
+    setMyFriends(res);
+  };
+
+  useEffect(() => {
+    fetchFriends();
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -152,7 +162,7 @@ const FriendModal = ({ open, onClose, className, handleFriendLists }) => {
         <h2 style={{ marginLeft: 20 }}>Add friends:</h2>
 
         <List className={classes.friendList} alignItems='flex-start'>
-          {mockFriendList.map((friend) => (
+          {myFriends.map((friend) => (
             <li key={friend.id}>
               <Divider />
               <FriendItem friend={friend} checked={false} friends={friends} onChange={setFriends}></FriendItem>
