@@ -15,6 +15,9 @@ const fileupload = require('express-fileupload');
 const register = require('./routes/auth/register');
 const signin = require('./routes/auth/signin');
 
+/*Friend List*/
+const friendList = require('./routes/friendlist/friendList');
+
 const { json, urlencoded } = express;
 
 var app = express();
@@ -49,6 +52,8 @@ app.use('/api', signin);
 app.use('/api/polls', pollsRouter);
 app.use('/api', votes);
 
+/*FriendList*/
+app.use('/api/friendLists', friendList);
 /*Friend Requests*/
 app.use('/api', friend);
 
