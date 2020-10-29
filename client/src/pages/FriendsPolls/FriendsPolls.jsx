@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, makeStyles, Button, Typography } from '@material-ui/core';
 import { ArrowBackIos, ArrowForwardIos } from '@material-ui/icons';
-import { Friends, HomeFrame, FriendList, Polls } from '../../components';
+import { Friends } from '../../components';
 import { FriendsPollsList } from '../../components/FriendsPollsList/FriendsPollsList';
 
 const useStyles = makeStyles((theme) => ({

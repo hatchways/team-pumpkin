@@ -1,6 +1,6 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
-import React, { useState } from 'react';
+import React from 'react';
 import { HomeFrame, PollViewer } from '..';
 
 const useStyles = makeStyles((theme) => ({
