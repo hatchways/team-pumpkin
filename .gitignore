@@ -24,4 +24,7 @@ yarn-error.log*
 server/.env
 */.env
 
+
+#tmp
+
 server/tmp

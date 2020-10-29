@@ -6,8 +6,13 @@ const getValueFromLocalStorage = (item) => {
   return JSON.parse(localStorage.getItem(`${item}`));
 };
 
-const globalValue = {
-  user: getValueFromLocalStorage('user'),
+const setValueToLocalStorage = (name, item) => {
+  return JSON.parse(localStorage.setIem(name, JSON.stringify(item)));
 };
 
-export { GlobalContext, getValueFromLocalStorage, globalValue };
+const globalValue = {
+  user: getValueFromLocalStorage('user'),
+  userPolls: getValueFromLocalStorage('userPolls'),
+};
+
+export { GlobalContext, getValueFromLocalStorage, globalValue, setValueToLocalStorage };

@@ -7,6 +7,8 @@ const cors = require('cors');
 const indexRouter = require('./routes/index');
 const pingRouter = require('./routes/ping');
 const pollsRouter = require('./routes/polls/polls');
+const friend = require('./routes/friends/friend');
+const fileupload = require('express-fileupload');
 
 /*Register and SignIn*/
 const register = require('./routes/auth/register');
@@ -15,13 +17,25 @@ const signin = require('./routes/auth/signin');
 /*Friend List*/
 const friendList = require('./routes/friendlist/friendList');
 
-/*Friend requests*/
-const friend = require('./routes/friends/friend');
-
 const { json, urlencoded } = express;
 
 var app = express();
 
+app.use(
+  fileupload({
+    useTempFiles: true,
+  }),
+);
+
+app.use(logger('dev'));
+app.use(json({ limit: '50mb' }));
+app.use(
+  cors({
+    credentials: true,
+    origin: ['http://localhost:3000'],
+  }),
+);
+app.use(urlencoded({ limit: '50mb', extended: false }));
 app.use(logger('dev'));
 app.use(json());
 app.use(cors());
@@ -34,7 +48,7 @@ app.use('/ping', pingRouter);
 /*Register and SignIn*/
 app.use('/api', register);
 app.use('/api', signin);
-app.use('/api/polls', pollsRouter);
+app.use('/api', pollsRouter);
 
 /*FriendList*/
 app.use('/api/friendLists', friendList);

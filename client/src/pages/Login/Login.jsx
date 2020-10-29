@@ -77,26 +77,14 @@ const Login = () => {
         });
         return;
       }
-      const user = { email, password };
-      const result = await signInCall(user);
-      const status = result.status;
-      const data = result.data;
-      if (status === 200) {
-        const { userObject, token } = data;
-        const { name, email } = userObject;
-        const userDetails = {
-          name,
-          email,
-          token,
-        };
-        localStorage.setItem('user', JSON.stringify(userDetails));
-        reset();
-      } else {
-        const error = result.data.error.msg;
-        setApiError(error);
-      }
+      const result = await signInCall(values);
+
+      localStorage.setItem('user', JSON.stringify(result));
+      reset();
+      history.push('/home');
     } catch (err) {
       console.warn(err);
+      setApiError(err);
     }
   };
 

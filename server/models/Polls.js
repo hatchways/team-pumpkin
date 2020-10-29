@@ -6,24 +6,10 @@ const PollSchema = new mongoose.Schema({
     require: true,
     ref: 'users',
   },
-  url1: {
-    type: String,
-    require: true,
-    unique: true,
-  },
-  url2: {
-    type: String,
-    require: true,
-    unique: true,
-  },
-  friend: {
-    type: String,
-    require: true,
-  },
-  question: {
-    type: String,
-    require: true,
-  },
+  url1: String,
+  url2: String,
+  friend: String,
+  question: String,
   votesForUrl1: [{ type: mongoose.Types.ObjectId, ref: 'users' }],
   votesForUrl2: [{ type: mongoose.Types.ObjectId, ref: 'users' }],
 });
