@@ -79,10 +79,17 @@ const Login = () => {
       }
       const result = await signInCall(values);
 
-      localStorage.setItem('user', JSON.stringify(result));
-      reset();
-      history.push('/home');
-      window.location.reload();
+      if (result === undefined) {
+        setError({
+          type: 'password',
+          description: 'Wrong Details',
+        });
+      } else {
+        localStorage.setItem('user', JSON.stringify(result));
+        reset();
+        history.push('/home');
+        window.location.reload();
+      }
     } catch (err) {
       console.warn(err);
       setApiError(err);
