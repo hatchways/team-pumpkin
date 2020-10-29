@@ -42,8 +42,9 @@ const createFriendList = async (friendList) => {
       credentials: 'include',
     });
     // console.log(JSON.stringify(friendList));
-
+    console.log('result', result);
     const response = await result.json();
+    console.log('response', response);
     return response;
   } catch (err) {
     return err;

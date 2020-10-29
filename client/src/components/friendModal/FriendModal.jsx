@@ -53,55 +53,59 @@ const useStyles = makeStyles((theme) => ({
 //List of userIds and names
 // const friendList = ['5f95fb93a0364290200394a1'];
 
-// const mockFriendList = [
-//   {
-//     id: 1,
-//     name: 'Michael Jordan',
-//   },
-//   {
-//     id: 2,
-//     name: 'Lebron James',
-//   },
-//   {
-//     id: 3,
-//     name: 'Kobe Bryant',
-//   },
-//   {
-//     id: 4,
-//     name: 'Magic Johnson',
-//   },
-//   {
-//     id: 5,
-//     name: 'Larry Bird',
-//   },
-//   {
-//     id: 6,
-//     name: 'Jerry West',
-//   },
-//   {
-//     id: 7,
-//     name: 'Dwyane Wade',
-//   },
-//   {
-//     id: 8,
-//     name: 'Chris Bosh',
-//   },
-//   {
-//     id: 9,
-//     name: 'Chris Paul',
-//   },
-//   {
-//     id: '5f95fb93a0364290200394a1',
-//     name: 'Liang',
-//   },
-// ];
+const mockFriendList = [
+  {
+    id: 1,
+    name: 'Michael Jordan',
+  },
+  {
+    id: 2,
+    name: 'Lebron James',
+  },
+  {
+    id: 3,
+    name: 'Kobe Bryant',
+  },
+  {
+    id: 4,
+    name: 'Magic Johnson',
+  },
+  {
+    id: 5,
+    name: 'Larry Bird',
+  },
+  {
+    id: 6,
+    name: 'Jerry West',
+  },
+  {
+    id: 7,
+    name: 'Dwyane Wade',
+  },
+  {
+    id: 8,
+    name: 'Chris Bosh',
+  },
+  {
+    id: 9,
+    name: 'Chris Paul',
+  },
+  {
+    id: '5f95fb93a0364290200394a1',
+    name: 'Liang',
+  },
+];
 
-const FriendModal = ({ open, onClose, className, handleFriendLists }) => {
+const FriendModal = ({ open, onClose, className, name, type }) => {
   const classes = useStyles();
 
   const [friendListName, handleFriendListName, setFriendListName] = useValue('');
   const [friends, setFriends] = useState([]);
   const [myFriends, setMyFriends] = useState([]);
+
+  const refreshPage = () => {
+    window.location.reload(true);
+  };
 
   const fetchFriends = async () => {
     const res = await getFriends();
@@ -112,15 +116,11 @@ const FriendModal = ({ open, onClose, className, handleFriendLists }) => {
     fetchFriends();
   }, []);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     //Data
-    // const formData = new FormData();
-    // formData.append('user', localStorage.getItem('userDetails').id);
-    // formData.append('friendListName', friendListName);
     //By Id
-    // formData.append('friends', friends);
 
     // console.log(formData);
 
@@ -140,29 +140,41 @@ const FriendModal = ({ open, onClose, className, handleFriendLists }) => {
         friendListName: friendListName,
         friends: friends,
       };
-      console.log(newList);
+
+      // console.log('newList', newList);
       // Create the friend list
-      const result = createFriendList(newList);
-      console.log(result);
+
+      const result = await createFriendList(newList);
+      // console.log(result);
     }
     onClose();
+    refreshPage();
   };
 
   const handleChange = (newList) => {
-    setFriends(newList);
+    setFriends([...friends, newList]);
   };
 
   return (
-    <Modal className={className} open={open} onClose={onClose} title='Create a friend list'>
+    <Modal
+      className={className}
+      open={open}
+      onClose={onClose}
+      title={type === 'Create' ? 'Create a friend list' : 'Edit friend list'}
+    >
       <Grid container direction='column'>
         <Box className={classes.friendModal}>
-          <InputField name='friendlist' placeholder='Enter name of list' onChange={handleFriendListName}></InputField>
+          <InputField
+            name='friendlist'
+            placeholder={type === 'Create' ? 'Enter name of list' : friendListName}
+            onChange={handleFriendListName}
+          ></InputField>
           {/* List of friends */}
         </Box>
         <h2 style={{ marginLeft: 20 }}>Add friends:</h2>
 
         <List className={classes.friendList} alignItems='flex-start'>
-          {myFriends.map((friend) => (
+          {mockFriendList.map((friend) => (
             <li key={friend.id}>
               <Divider />
               <FriendItem friend={friend} checked={false} friends={friends} onChange={setFriends}></FriendItem>
@@ -171,7 +183,7 @@ const FriendModal = ({ open, onClose, className, handleFriendLists }) => {
         </List>
         <Box className={classes.buttonContainer}>
           <Button className={classes.creatButton} onClick={handleSubmit}>
-            Create
+            {type === 'Create' ? 'Create' : 'Edit'}
           </Button>
         </Box>
       </Grid>

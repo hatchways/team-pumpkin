@@ -27,7 +27,7 @@ const FriendList = ({ className, listOfCategories, handleFriendLists }) => {
   const handleFriendModal = () => setOpenModal(!openModal);
   return (
     <Box className={clsx([classes.mainContainer, className])}>
-      <FriendModal handleFriendLists={handleFriendLists} open={openModal} onClose={handleFriendModal} />
+      <FriendModal handleFriendLists={handleFriendLists} open={openModal} onClose={handleFriendModal} type='Create' />
       <HomeFrame
         className={classes.listContainer}
         onClick={handleFriendModal}
@@ -44,6 +44,7 @@ const FriendList = ({ className, listOfCategories, handleFriendLists }) => {
               className={classes.list}
               title={item.friendListName}
               listOfFriend={item.friends}
+              friendListId={item._id}
             />
           ))
         )}

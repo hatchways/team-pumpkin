@@ -48,6 +48,7 @@ const Home = () => {
     setPolls(info);
   };
 
+  //Helper function for retrieving the friendlists
   const fetchData = async () => {
     const res = await getFriendLists();
     setFriendLists(res);
@@ -59,14 +60,6 @@ const Home = () => {
   useEffect(() => {
     setPolls(data);
     fetchData();
-    // let result = await getFriendLists();
-    // const fetchData = async () => {
-    //   result = await getFriendLists();
-    // };
-    // fetchData();
-    // setFriendLists(friendLists.push(result));
-
-    // setFriendLists(friendLists.push(result));
     console.log(data);
     // console.log('friendListData', friendListData);
   }, []);

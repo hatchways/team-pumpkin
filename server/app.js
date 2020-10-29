@@ -29,6 +29,7 @@ app.use(
 );
 
 app.use(logger('dev'));
+app.use(json());
 app.use(
   cors({
     credentials: true,

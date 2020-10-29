@@ -1,11 +1,12 @@
 import { Box, Divider, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AiTwotoneSetting } from 'react-icons/ai';
 import { GrClose } from 'react-icons/gr';
 import { theme } from '../../../themes/theme';
 import { Avatar } from '../Avatar/Avatar';
 import ListItem from './ListItem';
+import FriendModal from '../../friendModal/FriendModal';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -39,11 +40,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ListContainer = ({ className, listOfFriend, title }) => {
+const ListContainer = ({ className, listOfFriend, title, friendListId }) => {
   const classes = useStyles();
+
+  const [openFriendListModal, setFriendListModal] = useState(false);
+
+  const handleFriendListModal = () => setFriendListModal(!openFriendListModal);
 
   return (
     <Box className={clsx([classes.mainContainer, className])}>
+      <FriendModal open={openFriendListModal} onClose={handleFriendListModal} type='Edit' />
       <Box className={classes.headerContainer}>
         <Box>
           <Typography className={classes.header} variant='h5'>
@@ -53,7 +59,11 @@ const ListContainer = ({ className, listOfFriend, title }) => {
             {listOfFriend.length} friends
           </Typography>
         </Box>
-        <AiTwotoneSetting size={theme.spacing(3.75)} color={theme.palette.secondary.dark} />
+        <AiTwotoneSetting
+          size={theme.spacing(3.75)}
+          color={theme.palette.secondary.dark}
+          onClick={handleFriendListModal}
+        />
       </Box>
       <Divider light />
       <Box className={classes.list}>
