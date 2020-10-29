@@ -1,16 +1,16 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
 //Middleware
-const authentication = require("../../middleware/authentication");
+const authentication = require('../../middleware/authentication');
 
-const jwt = require("jsonwebtoken");
-const jwtSign = require("../../jwt/jwtSign");
+const jwt = require('jsonwebtoken');
+const jwtSign = require('../../jwt/jwtSign');
 
 //Model
-const User = require("../../models/User");
+const User = require('../../models/User');
 
-const bcrypt = require("bcryptjs");
-const {check, validationResult} = require("express-validator");
+const bcrypt = require('bcryptjs');
+const { check, validationResult } = require('express-validator');
 
 /*
     Type: POST route
@@ -18,34 +18,31 @@ const {check, validationResult} = require("express-validator");
     Acc: public
 */
 router.post(
-  "/signin",
+  '/signin',
   authentication,
-  [
-    check("email", "Please enter email").isEmail(),
-    check("password", "Please enter password").exists(),
-  ],
+  [check('email', 'Please enter email').isEmail(), check('password', 'Please enter password').exists()],
   async (req, res) => {
     //If errors occur
     const err = validationResult(req);
     if (!err.isEmpty()) {
-      return res.status(400).json({errors: err.array()});
+      return res.status(400).json({ errors: err.array() });
     }
 
     //Destructing the email and password
-    const {email, password} = req.body;
+    const { email, password } = req.body;
 
     try {
-      let user = await User.findOne({email});
+      let user = await User.findOne({ email });
       //Can't find email
       if (!user) {
-        return res.status(400).json({error: {msg: "Invalid Credentials"}});
+        return res.status(400).json({ error: { msg: 'Invalid Credentials' } });
       }
 
       //Password match
       const isMatch = await bcrypt.compare(password, user.password);
       //Password doesn't match
       if (!isMatch) {
-        return res.status(400).json({error: {msg: "Invalid Credentials"}});
+        return res.status(400).json({ error: { msg: 'Invalid Credentials' } });
       }
 
       const payload = {
@@ -55,9 +52,7 @@ router.post(
       };
 
       //User object
-      const userObject = await User.findById(payload.user.id).select(
-        "-password"
-      );
+      const userObject = await User.findById(payload.user.id).select('-password');
 
       // //Sign JWT
       // jwt.sign(
@@ -73,9 +68,9 @@ router.post(
       jwtSign(payload, process.env.JWT_SECRET, 1.577e7, res, userObject);
     } catch (err) {
       console.log(err.message);
-      res.status(500).send("Server error:(");
+      res.status(500).send('Server error:(');
     }
-  }
+  },
 );
 
 module.exports = router;
