@@ -30,9 +30,6 @@ router.post('/polls', authentication, async (req, res) => {
       const response = await PollsMongoModel.find({ userId });
       res.status(200).json(response);
     });
-    // .then((response) => {
-    //   res.status(200).json(response);
-    // });
   } catch (err) {
     const error = {
       msg: err,
