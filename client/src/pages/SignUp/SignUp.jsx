@@ -85,7 +85,8 @@ const SignUp = () => {
       if (userObject) {
         localStorage.setItem('user', JSON.stringify(userObject));
         reset();
-        //history.push('/home');
+
+        // //history.push('/home');
         window.location.reload();
       } else {
         const error = result.data.error.msg;

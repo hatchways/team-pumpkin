@@ -36,7 +36,6 @@ router.post('/friends', [authentication], async function (req, res) {
     } else if (user.outgoingFriendRequests.includes(friendId)) {
       //If you've already made a request, you must wait till the friend accepts
       //Cannot add them yourself
-
       return res.status(400).json({ msg: 'Please wait for the user to accept your request.' });
     } else {
       //Cannot add a friend unless a request is made and approved
@@ -58,7 +57,6 @@ router.post('/friends', [authentication], async function (req, res) {
 //@route            DELETE /api/friends/:id
 //@desc             Delete the user as a friend
 //@access           Private
-
 router.delete('/friends/:id', [authentication], async function (req, res) {
   //The ID passed in the params will be the ID of the user who you want to add as a friend
   //We have the current user's id stored as part of the authentication middleware
@@ -146,7 +144,6 @@ router.post('/outgoing-requests', [authentication], async function (req, res) {
 //@route            DELETE /api/outgoing-requests/:id
 //@desc             Cancel the sent friend request
 //@access           Private
-
 router.delete('/outgoing-requests/:id', [authentication], async function (req, res) {
   //The ID passed in the params will be the ID of the user who you want to add as a friend
   //We have the current user's id stored as part of the authentication middleware
@@ -188,7 +185,6 @@ router.delete('/outgoing-requests/:id', [authentication], async function (req, r
 //@route            DELETE /api/received-request/:id
 //@desc             Reject friend request made by a user
 //@access           Private
-
 router.delete('/received-requests/:id', [authentication], async function (req, res) {
   //The ID passed in the params will be the ID of the user who you want to add as a friend
   //We have the current user's id stored as part of the authentication middleware

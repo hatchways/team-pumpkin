@@ -24,15 +24,14 @@ router.post('/polls', authentication, async (req, res) => {
       url2: uploadedResponseToCloudinaryForSecondImage.url,
       friend,
       question,
+      votesForUrl1: [],
+      votesForUrl2: [],
     };
     const newUserPollDataSaveToMongo = new PollsMongoModel(newUserPollData);
     newUserPollDataSaveToMongo.save().then(async (resp) => {
       const response = await PollsMongoModel.find({ userId });
       res.status(200).json(response);
     });
-    // .then((response) => {
-    //   res.status(200).json(response);
-    // });
   } catch (err) {
     const error = {
       msg: err,

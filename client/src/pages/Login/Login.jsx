@@ -87,6 +87,7 @@ const Login = () => {
 
       localStorage.setItem('user', JSON.stringify(result));
       reset();
+
       //history.push('/home');
       window.location.reload();
     } catch (err) {
