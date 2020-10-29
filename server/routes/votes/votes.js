@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const authentication = require('../../middleware/authentication');
-const PollsMongoModel = require('../../models/Polls');
+const Poll = require('../../models/Polls');
 const User = require('../../models/User');
 
 router.post('/votes/:pollId', authentication, async (req, res) => {
@@ -11,12 +11,9 @@ router.post('/votes/:pollId', authentication, async (req, res) => {
     const { pollId } = req.params;
     const pollOwnerDetails = await User.findOne({ _id: pollOwnerId });
     const votesArray = voteFor === 'img1' ? 'votesForUrl1' : 'votesForUrl2';
-    const pollOwnerSpecificPoll = await PollsMongoModel.findOne({ userId: pollOwnerId, _id: pollId });
+    const pollOwnerSpecificPoll = await Poll.findOne({ userId: pollOwnerId, _id: pollId });
     if (!pollOwnerSpecificPoll.votesForUrl1.includes(userId) && !pollOwnerSpecificPoll.votesForUrl2.includes(userId)) {
-      const response = await PollsMongoModel.updateOne(
-        { userId: pollOwnerId, _id: pollId },
-        { $push: { [votesArray]: userId } },
-      );
+      const response = await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $push: { [votesArray]: userId } });
       res.status(200).json(response);
       return;
     }
@@ -25,11 +22,8 @@ router.post('/votes/:pollId', authentication, async (req, res) => {
       !pollOwnerSpecificPoll.votesForUrl2.includes(userId) &&
       voteFor === 'img2'
     ) {
-      await PollsMongoModel.updateOne({ userId: pollOwnerId, _id: pollId }, { $pull: { votesForUrl1: userId } });
-      const response = await PollsMongoModel.updateOne(
-        { userId: pollOwnerId, _id: pollId },
-        { $push: { [votesArray]: userId } },
-      );
+      await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $pull: { votesForUrl1: userId } });
+      const response = await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $push: { [votesArray]: userId } });
       res.status(200).json(response);
       return;
     }
@@ -38,11 +32,8 @@ router.post('/votes/:pollId', authentication, async (req, res) => {
       pollOwnerSpecificPoll.votesForUrl2.includes(userId) &&
       voteFor === 'img1'
     ) {
-      await PollsMongoModel.updateOne({ userId: pollOwnerId, _id: pollId }, { $pull: { votesForUrl2: userId } });
-      const response = await PollsMongoModel.updateOne(
-        { userId: pollOwnerId, _id: pollId },
-        { $push: { [votesArray]: userId } },
-      );
+      await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $pull: { votesForUrl2: userId } });
+      const response = await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $push: { [votesArray]: userId } });
       res.status(200).json(response);
       return;
     }
@@ -54,10 +45,7 @@ router.post('/votes/:pollId', authentication, async (req, res) => {
         pollOwnerSpecificPoll.votesForUrl2.includes(userId) &&
         voteFor === 'img2')
     ) {
-      const response = await PollsMongoModel.updateOne(
-        { userId: pollOwnerId, _id: pollId },
-        { $pull: { [votesArray]: userId } },
-      );
+      const response = await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $pull: { [votesArray]: userId } });
       res.status(200).json(response);
       return;
     }
