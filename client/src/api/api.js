@@ -35,7 +35,7 @@ const signInCall = async (user) => {
 const createPost = async (payload) => {
   try {
     console.log('this is payload', payload);
-    const result = await fetch('/api/polls/create', {
+    const result = await fetch('/api/polls', {
       method: 'POST',
       // headers: { 'Content-Type': 'multipart/form-data' },
       body: payload,

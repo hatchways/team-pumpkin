@@ -33,7 +33,6 @@ router.post(
     //destruct name, email, and pw from request
     const { name, email, password } = req.body;
 
-    console.log(process.env.JWT_SECRET);
     try {
       //See if user exists
       let user = await User.findOne({ email });
