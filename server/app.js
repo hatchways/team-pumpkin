@@ -19,6 +19,7 @@ const signin = require('./routes/auth/signin');
 const friendList = require('./routes/friendlist/friendList');
 
 const { json, urlencoded } = express;
+/*Friend requests*/
 
 var app = express();
 
@@ -29,7 +30,7 @@ app.use(
 );
 
 app.use(logger('dev'));
-app.use(json({ limit: '50mb' }));
+app.use(json());
 app.use(
   cors({
     credentials: true,
@@ -38,9 +39,8 @@ app.use(
 );
 app.use(urlencoded({ limit: '50mb', extended: false }));
 app.use(logger('dev'));
-app.use(json());
-app.use(cors());
-app.use(urlencoded({ extended: false }));
+// app.use(cors());
+
 app.use(cookieParser());
 app.use(express.static(join(__dirname, 'public')));
 

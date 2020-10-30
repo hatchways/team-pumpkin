@@ -1,6 +1,7 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import React, { useState } from 'react';
+import { BsArrowCounterclockwise } from 'react-icons/bs';
 import { Link, useHistory } from 'react-router-dom';
 import { signInCall } from '../../api';
 import { Authentication, Button, InputField } from '../../components';

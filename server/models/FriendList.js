@@ -1,10 +1,11 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 const FriendListSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
+      ref: 'user',
+
     },
     friendListName: {
       type: String,
@@ -13,11 +14,12 @@ const FriendListSchema = new mongoose.Schema(
     friends: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "user",
+        ref: 'user',
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
-module.exports = FriendList = mongoose.model("friendList", FriendListSchema);
+module.exports = FriendList = mongoose.model('friendList', FriendListSchema);
+

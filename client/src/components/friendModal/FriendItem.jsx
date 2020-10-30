@@ -21,15 +21,15 @@ const FriendItem = ({ friend, friends, onChange }) => {
   const [clicked, setClicked] = useState(false);
 
   const handleAdd = (id) => {
-    if (friends.includes(id)) {
-      //Remove the friend from the friends list
-    } else {
-      //Add friend to friends list
-      //   console.add(id);
-      setClicked(!clicked);
-      const newList = [...friends, { name: friend.name, id: friend.id }];
-      onChange(newList);
-    }
+    // if (friends.includes(id)) {
+    //Remove the friend from the friends list
+    // } else {
+    //Add friend to friends list
+    // console.add(id);
+    setClicked(!clicked);
+    const newList = [...friends, friend.id];
+    onChange(newList);
+    // }
   };
 
   return (
@@ -37,7 +37,7 @@ const FriendItem = ({ friend, friends, onChange }) => {
       <ListItemAvatar>
         <Avatar />
       </ListItemAvatar>
-      <ListItemText primary={friend.name}></ListItemText>
+      <ListItemText primary={friend}></ListItemText>
       <Button
         className={clicked ? classes.removeFriendButton : classes.addFriendButton}
         variant='contained'
