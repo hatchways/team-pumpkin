@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const FriendsPollsList = ({ className, listOfPolls }) => {
-  console.log('this is list of polls from polls', listOfPolls);
   const classes = useStyles();
   return (
     <Box className={clsx([classes.mainContainer, className])}>
