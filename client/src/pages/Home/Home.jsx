@@ -41,6 +41,7 @@ const Home = () => {
   const [polls, setPolls] = useState([]);
   const [friendLists, setFriendLists] = useState([]);
   const { data, isLoading, isFetching } = useQuery('polls', getPolls);
+  const [friends, setFriends] = useState([]);
 
   // useEffect(() => {}, [data]);
 
@@ -52,6 +53,7 @@ const Home = () => {
   const fetchData = async () => {
     const res = await getFriendLists();
     setFriendLists(res);
+    setFriends(res.map);
     console.log('friendLists ', friendLists);
   };
 

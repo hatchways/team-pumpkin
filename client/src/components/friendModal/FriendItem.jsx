@@ -37,7 +37,7 @@ const FriendItem = ({ friend, friends, onChange }) => {
       <ListItemAvatar>
         <Avatar />
       </ListItemAvatar>
-      <ListItemText primary={friend.name}></ListItemText>
+      <ListItemText primary={friend}></ListItemText>
       <Button
         className={clicked ? classes.removeFriendButton : classes.addFriendButton}
         variant='contained'

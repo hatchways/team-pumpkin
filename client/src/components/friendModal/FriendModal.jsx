@@ -102,6 +102,7 @@ const FriendModal = ({ open, onClose, className, name, type }) => {
   const [friendListName, handleFriendListName, setFriendListName] = useValue('');
   const [friends, setFriends] = useState([]);
   const [myFriends, setMyFriends] = useState([]);
+  const [friendData, setFriendsData] = useState([]);
 
   const refreshPage = () => {
     window.location.reload(true);
@@ -174,7 +175,7 @@ const FriendModal = ({ open, onClose, className, name, type }) => {
         <h2 style={{ marginLeft: 20 }}>Add friends:</h2>
 
         <List className={classes.friendList} alignItems='flex-start'>
-          {mockFriendList.map((friend) => (
+          {myFriends.map((friend) => (
             <li key={friend.id}>
               <Divider />
               <FriendItem friend={friend} checked={false} friends={friends} onChange={setFriends}></FriendItem>
