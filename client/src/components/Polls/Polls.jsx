@@ -35,7 +35,7 @@ const Polls = ({ className, listOfPolls, handlePolls }) => {
           <>
             Polls
             <Typography className={classes.count} component='span'>
-              (37)
+              ({listOfPolls && listOfPolls.length})
             </Typography>
           </>
         }
@@ -45,7 +45,7 @@ const Polls = ({ className, listOfPolls, handlePolls }) => {
         ) : (
           <>
             {listOfPolls.map((elem, id) => (
-              <PollViewer key={id} {...elem} />
+              <PollViewer key={id} {...elem} handlePolls={handlePolls} />
             ))}
           </>
         )}
