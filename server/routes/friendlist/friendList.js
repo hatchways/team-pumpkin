@@ -67,7 +67,7 @@ router.post(
 */
 router.delete('/lists/:list_id', authentication, async (req, res) => {
   try {
-    const friendList = await FriendList.findById(req.param.list_id);
+    const friendList = await FriendList.findById(req.params.list_id);
     if (!friendList) return res.status(400).json({ msg: 'Friend List not found' });
 
     await friendList.remove();

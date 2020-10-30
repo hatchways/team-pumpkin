@@ -1,9 +1,9 @@
 import { Box, makeStyles } from '@material-ui/core';
 import { setFocusHandler, useQuery } from 'react-query';
 import React, { useEffect, useState } from 'react';
-import { getPolls } from '../../api/api';
+import { getFriends, getPolls } from '../../api/api';
 import { FriendList, Friends, Polls } from '../../components';
-import { getFriendLists } from '../../api/api';
+import { getFriendLists, getFriendInfo } from '../../api/api';
 import { AiOutlineConsoleSql } from 'react-icons/ai';
 
 const useStyles = makeStyles((theme) => ({
@@ -41,7 +41,7 @@ const Home = () => {
   const [polls, setPolls] = useState([]);
   const [friendLists, setFriendLists] = useState([]);
   const { data, isLoading, isFetching } = useQuery('polls', getPolls);
-  const [friends, setFriends] = useState([]);
+  const [friendsData, setFriendsData] = useState([]);
 
   // useEffect(() => {}, [data]);
 
@@ -52,9 +52,14 @@ const Home = () => {
   //Helper function for retrieving the friendlists
   const fetchData = async () => {
     const res = await getFriendLists();
+    const getFriendsIds = await getFriends();
+    console.log('friend ids', getFriendsIds);
+
+    // const friendInfo = getFriendsIds.map((info) => {
+    //   [getFriendInfo(info)];
+    // });
+    // console.log('friend info', friendInfo);
     setFriendLists(res);
-    setFriends(res.map);
-    console.log('friendLists ', friendLists);
   };
 
   // const { friendListData } = useQuery('friendlists', getFriendLists);

@@ -51,6 +51,23 @@ const createFriendList = async (friendList) => {
   }
 };
 
+const editFriendList = async (friendList) => {
+  try {
+    const result = await fetch('http://localhost:3001/api/friendLists/lists', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(friendList),
+      credentials: 'include',
+    });
+
+    console.log('result', result);
+    const response = await result.json();
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
 const createPost = async (payload) => {
   try {
     console.log('this is payload', payload);
@@ -107,4 +124,28 @@ const getFriends = async () => {
   }
 };
 
-export { signInCall, signUpCall, getFriendLists, createFriendList, createPost, getPolls, getFriends };
+const getFriendInfo = async (req, res) => {
+  try {
+    const result = await fetch(`http://localhost:3001/api/friends/info`, {
+      headers: { 'Content-Type': 'application/json' },
+      method: 'GET',
+      credentials: 'include',
+    });
+    const response = await result.json();
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
+export {
+  signInCall,
+  signUpCall,
+  getFriendLists,
+  createFriendList,
+  createPost,
+  getPolls,
+  getFriends,
+  getFriendInfo,
+  editFriendList,
+};
