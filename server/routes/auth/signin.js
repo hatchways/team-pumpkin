@@ -19,7 +19,6 @@ const { check, validationResult } = require('express-validator');
 */
 router.post(
   '/signin',
-  authentication,
   [check('email', 'Please enter email').isEmail(), check('password', 'Please enter password').exists()],
   async (req, res) => {
     //If errors occur

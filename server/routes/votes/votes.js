@@ -13,7 +13,8 @@ router.post('/votes/:pollId', authentication, async (req, res) => {
     const votesArray = voteFor === 'img1' ? 'votesForUrl1' : 'votesForUrl2';
     const pollOwnerSpecificPoll = await Poll.findOne({ userId: pollOwnerId, _id: pollId });
     if (!pollOwnerSpecificPoll.votesForUrl1.includes(userId) && !pollOwnerSpecificPoll.votesForUrl2.includes(userId)) {
-      const response = await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $push: { [votesArray]: userId } });
+      await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $push: { [votesArray]: userId } });
+      const response = await Poll.find({ userId: pollOwnerId });
       res.status(200).json(response);
       return;
     }
@@ -23,7 +24,8 @@ router.post('/votes/:pollId', authentication, async (req, res) => {
       voteFor === 'img2'
     ) {
       await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $pull: { votesForUrl1: userId } });
-      const response = await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $push: { [votesArray]: userId } });
+      await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $push: { [votesArray]: userId } });
+      const response = await Poll.find({ userId: pollOwnerId });
       res.status(200).json(response);
       return;
     }
@@ -33,7 +35,8 @@ router.post('/votes/:pollId', authentication, async (req, res) => {
       voteFor === 'img1'
     ) {
       await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $pull: { votesForUrl2: userId } });
-      const response = await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $push: { [votesArray]: userId } });
+      await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $push: { [votesArray]: userId } });
+      const response = await Poll.find({ userId: pollOwnerId });
       res.status(200).json(response);
       return;
     }
@@ -45,7 +48,8 @@ router.post('/votes/:pollId', authentication, async (req, res) => {
         pollOwnerSpecificPoll.votesForUrl2.includes(userId) &&
         voteFor === 'img2')
     ) {
-      const response = await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $pull: { [votesArray]: userId } });
+      await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $pull: { [votesArray]: userId } });
+      const response = await Poll.find({ userId: pollOwnerId });
       res.status(200).json(response);
       return;
     }
