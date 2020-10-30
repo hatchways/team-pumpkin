@@ -1,5 +1,6 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import React, { useContext, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useCookies } from 'react-cookie';
 import { AiOutlineLogout } from 'react-icons/ai';
 import { Avatar, Button, PollsModal } from '../';
@@ -42,6 +43,10 @@ const useStyles = makeStyles((theme) => ({
   logOut: {
     cursor: 'pointer',
   },
+  link: {
+    textDecoration: 'none',
+    color: 'inherit',
+  },
 }));
 
 const Header = () => {
@@ -77,7 +82,9 @@ const Header = () => {
           Friends
         </Typography>
         <Typography variant='h6' className={classes.headerOption}>
-          Friends Polls
+          <Link to='/friends-polls' className={classes.link}>
+            Friends Polls
+          </Link>
         </Typography>
         <Typography variant='h6' className={classes.headerOption}>
           Opinions

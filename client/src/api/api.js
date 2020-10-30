@@ -8,7 +8,7 @@ const signUpCall = async (user) => {
     });
 
     const response = await result.json();
-    return response.userObject;
+    return response;
   } catch (err) {
     return err;
   }
@@ -24,8 +24,7 @@ const signInCall = async (user) => {
     });
 
     const response = await result.json();
-
-    return response.userObject;
+    return response;
   } catch (err) {
     console.log('this is err', err);
     return err;
@@ -35,7 +34,7 @@ const signInCall = async (user) => {
 const createPost = async (payload) => {
   try {
     console.log('this is payload', payload);
-    const result = await fetch('/api/polls/create', {
+    const result = await fetch('/api/polls', {
       method: 'POST',
       // headers: { 'Content-Type': 'multipart/form-data' },
       body: payload,
