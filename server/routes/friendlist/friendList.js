@@ -7,7 +7,6 @@ const authentication = require('../../middleware/authentication');
 const FriendList = require('../../models/FriendList');
 const User = require('../../models/User');
 
-
 /*
     Type: POST route
     Desc: Create a new Friends list
@@ -167,7 +166,6 @@ router.put(
     param: listId, friendListName, friends
 */
 router.patch('/lists/:list_id', authentication, async (req, res) => {
-
   try {
     const { user, friendListName, friends } = req.body;
     const updateFriendList = { friendListName, friends };

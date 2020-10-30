@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useCookies } from 'react-cookie';
-import { Box, makeStyles, CardMedia, Grid, Tabs, Tab, Typography, List, Divider } from '@material-ui/core';
+import { Box, makeStyles, CardMedia, Grid, Tabs, Tab, Typography, List, Divider, Button } from '@material-ui/core';
 import { getFriends, getPolls, getFriendLists, getFriendInfo } from '../../api/api';
 import { theme } from '../../themes/theme';
 import { GlobalContext } from '../../utils';
@@ -34,18 +34,23 @@ const useStyles = makeStyles((theme) => ({
   headerOption: {
     fontWeight: 'bold',
   },
+  friendButton: {
+    maxWidth: '100px',
+    backgroundColor: theme.palette.primary.light,
+  },
 }));
 
 const Profile = () => {
   const classes = useStyles();
   const [cookies, setCookie, removeCookie] = useCookies(['auth-token']);
   //   const [user, setUser] = useState('5f88c8a2e3d2cbc4e1a1885c');
-  const [tabs, setTabs] = useState(0);
+  const [isFriend, setIsFriend] = useState();
+  const [tabValue, setTabValue] = useState(0);
 
   const user = useContext(GlobalContext).user;
 
-  const handleChange = (newValue) => {
-    setTabs(newValue);
+  const handleChange = (event, newValue) => {
+    setTabValue(newValue);
   };
 
   const friendList = [
@@ -71,9 +76,10 @@ const Profile = () => {
           image='https://img1.grunge.com/img/uploads/2018/05/characters-destroyed-thanos.jpg'
         ></CardMedia>
         <h4>{user.name}</h4>
+        <Button className={classes.friendButton}>Add Friend</Button>
 
         <Grid container direction='column' className={classes.profileContent}>
-          <Tabs value={tabs} onChange={handleChange} centered variant='fullWidth'>
+          <Tabs value={tabValue} onChange={handleChange} centered variant='fullWidth'>
             <Tab
               label={
                 <Typography variant='h7' className={classes.headerOption}>
@@ -89,7 +95,7 @@ const Profile = () => {
               }
             />
           </Tabs>
-          {tabs === 1 && (
+          {tabValue === 1 && (
             <List alignItems='flex-start' className={classes.friendList}>
               {friendList.map((friend) => (
                 <li key={friend.id} className={classes.scrollbar}>
