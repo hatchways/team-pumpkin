@@ -1,10 +1,10 @@
 import React, { Suspense, useContext, useState } from 'react';
 import { ReactQueryDevtools } from 'react-query-devtools';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import './App.css';
 import { Header, LoadingScreen } from './components';
 import { ViewFriendsModal } from './components/friendModal/ViewFriendsModal';
-import { HomeScreen, LoginScreen, SignUpScreen } from './LazyComponents';
+import { HomeScreen, LoginScreen, PollFrameScreen, SignUpScreen } from './LazyComponents';
 import { GlobalContext } from './utils';
 
 const App = () => {
@@ -20,10 +20,11 @@ const App = () => {
       {!!stateContext.user && <Header />}
       <Switch>
         <Suspense fallback={<LoadingScreen />}>
-          <Redirect to={!!stateContext.user ? '/home' : '/login'} />
+          {/* <Redirect to={!!stateContext.user ? '/home' : '/login'} /> */}
           <Route exact path='/signup' component={SignUpScreen} />
           <Route exact path='/login' component={LoginScreen} />
           <Route exact path='/home' component={HomeScreen} />
+          <Route path='/poll/:id' component={PollFrameScreen} />
           <Route
             exact
             path='/friends'

@@ -1,6 +1,7 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
 import { BsFillHeartFill } from 'react-icons/bs';
+import { Link } from 'react-router-dom';
 import { postVotes } from '../../../api';
 import { theme } from '../../../themes/theme';
 
@@ -46,13 +47,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PollViewer = ({ question, numberOfAnswer, url1, url2, votesForUrl1, votesForUrl2, _id, userId, handlePolls }) => {
+const PollViewer = (props) => {
+  const { question, numberOfAnswer, url1, url2, votesForUrl1, votesForUrl2, _id, userId, handlePolls } = props;
   const classes = useStyles();
 
-  const makeVotes = async (img) => {
+  const makeVotes = async (img, userID) => {
     const payload = {
       voteFor: img,
-      pollOwnerId: userId,
+      pollOwnerId: userID,
     };
     const response = await postVotes(payload, _id);
     handlePolls(response);
@@ -73,11 +75,16 @@ const PollViewer = ({ question, numberOfAnswer, url1, url2, votesForUrl1, votesF
       </Typography>
       <Box className={classes.imagesContainer}>
         <Box className={classes.imageContainer}>
-          <img src={url1} alt='img-1' className={classes.image} />
+          <Link
+            onClick={() => console.log('this works')}
+            to={{ pathname: `/poll/${_id}`, data: { ...props, makeVotes } }}
+          >
+            <img src={url1} alt='img-1' className={classes.image} />
+          </Link>
           <Box className={classes.iconContainer}>
             <BsFillHeartFill
               size={theme.spacing(3.75)}
-              onClick={() => makeVotes('img1')}
+              onClick={() => makeVotes('img1', userId)}
               color={theme.palette.primary.main}
             />
             <Typography className={classes.likeCount} component='span'>
@@ -87,11 +94,13 @@ const PollViewer = ({ question, numberOfAnswer, url1, url2, votesForUrl1, votesF
         </Box>
 
         <Box className={classes.imageContainer}>
-          <img src={url2} alt='img-2' className={classes.image} />
+          <Link onClick={() => console.log('this works')} to={{ pathname: `/poll/${_id}`, props }}>
+            <img src={url2} alt='img-2' className={classes.image} />
+          </Link>
           <Box className={classes.iconContainer}>
             <BsFillHeartFill
               size={theme.spacing(3.75)}
-              onClick={() => makeVotes('img2')}
+              onClick={() => makeVotes('img2', userId)}
               color={theme.palette.primary.main}
             />
             <Typography className={classes.likeCount} component='span'>
