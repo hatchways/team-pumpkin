@@ -6,6 +6,9 @@ import { FriendList, Friends, Polls } from '../../components';
 import { getFriendLists, getFriendInfo } from '../../api/api';
 import { AiOutlineConsoleSql } from 'react-icons/ai';
 import { GlobalContext } from '../../utils';
+import io from 'socket.io-client';
+
+const socket = io.connect('http://localhost:3001');
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -50,7 +53,6 @@ const Home = () => {
   const fetchData = async () => {
     const res = await getFriendLists();
     const getFriendsIds = await getFriends();
-    console.log('friend ids', getFriendsIds);
 
     // const friendInfo = getFriendsIds.map((info) => {
     //   [getFriendInfo(info)];
@@ -64,6 +66,7 @@ const Home = () => {
     setPolls(data);
     fetchData();
     console.log('this is data', data);
+    console.log('socket info', socket);
   }, [data]);
 
   const handlePolls = (info) => {
