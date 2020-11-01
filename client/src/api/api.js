@@ -61,4 +61,20 @@ const getPolls = async () => {
   }
 };
 
-export { signInCall, signUpCall, createPost, getPolls };
+const postVotes = async (payload, pollId) => {
+  try {
+    console.log('this is payload before go', payload);
+    const result = await fetch(`/api/votes/${pollId}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      credentials: 'include',
+    });
+    const response = await result.json();
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
+export { signInCall, signUpCall, createPost, getPolls, postVotes };
