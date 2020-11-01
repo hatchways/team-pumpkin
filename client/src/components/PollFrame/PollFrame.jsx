@@ -86,7 +86,7 @@ const PollFrame = () => {
 
   return (
     <Box className={classes.mainContainer}>
-      <PollsModal handlePolls={handlePolls} open={openPoll} onClose={handlePollModal} />
+      <PollsModal handlePolls={handlePolls} open={openPoll} isForUpdate={true} pollId={_id} onClose={handlePollModal} />
       <Box className={classes.left}>
         <Friends friendList={Array(10).fill({ name: 'demo' })} />
       </Box>

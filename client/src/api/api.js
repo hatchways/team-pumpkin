@@ -34,7 +34,6 @@ const signInCall = async (user) => {
 
 const createPost = async (payload) => {
   try {
-    console.log('this is payload', payload);
     const result = await fetch('/api/polls', {
       method: 'POST',
       // headers: { 'Content-Type': 'multipart/form-data' },
@@ -91,4 +90,19 @@ const deletePolls = async (pollId) => {
   }
 };
 
-export { signInCall, signUpCall, createPost, getPolls, postVotes, deletePolls };
+const updatePost = async (payload, pollId) => {
+  try {
+    const result = await fetch(`/api/polls/${pollId}`, {
+      method: 'PUT',
+      body: payload,
+      credentials: 'include',
+    });
+
+    const response = await result.json();
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
+export { signInCall, signUpCall, createPost, getPolls, postVotes, deletePolls, updatePost };

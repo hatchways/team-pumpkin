@@ -25,7 +25,7 @@ const Polls = ({ className, listOfPolls, handlePolls }) => {
   const handlePollModal = () => setOpenPoll(!openPoll);
   return (
     <Box className={clsx([classes.mainContainer, className])}>
-      <PollsModal handlePolls={handlePolls} open={openPoll} onClose={handlePollModal} />
+      <PollsModal handlePolls={handlePolls} isForUpdate={false} open={openPoll} onClose={handlePollModal} />
       <HomeFrame
         className={classes.pollsContainer}
         onClick={handlePollModal}

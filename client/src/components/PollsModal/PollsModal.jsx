@@ -3,7 +3,7 @@ import clsx from 'clsx';
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { AiOutlineExpand } from 'react-icons/ai';
-import { createPost } from '../../api';
+import { createPost, updatePost } from '../../api';
 import { theme } from '../../themes/theme';
 import { useValue } from '../../utils/';
 import { Button } from '../common/Button/Button';
@@ -95,7 +95,7 @@ const useStyles = makeStyles((theme) => ({
 
 const mockFriendList = ['Zeeshan', 'Allen', 'Saad', 'Conner', ' Aecio'];
 
-const PollsModal = ({ open, onClose, className, handlePolls }) => {
+const PollsModal = ({ open, onClose, className, handlePolls, isForUpdate, pollId }) => {
   const classes = useStyles();
   const [question, handleQuestion, resetQuestion] = useValue('');
   const [friend, setFriend] = useState('');
@@ -131,8 +131,14 @@ const PollsModal = ({ open, onClose, className, handlePolls }) => {
     formData.append('img1', files[0]);
     formData.append('img2', files[1]);
     setDisable(true);
-    const response = await createPost(formData);
-    handlePolls(response);
+    if (isForUpdate) {
+      console.log('it hits here');
+      const response = await updatePost(formData, pollId);
+      handlePolls(response);
+    } else {
+      const response = await createPost(formData);
+      handlePolls(response);
+    }
     setDisable(false);
     resetQuestion();
     setFriend('');
