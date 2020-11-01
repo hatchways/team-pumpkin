@@ -75,10 +75,7 @@ const PollViewer = (props) => {
       </Typography>
       <Box className={classes.imagesContainer}>
         <Box className={classes.imageContainer}>
-          <Link
-            onClick={() => console.log('this works')}
-            to={{ pathname: `/poll/${_id}`, data: { ...props, makeVotes } }}
-          >
+          <Link to={{ pathname: `/poll/${_id}`, data: { ...props, makeVotes } }}>
             <img src={url1} alt='img-1' className={classes.image} />
           </Link>
           <Box className={classes.iconContainer}>
@@ -94,7 +91,7 @@ const PollViewer = (props) => {
         </Box>
 
         <Box className={classes.imageContainer}>
-          <Link onClick={() => console.log('this works')} to={{ pathname: `/poll/${_id}`, props }}>
+          <Link to={{ pathname: `/poll/${_id}`, data: { ...props, makeVotes } }}>
             <img src={url2} alt='img-2' className={classes.image} />
           </Link>
           <Box className={classes.iconContainer}>

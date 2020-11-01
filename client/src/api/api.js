@@ -64,7 +64,6 @@ const getPolls = async () => {
 
 const postVotes = async (payload, pollId) => {
   try {
-    console.log('this is payload before go', payload);
     const result = await fetch(`/api/votes/${pollId}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -78,4 +77,18 @@ const postVotes = async (payload, pollId) => {
   }
 };
 
-export { signInCall, signUpCall, createPost, getPolls, postVotes };
+const deletePolls = async (pollId) => {
+  try {
+    const result = await fetch(`/api/polls/${pollId}`, {
+      method: 'DELETE',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    });
+    const response = await result.json();
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
+export { signInCall, signUpCall, createPost, getPolls, postVotes, deletePolls };
