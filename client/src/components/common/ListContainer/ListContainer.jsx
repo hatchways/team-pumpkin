@@ -56,7 +56,7 @@ const ListContainer = ({ className, listOfFriend, title, friendListId }) => {
             {title}
           </Typography>
           <Typography className={classes.numberOfFriends} variant='body1'>
-            {listOfFriend.length} friends
+            {listOfFriend.length} {listOfFriend.length === 1 ? 'friend' : 'friends'}
           </Typography>
         </Box>
         <AiTwotoneSetting
@@ -68,7 +68,7 @@ const ListContainer = ({ className, listOfFriend, title, friendListId }) => {
       <Divider light />
       <Box className={classes.list}>
         {listOfFriend.map((friend, id) => (
-          <Avatar key={id} Icon={GrClose} className={classes.avatar} {...friend} name='friend' />
+          <Avatar key={id} Icon={GrClose} className={classes.avatar} {...friend} name={id} />
           // <ListItem ></ListItem>
         ))}
       </Box>

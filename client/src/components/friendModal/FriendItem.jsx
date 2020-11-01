@@ -15,20 +15,21 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FriendItem = ({ friend, friends, onChange }) => {
+const FriendItem = ({ friend, friends, onChange, type }) => {
   const classes = useStyles();
 
   const [clicked, setClicked] = useState(false);
 
-  const handleAdd = (id) => {
+  const handleAdd = () => {
     // if (friends.includes(id)) {
     //Remove the friend from the friends list
     // } else {
     //Add friend to friends list
     // console.add(id);
     setClicked(!clicked);
-    const newList = [...friends, friend.id];
-    onChange(newList);
+    console.log(friend.id);
+    const newList = [...friends, friend];
+    onChange([...new Set(newList)]);
     // }
   };
 

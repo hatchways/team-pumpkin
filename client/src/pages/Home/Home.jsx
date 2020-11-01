@@ -1,10 +1,11 @@
 import { Box, makeStyles } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { getFriends, getPolls } from '../../api/api';
 import { useQuery } from 'react-query';
 import { FriendList, Friends, Polls } from '../../components';
 import { getFriendLists, getFriendInfo } from '../../api/api';
 import { AiOutlineConsoleSql } from 'react-icons/ai';
+import { GlobalContext } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -38,6 +39,8 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
   const classes = useStyles();
+  const userContext = useContext(GlobalContext);
+  const user = userContext.user;
   const [polls, setPolls] = useState([]);
   const [friendLists, setFriendLists] = useState([]);
   const { data, isLoading, isFetching } = useQuery('polls', getPolls);
@@ -80,17 +83,6 @@ const Home = () => {
       </Box>
       <Box className={classes.right}>
         <Polls handlePolls={handlePolls} listOfPolls={polls} className={classes.polls} />
-        {/* <FriendList
-          listOfCategories={Array(4).fill({
-            title: 'Fashion',
-            category: Array(5).fill({
-              name: 'friend',
-              url:
-                'https://img1.looper.com/img/gallery/things-about-thanos-that-didnt-make-it-into-the-mcu/intro-1590779038.jpg',
-            }),
-          })}
-          className={classes.friendList}
-        /> */}
 
         <FriendList
           listOfCategories={friendLists}

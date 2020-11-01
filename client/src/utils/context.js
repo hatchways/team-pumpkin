@@ -1,4 +1,5 @@
 import { createContext } from 'react';
+import { getFriends } from '../api/api';
 
 const GlobalContext = createContext();
 

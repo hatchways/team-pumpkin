@@ -1,11 +1,12 @@
 import { Box, makeStyles, List, Grid, Divider, Button } from '@material-ui/core';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useValue } from '../../utils/';
 import { Modal } from '../common/Modal/Modal';
 import { InputField } from '../common/InputField/InputField';
 import FriendItem from './FriendItem';
 import { theme } from '../../themes/theme';
 import { createFriendList, getFriends, editFriendList } from '../../api/api';
+import { GlobalContext } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
   friendModal: {
@@ -52,10 +53,11 @@ const useStyles = makeStyles((theme) => ({
 
 const FriendModal = ({ open, onClose, className, name, type }) => {
   const classes = useStyles();
-
+  const userContext = useContext(GlobalContext);
+  const user = userContext.user;
   const [friendListName, handleFriendListName, setFriendListName] = useValue('');
   const [friends, setFriends] = useState([]);
-  const [myFriends, setMyFriends] = useState([]);
+  const [myFriends, setMyFriends] = useState(user.friends);
   // const [friendData, setFriendsData] = useState([]);
 
   const refreshPage = () => {
@@ -64,11 +66,13 @@ const FriendModal = ({ open, onClose, className, name, type }) => {
 
   const fetchFriends = async () => {
     const res = await getFriends();
+    console.log('res', res);
     setMyFriends(res);
   };
 
   useEffect(() => {
-    fetchFriends();
+    // fetchFriends();
+    console.log('myfriends', myFriends);
   }, []);
 
   const handleSubmit = async (event) => {
@@ -83,15 +87,16 @@ const FriendModal = ({ open, onClose, className, name, type }) => {
       console.log('No friends added to the list');
     } else {
       // TODO add user info
-      const user = '5f88c8a2e3d2cbc4e1a1885c';
-      // console.log(user);
+
       const newList = {
         user: user,
         friendListName: friendListName,
         friends: friends,
       };
 
-      const result = await createFriendList(newList);
+      await createFriendList(newList);
+
+      //Create a Success alert
     }
     onClose();
     refreshPage();
@@ -101,9 +106,6 @@ const FriendModal = ({ open, onClose, className, name, type }) => {
     event.preventDefault();
     // console.log('Edit');
 
-    // TODO add user info
-    const user = '5f88c8a2e3d2cbc4e1a1885c';
-
     const newList = {
       user: user,
       friendListName: friendListName,
@@ -111,12 +113,8 @@ const FriendModal = ({ open, onClose, className, name, type }) => {
     };
 
     const result = await editFriendList(newList);
-    onClose();
-    refreshPage();
-  };
-
-  const handleChange = (newList) => {
-    setFriends([...friends, newList]);
+    // onClose();
+    // refreshPage();
   };
 
   return (
@@ -135,13 +133,13 @@ const FriendModal = ({ open, onClose, className, name, type }) => {
           ></InputField>
           {/* List of friends */}
         </Box>
-        <h2 style={{ marginLeft: 20 }}>Add friends:</h2>
+        <h2 style={{ marginLeft: 20 }}>{type === 'Create' ? 'Add friends:' : 'Edit friends:'}</h2>
 
         <List className={classes.friendList} alignItems='flex-start'>
           {myFriends.map((friend) => (
             <li key={friend.id}>
               <Divider />
-              <FriendItem friend={friend} checked={false} friends={friends} onChange={setFriends}></FriendItem>
+              <FriendItem friend={friend} checked={false} friends={friends} onChange={setFriends} type></FriendItem>
             </li>
           ))}
         </List>
