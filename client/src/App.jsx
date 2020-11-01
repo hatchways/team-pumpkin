@@ -3,8 +3,8 @@ import { ReactQueryDevtools } from 'react-query-devtools';
 import { Redirect, Route, Switch } from 'react-router-dom';
 import './App.css';
 import { Header, LoadingScreen } from './components';
-import { HomeScreen, LoginScreen, SignUpScreen } from './LazyComponents';
 import { ViewFriendsModal } from './components/friendModal/ViewFriendsModal';
+import { HomeScreen, LoginScreen, SignUpScreen } from './LazyComponents';
 import { GlobalContext } from './utils';
 
 const App = () => {

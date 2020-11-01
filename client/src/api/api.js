@@ -129,6 +129,21 @@ const getFriendInfo = async (req, res) => {
     const result = await fetch(`http://localhost:3001/api/friends/info`, {
       headers: { 'Content-Type': 'application/json' },
       method: 'GET',
+    });
+    const response = await result.json();
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
+const postVotes = async (payload, pollId) => {
+  try {
+    console.log('this is payload before go', payload);
+    const result = await fetch(`/api/votes/${pollId}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
       credentials: 'include',
     });
     const response = await result.json();
@@ -148,4 +163,5 @@ export {
   getFriends,
   getFriendInfo,
   editFriendList,
+  postVotes,
 };

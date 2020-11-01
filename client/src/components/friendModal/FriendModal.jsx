@@ -59,7 +59,7 @@ const FriendModal = ({ open, onClose, className, name, type }) => {
   // const [friendData, setFriendsData] = useState([]);
 
   const refreshPage = () => {
-    window.location.reload(true);
+    window.location.reload();
   };
 
   const fetchFriends = async () => {

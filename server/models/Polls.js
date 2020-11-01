@@ -10,8 +10,8 @@ const PollSchema = new mongoose.Schema({
   url2: String,
   friend: String,
   question: String,
-  votesForUrl1: [String],
-  votesForUrl2: [String],
+  votesForUrl1: [{ type: mongoose.Types.ObjectId, ref: 'users' }],
+  votesForUrl2: [{ type: mongoose.Types.ObjectId, ref: 'users' }],
 });
 
 module.exports = Polls = mongoose.model('polls', PollSchema);
