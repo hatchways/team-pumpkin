@@ -8,7 +8,11 @@ import { AiOutlineConsoleSql } from 'react-icons/ai';
 import { GlobalContext } from '../../utils';
 import io from 'socket.io-client';
 
-const socket = io.connect('http://localhost:3001');
+const socket = io('/', {
+  query: {
+    token: localStorage.getItem('io'),
+  },
+});
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -66,7 +70,10 @@ const Home = () => {
     setPolls(data);
     fetchData();
     console.log('this is data', data);
-    console.log('socket info', socket);
+    if (socket) {
+      console.log('socket info', socket);
+      console.log('Connected to Socket!!!', socket.connected);
+    }
   }, [data]);
 
   const handlePolls = (info) => {

@@ -11,6 +11,8 @@ var app = require('../app');
 var http = require('http');
 var connectDB = require('../db/db');
 var socketio = require('socket.io');
+var jwt = require('jsonwebtoken');
+const { response } = require('express');
 
 /**
  * Connect to the database
@@ -33,7 +35,17 @@ var server = http.createServer(app);
  * Socket Connection
  */
 var io = socketio(server);
+io.use(async (socket, next) => {
+  try {
+    const token = socket.handshake.query.token;
+    const payload = await jwt.verify(token, process.env.JWT_SECRET);
+    socket.userId = payload.indexOf;
+    next();
+  } catch (err) {}
+});
+
 io.on('connection', (socket) => {
+  console.log('connected on: ', socket.userId);
   socket.emit('Your socket id', socket.id);
   socket.on('Send message', (body) => {
     io.emit('message', body);
