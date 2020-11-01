@@ -43,7 +43,10 @@ const Home = () => {
   const { data, isLoading, isFetching } = useQuery('polls', getPolls);
   const [friendsData, setFriendsData] = useState([]);
 
-  // useEffect(() => {}, [data]);
+  useEffect(() => {
+    setPolls(data);
+    console.log('this is data', data);
+  }, [data]);
 
   const handlePolls = (info) => {
     setPolls(info);
@@ -82,17 +85,6 @@ const Home = () => {
       </Box>
       <Box className={classes.right}>
         <Polls handlePolls={handlePolls} listOfPolls={polls} className={classes.polls} />
-        {/* <FriendList
-          listOfCategories={Array(4).fill({
-            title: 'Fashion',
-            category: Array(5).fill({
-              name: 'friend',
-              url:
-                'https://img1.looper.com/img/gallery/things-about-thanos-that-didnt-make-it-into-the-mcu/intro-1590779038.jpg',
-            }),
-          })}
-          className={classes.friendList}
-        /> */}
 
         <FriendList
           listOfCategories={friendLists}

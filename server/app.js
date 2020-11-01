@@ -49,7 +49,7 @@ app.use('/ping', pingRouter);
 /*Register and SignIn*/
 app.use('/api', register);
 app.use('/api', signin);
-app.use('/api/polls', pollsRouter);
+app.use('/api/', pollsRouter);
 app.use('/api', votes);
 
 /*FriendList*/

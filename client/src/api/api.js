@@ -124,11 +124,13 @@ const getFriends = async () => {
   }
 };
 
-const getFriendInfo = async (req, res) => {
+const postVotes = async (payload, pollId) => {
   try {
-    const result = await fetch(`http://localhost:3001/api/friends/info`, {
+    console.log('this is payload before go', payload);
+    const result = await fetch(`/api/votes/${pollId}`, {
+      method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      method: 'GET',
+      body: JSON.stringify(payload),
       credentials: 'include',
     });
     const response = await result.json();
@@ -138,14 +140,4 @@ const getFriendInfo = async (req, res) => {
   }
 };
 
-export {
-  signInCall,
-  signUpCall,
-  getFriendLists,
-  createFriendList,
-  createPost,
-  getPolls,
-  getFriends,
-  getFriendInfo,
-  editFriendList,
-};
+export { signInCall, signUpCall, getFriendLists, createFriendList, createPost, getPolls, getFriends, editFriendList };

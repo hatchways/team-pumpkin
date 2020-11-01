@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Polls = ({ className, listOfPolls, handlePolls }) => {
-  console.log('this is list of polls from polls', listOfPolls);
   const classes = useStyles();
   const [openPoll, setOpenPoll] = useState(false);
 

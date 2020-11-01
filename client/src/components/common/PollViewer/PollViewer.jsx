@@ -1,6 +1,7 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
 import { BsFillHeartFill } from 'react-icons/bs';
+import { postVotes } from '../../../api';
 import { theme } from '../../../themes/theme';
 
 const useStyles = makeStyles((theme) => ({
@@ -45,8 +46,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PollViewer = ({ question, numberOfAnswer, url1, url2, votesForUrl1, votesForUrl2 }) => {
+const PollViewer = ({ question, numberOfAnswer, url1, url2, votesForUrl1, votesForUrl2, _id, userId, handlePolls }) => {
   const classes = useStyles();
+
+  const makeVotes = async (img) => {
+    const payload = {
+      voteFor: img,
+      pollOwnerId: userId,
+    };
+    const response = await postVotes(payload, _id);
+    handlePolls(response);
+    try {
+    } catch (err) {}
+  };
 
   const numberOfVotesForUrl1 = votesForUrl1.length;
   const numberOfVotesForUrl2 = votesForUrl2.length;
@@ -63,7 +75,11 @@ const PollViewer = ({ question, numberOfAnswer, url1, url2, votesForUrl1, votesF
         <Box className={classes.imageContainer}>
           <img src={url1} alt='img-1' className={classes.image} />
           <Box className={classes.iconContainer}>
-            <BsFillHeartFill size={theme.spacing(3.75)} color={theme.palette.primary.main} />
+            <BsFillHeartFill
+              size={theme.spacing(3.75)}
+              onClick={() => makeVotes('img1')}
+              color={theme.palette.primary.main}
+            />
             <Typography className={classes.likeCount} component='span'>
               {numberOfVotesForUrl1}
             </Typography>
@@ -73,7 +89,11 @@ const PollViewer = ({ question, numberOfAnswer, url1, url2, votesForUrl1, votesF
         <Box className={classes.imageContainer}>
           <img src={url2} alt='img-2' className={classes.image} />
           <Box className={classes.iconContainer}>
-            <BsFillHeartFill size={theme.spacing(3.75)} color={theme.palette.primary.main} />
+            <BsFillHeartFill
+              size={theme.spacing(3.75)}
+              onClick={() => makeVotes('img2')}
+              color={theme.palette.primary.main}
+            />
             <Typography className={classes.likeCount} component='span'>
               {numberOfVotesForUrl2}
             </Typography>
