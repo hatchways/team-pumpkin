@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: '25%', // 16:9,
     marginTop: '80px',
     borderRadius: '50%',
+    alignSelf: 'center',
   },
   profileContent: {
     width: '100%',
@@ -34,9 +35,14 @@ const useStyles = makeStyles((theme) => ({
   headerOption: {
     fontWeight: 'bold',
   },
+  profileName: {
+    alignSelf: 'center',
+    padding: theme.spacing(5),
+  },
   friendButton: {
     maxWidth: '100px',
     backgroundColor: theme.palette.primary.light,
+    alignSelf: 'center',
   },
 }));
 
@@ -75,9 +81,12 @@ const Profile = () => {
           className={classes.media}
           image='https://img1.grunge.com/img/uploads/2018/05/characters-destroyed-thanos.jpg'
         ></CardMedia>
-        <h4>{user.name}</h4>
-        <Button className={classes.friendButton}>Add Friend</Button>
+        <Typography className={classes.profileName} variant='h4'>
+          {user.name}
+        </Typography>
 
+        <Button className={classes.friendButton}>Add Friend</Button>
+        <br></br>
         <Grid container direction='column' className={classes.profileContent}>
           <Tabs value={tabValue} onChange={handleChange} centered variant='fullWidth'>
             <Tab

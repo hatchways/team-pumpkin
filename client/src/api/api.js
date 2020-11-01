@@ -140,4 +140,14 @@ const postVotes = async (payload, pollId) => {
   }
 };
 
-export { signInCall, signUpCall, getFriendLists, createFriendList, createPost, getPolls, getFriends, editFriendList };
+export {
+  signInCall,
+  signUpCall,
+  getFriendLists,
+  createFriendList,
+  createPost,
+  getPolls,
+  getFriends,
+  editFriendList,
+  postVotes,
+};
