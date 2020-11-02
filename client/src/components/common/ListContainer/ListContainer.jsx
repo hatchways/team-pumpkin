@@ -1,12 +1,13 @@
 import { Box, Divider, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { AiTwotoneSetting } from 'react-icons/ai';
 import { GrClose } from 'react-icons/gr';
 import { theme } from '../../../themes/theme';
 import { Avatar } from '../Avatar/Avatar';
 import ListItem from './ListItem';
 import FriendModal from '../../friendModal/FriendModal';
+import { GlobalContext } from '../../../utils';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -42,10 +43,27 @@ const useStyles = makeStyles((theme) => ({
 
 const ListContainer = ({ className, listOfFriend, title, friendListId }) => {
   const classes = useStyles();
-
+  const userContext = useContext(GlobalContext);
   const [openFriendListModal, setFriendListModal] = useState(false);
-
+  const [friendsDetails, setFriendsDetails] = useState([]);
   const handleFriendListModal = () => setFriendListModal(!openFriendListModal);
+
+  const fetchFriends = async () => {
+    const res = await userContext.friendsInfo;
+    setFriendsDetails(res);
+  };
+
+  useEffect(() => {
+    fetchFriends();
+  }, [friendsDetails]);
+
+  const getName = (friend) => {
+    if (friendsDetails !== null) {
+      for (let i = 0; i < friendsDetails.length; i++) {
+        if (friendsDetails[i].id === friend) return friendsDetails[i].name;
+      }
+    }
+  };
 
   return (
     <Box className={clsx([classes.mainContainer, className])}>
@@ -68,7 +86,7 @@ const ListContainer = ({ className, listOfFriend, title, friendListId }) => {
       <Divider light />
       <Box className={classes.list}>
         {listOfFriend.map((friend, id) => (
-          <Avatar key={id} Icon={GrClose} className={classes.avatar} {...friend} name={id} />
+          <Avatar key={id} Icon={GrClose} className={classes.avatar} {...friend} name={getName(friend)} />
           // <ListItem ></ListItem>
         ))}
       </Box>

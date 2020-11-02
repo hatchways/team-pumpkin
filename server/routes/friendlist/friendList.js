@@ -38,6 +38,8 @@ router.post(
           error: { msg: 'Already have a friend list of the same name.' },
         });
       }
+      const saveUser = await User.findById(user);
+      console.log(saveUser);
 
       //Create a new FriendList object
       friendList = new FriendList({
@@ -46,8 +48,10 @@ router.post(
         friends,
       });
 
-      // console.log(friends);
+      saveUser.friendLists.unshift(friendList);
 
+      // console.log(friends);
+      await saveUser.save();
       await friendList.save();
 
       // console.log(friendList);

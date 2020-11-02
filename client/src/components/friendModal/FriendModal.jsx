@@ -56,6 +56,9 @@ const FriendModal = ({ open, onClose, className, name, type }) => {
   const userContext = useContext(GlobalContext);
   const user = userContext.user;
   const [friendListName, handleFriendListName, setFriendListName] = useValue('');
+  // const friendsInfo = async () => await userContext.friendsInfo;
+
+  const [friendsDetails, setFriendsDetails] = useState([]);
   const [friends, setFriends] = useState([]);
   const [myFriends, setMyFriends] = useState(user.friends);
   // const [friendData, setFriendsData] = useState([]);
@@ -65,15 +68,16 @@ const FriendModal = ({ open, onClose, className, name, type }) => {
   };
 
   const fetchFriends = async () => {
-    const res = await getFriends();
-    console.log('res', res);
-    setMyFriends(res);
+    const res = await userContext.friendsInfo;
+    // console.log('res:', res);
+    setFriendsDetails(res);
+    // console.log('new stuff', res);
+    // console.log('friends detail: ', friendsDetails);
   };
 
   useEffect(() => {
-    // fetchFriends();
-    console.log('myfriends', myFriends);
-  }, []);
+    fetchFriends();
+  }, [friendsDetails]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -117,6 +121,16 @@ const FriendModal = ({ open, onClose, className, name, type }) => {
     // refreshPage();
   };
 
+  const getDetails = (friend) => {
+    if (friendsDetails !== null) {
+      for (let i = 0; i < friendsDetails.length; i++) {
+        if (friendsDetails[i].id === friend) return friendsDetails[i].name;
+      }
+    }
+
+    return null;
+  };
+
   return (
     <Modal
       className={className}
@@ -139,7 +153,13 @@ const FriendModal = ({ open, onClose, className, name, type }) => {
           {myFriends.map((friend) => (
             <li key={friend.id}>
               <Divider />
-              <FriendItem friend={friend} checked={false} friends={friends} onChange={setFriends} type></FriendItem>
+              <FriendItem
+                friend={friend}
+                checked={false}
+                friends={friends}
+                onChange={setFriends}
+                name={getDetails(friend)}
+              ></FriendItem>
             </li>
           ))}
         </List>

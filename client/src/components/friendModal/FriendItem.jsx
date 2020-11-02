@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FriendItem = ({ friend, friends, onChange, type }) => {
+const FriendItem = ({ friend, friends, onChange, type, name }) => {
   const classes = useStyles();
 
   const [clicked, setClicked] = useState(false);
@@ -38,7 +38,7 @@ const FriendItem = ({ friend, friends, onChange, type }) => {
       <ListItemAvatar>
         <Avatar />
       </ListItemAvatar>
-      <ListItemText primary={friend}></ListItemText>
+      <ListItemText primary={name}></ListItemText>
       <Button
         className={clicked ? classes.removeFriendButton : classes.addFriendButton}
         variant='contained'

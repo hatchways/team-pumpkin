@@ -124,11 +124,11 @@ const getFriends = async () => {
   }
 };
 
-const getFriendInfo = async (req, res) => {
+const getFriendById = async (friend_id) => {
   try {
-    const result = await fetch(`/api/friends/info`, {
-      headers: { 'Content-Type': 'application/json' },
+    const result = await fetch(`/api/friends/${friend_id}`, {
       method: 'GET',
+      credentials: 'include',
     });
     const response = await result.json();
     return response;
@@ -161,7 +161,7 @@ export {
   createPost,
   getPolls,
   getFriends,
-  getFriendInfo,
+  getFriendById,
   editFriendList,
   postVotes,
 };

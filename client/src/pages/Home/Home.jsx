@@ -5,7 +5,7 @@ import { useQuery } from 'react-query';
 import { FriendList, Friends, Polls } from '../../components';
 import { getFriendLists, getFriendInfo } from '../../api/api';
 import { AiOutlineConsoleSql } from 'react-icons/ai';
-import { GlobalContext } from '../../utils';
+import { GlobalContext } from '../../utils/context';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -43,20 +43,21 @@ const Home = () => {
   const user = userContext.user;
   const [polls, setPolls] = useState([]);
   const [friendLists, setFriendLists] = useState([]);
+  let friendsInfo = [];
   const { data, isLoading, isFetching } = useQuery('polls', getPolls);
   const [friendsData, setFriendsData] = useState([]);
 
   //Helper function for retrieving the friendlists
   const fetchData = async () => {
     const res = await getFriendLists();
-    const getFriendsIds = await getFriends();
-    console.log('friend ids', getFriendsIds);
-
+    friendsInfo = await userContext.friendsInfo;
+    setFriendLists(res);
+    console.log('Friends info', friendsInfo);
+    // console.log('Friendlists', user.friendLists);
     // const friendInfo = getFriendsIds.map((info) => {
     //   [getFriendInfo(info)];
     // });
     // console.log('friend info', friendInfo);
-    setFriendLists(res);
   };
 
   // useEffect(() => {}, [data]);
@@ -88,6 +89,7 @@ const Home = () => {
           listOfCategories={friendLists}
           handleFriendLists={handleFriendLists}
           className={classes.friendList}
+          friendsInfo={friendsInfo}
         ></FriendList>
       </Box>
     </Box>
