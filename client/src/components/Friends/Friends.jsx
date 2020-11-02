@@ -1,6 +1,7 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
-import React from 'react';
+import React, { useState } from 'react';
 import { Avatar } from '../common/Avatar/Avatar';
+import { ChatWindow } from '../ChatWindow/ChatWindow';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -33,6 +34,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Friends = ({ friendList, ...rest }) => {
   const classes = useStyles();
+  const [close, setClose] = useState(true);
+
+  const openChatBox = () => {
+    setClose(false);
+  };
+
   return (
     <Box className={classes.mainContainer}>
       <Typography className={classes.header} variant='h3'>
@@ -41,9 +48,10 @@ const Friends = ({ friendList, ...rest }) => {
 
       <Box className={classes.list}>
         {friendList.map((friend, id) => (
-          <Avatar className={classes.avatar} key={id} name={friend.name} {...rest} />
+          <Avatar className={classes.avatar} key={id} name={friend.name} {...rest} onClick={openChatBox} />
         ))}
       </Box>
+      <ChatWindow close={close} setClose={setClose} />
     </Box>
   );
 };
