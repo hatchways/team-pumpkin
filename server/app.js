@@ -9,6 +9,7 @@ const pingRouter = require('./routes/ping');
 const pollsRouter = require('./routes/polls/polls');
 const friend = require('./routes/friends/friend');
 const votes = require('./routes/votes/votes');
+const users = require('./routes/users/users');
 const fileupload = require('express-fileupload');
 
 /*Register and SignIn*/
@@ -51,6 +52,7 @@ app.use('/api', register);
 app.use('/api', signin);
 app.use('/api/', pollsRouter);
 app.use('/api', votes);
+app.use('/api', users);
 
 /*FriendList*/
 app.use('/api/friendLists', friendList);
