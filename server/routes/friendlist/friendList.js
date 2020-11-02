@@ -148,6 +148,7 @@ router.put(
 
       //Get the existing friend list
       const friendList = await FriendList.findById(req.params.list_id);
+
       if (!friendList) return res.status(400).json({ msg: 'Friend list not found' });
 
       friendList.friendListName = friendListName;

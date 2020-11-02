@@ -5,6 +5,7 @@ import './App.css';
 import { Header, LoadingScreen } from './components';
 import { ViewFriendsModal } from './components/friendModal/ViewFriendsModal';
 import { HomeScreen, LoginScreen, SignUpScreen } from './LazyComponents';
+import { ViewFriendsModal } from './components/friendModal/ViewFriendsModal';
 import { GlobalContext } from './utils';
 
 const App = () => {

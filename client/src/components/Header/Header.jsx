@@ -2,6 +2,7 @@ import { Box, makeStyles, Typography } from '@material-ui/core';
 import React, { useContext, useState } from 'react';
 import { AiOutlineLogout } from 'react-icons/ai';
 import { Avatar, Button, PollsModal } from '../';
+import { ViewFriendsModal } from '../friendModal/ViewFriendsModal';
 import Logo from '../../assets/logo-trans.png';
 import { theme } from '../../themes/theme';
 import { GlobalContext } from '../../utils';
