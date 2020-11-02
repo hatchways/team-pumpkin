@@ -24,7 +24,7 @@ const App = () => {
           <Route exact path='/signup' component={SignUpScreen} />
           <Route exact path='/login' component={LoginScreen} />
           <Route exact path='/home' component={HomeScreen} />
-          <Route exact path='/profile' component={ProfileScreen} />
+          <Route exact path='/:user_id/profile' component={ProfileScreen} />
           <Route
             exact
             path='/friends'
