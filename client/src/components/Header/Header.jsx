@@ -6,7 +6,6 @@ import { ViewFriendsModal } from '../friendModal/ViewFriendsModal';
 import Logo from '../../assets/logo-trans.png';
 import { theme } from '../../themes/theme';
 import { GlobalContext } from '../../utils';
-import { ViewFriendsModal } from '../friendModal/ViewFriendsModal';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
