@@ -3,6 +3,7 @@ import clsx from 'clsx';
 import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
 import { AiOutlineExpand } from 'react-icons/ai';
+import { useHistory } from 'react-router-dom';
 import { createPost, updatePost } from '../../api';
 import { theme } from '../../themes/theme';
 import { useValue } from '../../utils/';
@@ -102,6 +103,7 @@ const PollsModal = ({ open, onClose, className, handlePolls, isForUpdate, pollId
   const [disable, setDisable] = useState(false);
   const [files, setFiles] = useState([]);
   const [error, setError] = useState({ type: '', description: '' });
+  const history = useHistory();
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
@@ -132,9 +134,9 @@ const PollsModal = ({ open, onClose, className, handlePolls, isForUpdate, pollId
     formData.append('img2', files[1]);
     setDisable(true);
     if (isForUpdate) {
-      console.log('it hits here');
       const response = await updatePost(formData, pollId);
       handlePolls(response);
+      history.push('/home');
     } else {
       const response = await createPost(formData);
       handlePolls(response);

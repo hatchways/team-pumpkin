@@ -1,6 +1,7 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import React, { useContext, useState } from 'react';
 import { AiOutlineLogout } from 'react-icons/ai';
+import { useHistory } from 'react-router-dom';
 import { Avatar, Button, PollsModal } from '../';
 import Logo from '../../assets/logo-trans.png';
 import { theme } from '../../themes/theme';
@@ -46,8 +47,9 @@ const useStyles = makeStyles((theme) => ({
 const Header = () => {
   const classes = useStyles();
   const [openPoll, setOpenPoll] = useState(false);
+  const history = useHistory();
 
-  const user = useContext(GlobalContext).user;
+  const user = useContext(GlobalContext).globalValue.user;
 
   const [openFriends, setOpenFriends] = useState(false);
 
@@ -57,7 +59,7 @@ const Header = () => {
   const handlePollModal = () => setOpenPoll(!openPoll);
   const handleLogOut = () => {
     localStorage.removeItem('user');
-    window.location.reload();
+    history.push('/login');
   };
 
   return (

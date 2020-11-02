@@ -8,16 +8,19 @@ import { HomeScreen, LoginScreen, PollFrameScreen, SignUpScreen } from './LazyCo
 import { GlobalContext } from './utils';
 
 const App = () => {
-  const stateContext = useContext(GlobalContext);
+  const user = useContext(GlobalContext).globalValue.user;
   const [openFriendsModal, setOpenFriendsModal] = useState(true);
+  // const user = getValueFromLocalStorage('user');
 
   const handleClick = () => {
     setOpenFriendsModal(!openFriendsModal);
   };
 
+  console.log('this is user', user);
+
   return (
     <>
-      {!!stateContext.user && <Header />}
+      {user !== null && <Header />}
       <Switch>
         <Suspense fallback={<LoadingScreen />}>
           {/* <Redirect to={!!stateContext.user ? '/home' : '/login'} /> */}

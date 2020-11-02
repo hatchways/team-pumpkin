@@ -1,11 +1,11 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { signInCall } from '../../api';
 import { Authentication, Button, InputField } from '../../components';
 import { theme } from '../../themes/theme';
-import { useForm, validateEmail, validateString } from '../../utils';
+import { GlobalContext, useForm, validateEmail, validateString } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -44,11 +44,14 @@ const Login = () => {
   const [error, setError] = useState({ type: '', description: '' });
   const [apiError, setApiError] = useState('');
   const history = useHistory();
+  const action = useContext(GlobalContext);
 
   const handleValidation = (event, handler) => {
     setError({ type: '', description: '' });
     handler(event);
   };
+
+  console.log('this is context', action);
 
   const onSubmit = async (event) => {
     try {
@@ -86,9 +89,11 @@ const Login = () => {
         });
       } else {
         localStorage.setItem('user', JSON.stringify(result));
+        // localStorage.setItem('isOnline', JSON.stringify('true'));
         reset();
+        // action.dispatch('loggedIn');
         history.push('/home');
-        window.location.reload();
+        // window.location.reload();
       }
     } catch (err) {
       console.warn(err);

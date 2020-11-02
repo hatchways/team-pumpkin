@@ -2,7 +2,7 @@ import { Box, makeStyles, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
 import { BsFillHeartFill } from 'react-icons/bs';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
-import { Button, Friends, PollsModal } from '..';
+import { Button, Friend, Friends, PollsModal } from '..';
 import { deletePolls } from '../../api';
 import { theme } from '../../themes/theme';
 
@@ -10,11 +10,12 @@ const useStyles = makeStyles((theme) => ({
   mainContainer: {
     backgroundColor: theme.palette.primary.dark,
     display: 'flex',
+    height: '100%',
   },
   right: {
     display: 'flex',
     flexDirection: 'column',
-    height: '100%',
+    // height: '100vh',
     width: '85%',
     padding: theme.spacing(10),
   },
@@ -24,8 +25,16 @@ const useStyles = makeStyles((theme) => ({
     borderRight: 'solid',
     borderWidth: 1,
   },
-  top: {},
-  bottom: {},
+  top: {
+    flex: 1,
+  },
+  bottom: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'column',
+
+    marginTop: theme.spacing(12),
+  },
   answer: {
     color: theme.palette.secondary.dark,
     marginTop: theme.spacing(1),
@@ -133,11 +142,7 @@ const PollFrame = () => {
             <Box className={classes.imageContainer}>
               <img src={url1} alt='img-1' className={classes.image} />
               <Box className={classes.iconContainer}>
-                <BsFillHeartFill
-                  size={theme.spacing(3.75)}
-                  onClick={() => makeVotes('img1', userId)}
-                  color={theme.palette.primary.main}
-                />
+                <BsFillHeartFill size={theme.spacing(3.75)} color={theme.palette.primary.main} />
                 <Typography className={classes.likeCount} component='span'>
                   {numberOfVotesForUrl1}
                 </Typography>
@@ -147,11 +152,7 @@ const PollFrame = () => {
             <Box className={classes.imageContainer}>
               <img src={url2} alt='img-2' className={classes.image} />
               <Box className={classes.iconContainer}>
-                <BsFillHeartFill
-                  size={theme.spacing(3.75)}
-                  onClick={() => makeVotes('img2', userId)}
-                  color={theme.palette.primary.main}
-                />
+                <BsFillHeartFill size={theme.spacing(3.75)} color={theme.palette.primary.main} />
                 <Typography className={classes.likeCount} component='span'>
                   {numberOfVotesForUrl2}
                 </Typography>
@@ -159,7 +160,15 @@ const PollFrame = () => {
             </Box>
           </Box>
         </Box>
-        <Box className={classes.bottom}></Box>
+        <Box className={classes.bottom}>
+          <Friend />
+          <Friend />
+          <Friend />
+          <Friend />
+          <Friend />
+          <Friend />
+          <Friend />
+        </Box>
       </Box>
     </Box>
   );
