@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import { Button, makeStyles, Paper, Box, Grow, Avatar, Typography } from '@material-ui/core';
 import { InputField } from '../common/InputField/InputField';
 import SendIcon from '@material-ui/icons/Send';
