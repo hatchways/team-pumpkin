@@ -18,6 +18,8 @@ const signin = require('./routes/auth/signin');
 /*Friend List*/
 const friendList = require('./routes/friendlist/friendList');
 
+const user = require('./routes/user/user');
+
 const { json, urlencoded } = express;
 /*Friend requests*/
 
@@ -51,6 +53,7 @@ app.use('/api', register);
 app.use('/api', signin);
 app.use('/api/', pollsRouter);
 app.use('/api', votes);
+app.use('/api', user);
 
 /*FriendList*/
 app.use('/api/friendLists', friendList);

@@ -20,6 +20,7 @@ import { GlobalContext } from '../../utils';
 import { ViewFriendItem } from '../../components/friendModal/ViewFriendItem';
 import { PollViewer } from '../../components';
 import { ProfilePolls } from './ProfilePolls';
+import { getUser, getPollsOfUsers } from '../../api/api';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -71,20 +72,17 @@ const useStyles = makeStyles((theme) => ({
 
 const Profile = (userId) => {
   const classes = useStyles();
-  const [cookies, setCookie, removeCookie] = useCookies(['auth-token']);
+  const [user, setUser] = useState([]);
   const [isFriend, setIsFriend] = useState();
   const [loading, setLoading] = useState(false);
   const [tabValue, setTabValue] = useState(0);
   const { data, isLoading, isFetching } = useQuery('users', getFriends);
   const [userFriends, setUserFriends] = useState([]);
-
-  const user = useContext(GlobalContext).user;
+  const [userPolls, setUserPolls] = useState([]);
 
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
   };
-
-  const [listOfPolls, setListOfPolls] = useState([]);
 
   const demoPolls = [
     {
@@ -165,17 +163,22 @@ const Profile = (userId) => {
   ];
 
   const fetchData = async () => {
-    const polls = await getPolls();
-    console.log('Polls', polls);
-
-    const friends = await getFriends();
+    const userInfo = await getUser('5f8cc7bdc7579901cc2c7440');
+    console.log('User', userInfo);
+    setUser(userInfo);
+    setUserFriends(userInfo.friends);
+    const pollsInfo = await getPollsOfUsers(userInfo._id);
+    setUserPolls(pollsInfo);
+    console.log('Polls', pollsInfo);
   };
 
-  useEffect(() => {
-    setUserFriends(data);
+  useEffect(async () => {
+    // setUserFriends(data);
+
+    await fetchData();
+
     console.log('user friends', userFriends);
-    // fetchData();
-  }, [data]);
+  }, []);
 
   return (
     <Grid className={classes.mainContainer}>
@@ -210,13 +213,13 @@ const Profile = (userId) => {
           {tabValue === 0 && (
             <Grid container spacing={12} direction='column'>
               <Grid className={classes.pollGrid} container item xs={12}>
-                {demoPolls === undefined ? (
+                {userPolls === undefined || userPolls.length === 0 ? (
                   <div>
                     <Typography variant='h2'>No polls available</Typography>
                   </div>
                 ) : (
                   <>
-                    {demoPolls.map((elem, id) => (
+                    {userPolls.map((elem, id) => (
                       <ProfilePolls key={id} {...elem} typeOfFriendRequest='Friends' />
                     ))}
                   </>
@@ -226,12 +229,20 @@ const Profile = (userId) => {
           )}
           {tabValue === 1 && (
             <List alignItems='flex-start' className={classes.friendList}>
-              {userFriends.map((friend) => (
-                <li key={friend} className={classes.scrollbar}>
-                  <Divider />
-                  <ViewFriendItem friend={userFriends} typeOfFriendRequest='Friends' />
-                </li>
-              ))}
+              {userFriends === undefined || userFriends.length === 0 ? (
+                <div>
+                  <Typography variant='h2'>No Friends available</Typography>
+                </div>
+              ) : (
+                <>
+                  {userFriends.map((friend) => (
+                    <li key={friend} className={classes.scrollbar}>
+                      <Divider />
+                      <ViewFriendItem friend={userFriends} typeOfFriendRequest='Friends' />
+                    </li>
+                  ))}
+                </>
+              )}
             </List>
           )}
         </Grid>

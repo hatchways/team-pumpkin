@@ -102,4 +102,14 @@ router.get('/polls/view', authentication, async (req, res) => {
   }
 });
 
+router.get('/polls/view/:user_id', async (req, res) => {
+  try {
+    const userId = req.params.user_id;
+    const response = await Polls.find({ userId });
+    res.status(200).json(response);
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
+});
+
 module.exports = router;
