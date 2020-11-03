@@ -5,7 +5,7 @@ import { Modal } from '../common/Modal/Modal';
 import { InputField } from '../common/InputField/InputField';
 import FriendItem from './FriendItem';
 import { theme } from '../../themes/theme';
-import { createFriendList, getFriends, editFriendList } from '../../api/api';
+import { createFriendList, getFriends, editFriendList, deleteFriendList } from '../../api/api';
 import { GlobalContext } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
@@ -18,6 +18,16 @@ const useStyles = makeStyles((theme) => ({
   },
   creatButton: {
     backgroundColor: theme.palette.secondary.main,
+    color: theme.palette.secondary.light,
+    borderRadius: 25,
+    width: 120,
+    height: 50,
+    '&:hover': {
+      backgroundColor: theme.palette.secondary.main,
+    },
+  },
+  deleteButton: {
+    backgroundColor: theme.palette.secondary.red,
     color: theme.palette.secondary.light,
     borderRadius: 25,
     width: 120,
@@ -51,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FriendModal = ({ open, onClose, className, name, type }) => {
+const FriendModal = ({ open, onClose, className, name, type, id }) => {
   const classes = useStyles();
   const userContext = useContext(GlobalContext);
   const user = userContext.user;
@@ -121,6 +131,14 @@ const FriendModal = ({ open, onClose, className, name, type }) => {
     // refreshPage();
   };
 
+  const handleDelete = async (event) => {
+    event.preventDefault();
+    // console.log('id', id);
+    await deleteFriendList(id);
+    onClose();
+    refreshPage();
+  };
+
   const getDetails = (friend) => {
     if (friendsDetails !== null) {
       for (let i = 0; i < friendsDetails.length; i++) {
@@ -164,9 +182,20 @@ const FriendModal = ({ open, onClose, className, name, type }) => {
           ))}
         </List>
         <Box className={classes.buttonContainer}>
-          <Button className={classes.creatButton} onClick={type === 'Create' ? handleSubmit : handleEdit}>
-            {type === 'Create' ? 'Create' : 'Edit'}
-          </Button>
+          {type === 'Create' ? (
+            <Button className={classes.creatButton} onClick={handleSubmit}>
+              Create
+            </Button>
+          ) : (
+            <div>
+              <Button className={classes.creatButton} onClick={handleEdit}>
+                Edit
+              </Button>
+              <Button className={classes.deleteButton} onClick={handleDelete}>
+                Delete
+              </Button>
+            </div>
+          )}
         </Box>
       </Grid>
     </Modal>

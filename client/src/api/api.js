@@ -68,6 +68,20 @@ const editFriendList = async (friendList) => {
   }
 };
 
+const deleteFriendList = async (list_id) => {
+  try {
+    const result = await fetch(`/api/friendLists/lists/${list_id}`, {
+      method: 'DELETE',
+      credentials: 'include',
+    });
+
+    const response = await result.json();
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
 const createPost = async (payload) => {
   try {
     console.log('this is payload', payload);
@@ -164,4 +178,5 @@ export {
   getFriendById,
   editFriendList,
   postVotes,
+  deleteFriendList,
 };
