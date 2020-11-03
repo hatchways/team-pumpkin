@@ -168,13 +168,21 @@ const PollFrame = () => {
           </Box>
         </Box>
         <Box className={classes.bottom}>
-          <Friend />
-          <Friend />
-          <Friend />
-          <Friend />
-          <Friend />
-          <Friend />
-          <Friend />
+          {userList.length > 0 ? (
+            <>
+              {userList.map((user) => {
+                if (user.votesFor === 'img1') {
+                  return <Friend name={user.name} avatarUrl={user.avatar} imgUrl={url1} />;
+                } else {
+                  return <Friend name={user.name} avatarUrl={user.avatar} imgUrl={url2} />;
+                }
+              })}
+            </>
+          ) : (
+            <>
+              <Typography variant='h3'>No votes so far</Typography>
+            </>
+          )}
         </Box>
       </Box>
     </Box>

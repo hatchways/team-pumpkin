@@ -16,8 +16,6 @@ const App = () => {
     setOpenFriendsModal(!openFriendsModal);
   };
 
-  console.log('this is user', user);
-
   return (
     <>
       {user !== null && <Header />}

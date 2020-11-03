@@ -32,22 +32,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Friend = () => {
+const Friend = ({ name, avatarUrl, imgUrl }) => {
   const classes = useStyles();
   return (
     <Box className={classes.mainContainer}>
       <Box className={classes.left}>
-        <Avatar />
+        <Avatar url={avatarUrl} />
         <Box className={classes.user}>
-          <Typography variant='h5'>demo</Typography>
+          <Typography variant='h5'>{name}</Typography>
         </Box>
       </Box>
       <Box className={classes.right}>
-        <img
-          src='https://img1.looper.com/img/gallery/things-about-thanos-that-didnt-make-it-into-the-mcu/intro-1590779038.jpg'
-          alt='abc'
-          className={classes.img}
-        />
+        <img src={imgUrl} alt={`${imgUrl}`} className={classes.img} />
       </Box>
     </Box>
   );
