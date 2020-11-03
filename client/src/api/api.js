@@ -105,4 +105,21 @@ const updatePost = async (payload, pollId) => {
   }
 };
 
-export { signInCall, signUpCall, createPost, getPolls, postVotes, deletePolls, updatePost };
+const getUserList = async (payload) => {
+  try {
+    console.log('this is response payload', payload);
+    const result = await fetch('/api/users', {
+      method: 'POST',
+      body: JSON.stringify(payload),
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+    });
+    const response = await result.json();
+    console.log('this is response post', response);
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
+export { signInCall, signUpCall, createPost, getPolls, postVotes, deletePolls, updatePost, getUserList };

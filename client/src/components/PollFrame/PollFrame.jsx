@@ -1,9 +1,9 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BsFillHeartFill } from 'react-icons/bs';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { Button, Friend, Friends, PollsModal } from '..';
-import { deletePolls } from '../../api';
+import { deletePolls, getUserList } from '../../api';
 import { theme } from '../../themes/theme';
 
 const useStyles = makeStyles((theme) => ({
@@ -74,6 +74,7 @@ const useStyles = makeStyles((theme) => ({
 const PollFrame = () => {
   const classes = useStyles();
   const [openPoll, setOpenPOll] = useState(false);
+  const [userList, setUserList] = useState([]);
 
   const params = useParams();
   const history = useHistory();
@@ -92,6 +93,12 @@ const PollFrame = () => {
       history.push('/home');
     });
   };
+
+  useEffect(() => {
+    getUserList({ votesForUrl1, votesForUrl2 }).then((result) => setUserList(result));
+  }, [votesForUrl1, votesForUrl2]);
+
+  console.log('this is votes', userList);
 
   return (
     <Box className={classes.mainContainer}>

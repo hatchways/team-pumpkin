@@ -4,10 +4,11 @@ const authentication = require('../../middleware/authentication');
 const Poll = require('../../models/Polls');
 const User = require('../../models/User');
 
-router.get('/users', authentication, async (req, res) => {
+router.post('/users', authentication, async (req, res) => {
   try {
     const userId = req.user.id;
     const { votesForUrl1, votesForUrl2 } = req.body;
+    console.log('this is body', req.body);
     const userListForVote1 = await User.find({
       _id: {
         $in: votesForUrl1,
