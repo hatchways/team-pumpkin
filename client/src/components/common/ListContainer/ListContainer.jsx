@@ -7,6 +7,7 @@ import { theme } from '../../../themes/theme';
 import { Avatar } from '../Avatar/Avatar';
 import ListItem from './ListItem';
 import FriendModal from '../../friendModal/FriendModal';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -42,10 +43,15 @@ const useStyles = makeStyles((theme) => ({
 
 const ListContainer = ({ className, listOfFriend, title, friendListId }) => {
   const classes = useStyles();
-
+  const history = useHistory();
   const [openFriendListModal, setFriendListModal] = useState(false);
 
   const handleFriendListModal = () => setFriendListModal(!openFriendListModal);
+
+  const viewProfile = (event) => {
+    // history.push(`/${userId}/profile`);
+    console.log('userId', event.target);
+  };
 
   return (
     <Box className={clsx([classes.mainContainer, className])}>
@@ -68,7 +74,16 @@ const ListContainer = ({ className, listOfFriend, title, friendListId }) => {
       <Divider light />
       <Box className={classes.list}>
         {listOfFriend.map((friend, id) => (
-          <Avatar key={id} Icon={GrClose} className={classes.avatar} {...friend} name='friend' />
+          <Box>
+            <Avatar
+              key={id}
+              Icon={GrClose}
+              className={classes.avatar}
+              {...friend}
+              name='friend'
+              onClick={viewProfile}
+            />
+          </Box>
           // <ListItem ></ListItem>
         ))}
       </Box>

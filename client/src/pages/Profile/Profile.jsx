@@ -60,6 +60,11 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.light,
     alignSelf: 'center',
   },
+  removeFriendButton: {
+    maxWidth: '350px',
+    backgroundColor: theme.palette.primary.light,
+    alignSelf: 'center',
+  },
   paper: {
     padding: theme.spacing(1),
     textAlign: 'center',
@@ -73,94 +78,17 @@ const useStyles = makeStyles((theme) => ({
 const Profile = (userId) => {
   const classes = useStyles();
   const [user, setUser] = useState([]);
-  const [isFriend, setIsFriend] = useState();
+  const [isFriend, setIsFriend] = useState(true);
   const [loading, setLoading] = useState(false);
   const [tabValue, setTabValue] = useState(0);
   const { data, isLoading, isFetching } = useQuery('users', getFriends);
   const [userFriends, setUserFriends] = useState([]);
   const [userPolls, setUserPolls] = useState([]);
+  const [friendsInfo, getFriendsInfo] = useState([]);
 
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
   };
-
-  const demoPolls = [
-    {
-      id: '5f97682d8c592005ef01dae8',
-      votesForUrl1: [],
-      votesForUrl2: [],
-      userId: '5f8cc7bdc7579901cc2c7440',
-      url1: 'http://res.cloudinary.com/dma2slece/image/upload/v1603758123/egds5zk28fqfgh6dphsg.jpg',
-      url2: 'http://res.cloudinary.com/dma2slece/image/upload/v1603758125/ymi7hoecjjwndwpfa5au.jpg',
-      friend: 'Saad',
-      question: 'Poll 1',
-    },
-    {
-      id: '5fa07eac85a6e9ba44353711',
-      votesForUrl1: [],
-      votesForUrl2: ['5f9c1d121386c14194de9d30'],
-      userId: '5f9c1d121386c14194de9d30',
-      url1: 'http://res.cloudinary.com/dma2slece/image/upload/v1604353707/xjqihsnsq2gqzg8ocaun.png',
-      url2: 'http://res.cloudinary.com/dma2slece/image/upload/v1604353707/bytf0evsncebgyprkudd.jpg',
-      friend: 'Allen',
-      question: 'Poll 2',
-    },
-    {
-      id: '5fa082be6d4648c834f0479c',
-      votesForUrl1: [],
-      votesForUrl2: [],
-      userId: '5f8a06543ae93a3c54b260d1',
-      url1: 'http://res.cloudinary.com/dma2slece/image/upload/v1604354748/hfi3pol2vlgveuofpp6j.png',
-      url2: 'http://res.cloudinary.com/dma2slece/image/upload/v1604354749/o542xp30uycmzgo9cnyj.png',
-      friend: 'Saad',
-      question: ' Poll 3',
-    },
-    {
-      id: '5f97682d8c592005ef01dae8',
-      votesForUrl1: [],
-      votesForUrl2: [],
-      userId: '5f8cc7bdc7579901cc2c7440',
-      url1: 'http://res.cloudinary.com/dma2slece/image/upload/v1603758123/egds5zk28fqfgh6dphsg.jpg',
-      url2: 'http://res.cloudinary.com/dma2slece/image/upload/v1603758125/ymi7hoecjjwndwpfa5au.jpg',
-      friend: 'Saad',
-      question: 'Poll 1',
-    },
-    {
-      id: '5fa07eac85a6e9ba44353711',
-      votesForUrl1: [],
-      votesForUrl2: ['5f9c1d121386c14194de9d30'],
-      userId: '5f9c1d121386c14194de9d30',
-      url1: 'http://res.cloudinary.com/dma2slece/image/upload/v1604353707/xjqihsnsq2gqzg8ocaun.png',
-      url2: 'http://res.cloudinary.com/dma2slece/image/upload/v1604353707/bytf0evsncebgyprkudd.jpg',
-      friend: 'Allen',
-      question: 'Poll 2',
-    },
-    {
-      id: '5fa082be6d4648c834f0479c',
-      votesForUrl1: [],
-      votesForUrl2: [],
-      userId: '5f8a06543ae93a3c54b260d1',
-      url1: 'http://res.cloudinary.com/dma2slece/image/upload/v1604354748/hfi3pol2vlgveuofpp6j.png',
-      url2: 'http://res.cloudinary.com/dma2slece/image/upload/v1604354749/o542xp30uycmzgo9cnyj.png',
-      friend: 'Saad',
-      question: ' Poll 3',
-    },
-  ];
-
-  const friendList = [
-    {
-      name: 'Friend 1',
-      id: 1,
-    },
-    {
-      name: 'Friend 2',
-      id: 2,
-    },
-    {
-      name: 'Friend 3',
-      id: 3,
-    },
-  ];
 
   const fetchData = async () => {
     const userInfo = await getUser('5f88c8a2e3d2cbc4e1a1885c');
@@ -190,8 +118,11 @@ const Profile = (userId) => {
         <Typography className={classes.profileName} variant='h4'>
           {user.name}
         </Typography>
-
-        <Button className={classes.friendButton}>Add Friend</Button>
+        {!isFriend ? (
+          <Button className={classes.friendButton}>Add Friend</Button>
+        ) : (
+          <Button className={classes.removeFriendButton}>Remove Friend</Button>
+        )}
         <br></br>
         <Grid container direction='column' className={classes.profileContent}>
           <Tabs value={tabValue} onChange={handleChange} centered variant='fullWidth'>

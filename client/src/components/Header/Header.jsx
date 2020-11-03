@@ -66,12 +66,14 @@ const Header = () => {
 
   const handleAvatarModal = () => setAvatarModal(!openAvatarModal);
 
-  const toProfile = () => {
-    history.push(`/${user._id}/profile`);
+  const toProfile = (userId) => {
+    history.push(`/profile`);
+    // window.location.reload();
   };
 
   const toHome = () => {
     history.push('/home');
+    window.location.reload();
   };
 
   return (
@@ -107,11 +109,7 @@ const Header = () => {
         >
           Create Poll
         </Button>
-        <Avatar
-          name={user.name}
-          url='https://img1.grunge.com/img/uploads/2018/05/characters-destroyed-thanos.jpg'
-          onClick={toProfile}
-        />
+        <Avatar name={user.name} url={user.avatar} onClick={toProfile} />
         <AiOutlineLogout className={classes.logOut} size={theme.spacing(4)} onClick={handleLogOut} />
       </Box>
     </Box>
