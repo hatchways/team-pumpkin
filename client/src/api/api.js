@@ -102,8 +102,7 @@ const uploadAvatar = async (payload) => {
   try {
     const result = await fetch('http://localhost:3001/api/user/avatar', {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
+      body: payload,
       credentials: 'include',
     });
 

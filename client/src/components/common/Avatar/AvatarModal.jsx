@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
-import clsx from 'clsx';
 import { Box, makeStyles, Typography } from '@material-ui/core';
+import clsx from 'clsx';
+import React, { useState } from 'react';
 import { useDropzone } from 'react-dropzone';
-import { Modal } from '../../common/Modal/Modal';
-import { theme } from '../../../themes/theme';
 import { AiOutlineExpand } from 'react-icons/ai';
-import { Button } from '../../common/Button/Button';
 import { uploadAvatar } from '../../../api/api';
+import { theme } from '../../../themes/theme';
+import { Button } from '../../common/Button/Button';
+import { Modal } from '../../common/Modal/Modal';
 
 const useStyles = makeStyles((theme) => ({
   modalContent: {
@@ -88,12 +88,9 @@ const AvatarModal = ({ open, onClose, className, handleAvatar }) => {
 
     formData.append('avatar', avatar[0]);
 
-    const payload = {
-      avatar: avatar[0],
-    };
-
     setDisable(true);
-    const response = await uploadAvatar(payload);
+    const response = await uploadAvatar(formData);
+    console.log('this is data', response);
     setDisable(false);
     setAvatar('');
     // onClose();
