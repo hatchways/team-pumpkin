@@ -1,11 +1,11 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
-import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import { signInCall } from '../../api';
 import { Authentication, Button, InputField } from '../../components';
 import { theme } from '../../themes/theme';
-import { useForm, validateEmail, validateString } from '../../utils';
+import { useForm, validateEmail, validateString, GlobalContext } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -44,6 +44,12 @@ const Login = () => {
   const [error, setError] = useState({ type: '', description: '' });
   const [apiError, setApiError] = useState('');
   const history = useHistory();
+
+  const stateContext = useContext(GlobalContext);
+
+  if (!!stateContext.user) {
+    return <Redirect to='/home' />;
+  }
 
   const handleValidation = (event, handler) => {
     setError({ type: '', description: '' });
@@ -85,9 +91,10 @@ const Login = () => {
           description: 'Wrong Details',
         });
       } else {
-        localStorage.setItem('user', JSON.stringify(result));
+        localStorage.setItem('user', JSON.stringify(result.userObject));
         reset();
-        history.push('/home');
+        //history.push('/home');
+        window.location.reload();
       }
     } catch (err) {
       console.warn(err);

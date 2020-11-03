@@ -8,7 +8,7 @@ const signUpCall = async (user) => {
     });
 
     const response = await result.json();
-    return response.userObject;
+    return response;
   } catch (err) {
     return err;
   }
@@ -24,8 +24,7 @@ const signInCall = async (user) => {
     });
 
     const response = await result.json();
-
-    return response.userObject;
+    return response;
   } catch (err) {
     console.log('this is err', err);
     return err;
