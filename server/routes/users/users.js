@@ -25,7 +25,7 @@ router.post('/users', authentication, async (req, res) => {
     dupUserListVote1.map((elem) =>
       result.push({
         name: elem.name,
-        avatar: null,
+        avatar: elem.avatar ? elem.avatar : null,
         votesFor: 'img1',
       }),
     );
@@ -33,7 +33,7 @@ router.post('/users', authentication, async (req, res) => {
     dupUserListVote2.map((elem) =>
       result.push({
         name: elem.name,
-        avatar: null,
+        avatar: elem.avatar ? elem.avatar : null,
         votesFor: 'img2',
       }),
     );
