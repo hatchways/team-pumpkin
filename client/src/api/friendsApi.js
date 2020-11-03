@@ -99,6 +99,7 @@ const makePostRequest = async (url, id) => {
   try {
     const response = await fetch(url, {
       method: 'POST',
+      headers: { 'content-type': 'application/json' },
       body: JSON.stringify({ id: id }),
       credentials: 'include',
     });

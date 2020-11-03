@@ -1,5 +1,5 @@
 import { makeStyles, Grid, Tabs, Tab, Typography, List, Divider, CircularProgress } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal } from '../common/Modal/Modal';
 import { ViewFriendItem } from './ViewFriendItem';
 import { getFriends, getReceivedRequests, getSuggestedFriends } from '../../api/friendsApi';
@@ -42,10 +42,6 @@ const ViewFriendsModal = ({ open, onClose, className, ...rest }) => {
 
   const [tabValue, setTabValue] = useState(0);
 
-  //This state is used for when the modal is closed and then reopened
-  //it should make another call to the api
-  const [newLoad, setNewLoad] = useState(true);
-
   //This state is sent to the ViewFriendsItem component
   //When a button is clicked and action is made, another call to the api is made to refresh the data
   const [refresh, setRefresh] = useState(false);
@@ -59,34 +55,41 @@ const ViewFriendsModal = ({ open, onClose, className, ...rest }) => {
   });
 
   //If the modal was closed, then on reopening it should clear the data and start again
-  if (open && newLoad) {
-    setTabValue(0);
-    setFriendsArray({
-      friends: [],
-      suggestedFriends: [],
-      receivedRequests: [],
-    });
-    getSuggestedFriendsArray();
-    setNewLoad(false);
-  } else if (!open && !newLoad) {
-    setNewLoad(true);
-  }
-
-  const handleChange = (event, newValue) => {
-    //If a button was clicked in another tab, then the data needs to be refreshed, so clear the current data
-    if (refresh) {
-      setRefresh(false);
+  useEffect(() => {
+    if (open === true) {
       setFriendsArray({
         friends: [],
         suggestedFriends: [],
         receivedRequests: [],
       });
+      getSuggestedFriendsArray();
     }
+  }, [open]);
+
+  //If a button was clicked in another tab, then the data needs to be refreshed, so clear the current data
+  //except suggested friends
+  useEffect(() => {
+    if (refresh) {
+      setFriendsArray({
+        ...friendsArray,
+        friends: [],
+        receivedRequests: [],
+      });
+      if (tabValue === 1) {
+        getCurrentFriends();
+      } else if (tabValue === 2) {
+        getReceivedFriendRequests();
+      }
+    }
+  }, [refresh]);
+
+  const handleChange = (event, newValue) => {
     setTabValue(newValue);
 
     //If the data in the state has not been initialised or a call has not been made to the api yet
-    if (newValue === 0 && (!friendsArray.suggestedFriends || friendsArray.suggestedFriends.length === 0)) {
+    if (newValue === 0 && (!friendsArray.suggestedFriends || friendsArray.suggestedFriends.length === 0 || refresh)) {
       getSuggestedFriendsArray();
+      setRefresh(false);
     } else if (newValue === 1 && (!friendsArray.friends || friendsArray.friends.length === 0)) {
       getCurrentFriends();
     } else if (newValue === 2 && (!friendsArray.receivedRequests || friendsArray.receivedRequests.length === 0)) {

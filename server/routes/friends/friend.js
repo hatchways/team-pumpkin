@@ -103,6 +103,7 @@ router.post('/outgoing-requests', [authentication], async function (req, res) {
   //The ID passed in the params will be the ID of the user who you want to add as a friend
   //We have the current user's id stored as part of the authentication middleware
   const friendId = req.body.id;
+  console.log(req.body);
   const userId = req.user.id;
   try {
     if (friendId === userId) {

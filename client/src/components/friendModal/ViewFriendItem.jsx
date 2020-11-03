@@ -84,7 +84,6 @@ const ViewFriendItem = ({ friend, typeOfFriendRequest, refresh, setRefresh }) =>
     }
     setRejectClicked(!rejectClicked);
     setRefresh(!refresh);
-
   };
 
   return (
@@ -110,7 +109,7 @@ const ViewFriendItem = ({ friend, typeOfFriendRequest, refresh, setRefresh }) =>
           className={classes.removeFriendButton}
           variant='contained'
           onClick={handleReject}
-          disabled={rejectClicked}
+          disabled={rejectClicked || (typeOfFriendRequest === 'Received' && clicked)}
         >
           {rejectClicked ? 'Rejected' : 'Reject'}
         </Button>

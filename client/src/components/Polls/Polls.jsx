@@ -39,7 +39,7 @@ const Polls = ({ className, listOfPolls, handlePolls }) => {
           </>
         }
       >
-        {/* {listOfPolls === undefined || listOfPolls.length === 0 ? (
+        {listOfPolls === undefined || listOfPolls.length === 0 ? (
           <Typography variant='h2'>No polls available</Typography>
         ) : (
           <>
@@ -47,7 +47,7 @@ const Polls = ({ className, listOfPolls, handlePolls }) => {
               <PollViewer key={id} {...elem} handlePolls={handlePolls} />
             ))}
           </>
-        )} */}
+        )}
       </HomeFrame>
     </Box>
   );

@@ -21,7 +21,7 @@ const App = () => {
       {!!stateContext.user && <Header />}
       <Switch>
         <Suspense fallback={<LoadingScreen />}>
-          {/* <Redirect to={!!stateContext.user ? '/home' : '/login'} /> */}
+          <Redirect from='/' to={!!stateContext.user ? '/home' : '/login'} />
           <Route exact path='/signup' component={SignUpScreen} />
           <Route exact path='/login' component={LoginScreen} />
           <PrivateRoute exact path='/home' component={HomeScreen} />
