@@ -81,6 +81,7 @@ const AvatarModal = ({ open, onClose, className, handleAvatar }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    console.log('avatar', avatar);
   };
 
   return (
