@@ -163,7 +163,7 @@ const Profile = (userId) => {
   ];
 
   const fetchData = async () => {
-    const userInfo = await getUser('5f8cc7bdc7579901cc2c7440');
+    const userInfo = await getUser('5f88c8a2e3d2cbc4e1a1885c');
     console.log('User', userInfo);
     setUser(userInfo);
     setUserFriends(userInfo.friends);
@@ -185,7 +185,7 @@ const Profile = (userId) => {
       <Box className={classes.center}>
         <CardMedia
           className={classes.media}
-          image='https://img1.grunge.com/img/uploads/2018/05/characters-destroyed-thanos.jpg'
+          image={user.avatar ? user.avatar : 'https://i.ibb.co/0BKQHr8/blank-profile-picture-973460-1280.png'}
         ></CardMedia>
         <Typography className={classes.profileName} variant='h4'>
           {user.name}

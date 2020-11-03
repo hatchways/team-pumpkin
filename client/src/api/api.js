@@ -98,6 +98,22 @@ const createPost = async (payload) => {
   }
 };
 
+const uploadAvatar = async (payload) => {
+  try {
+    const result = await fetch('http://localhost:3001/api/user/avatar', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      credentials: 'include',
+    });
+
+    const response = await result.json();
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
 const getFriendLists = async () => {
   try {
     const result = await fetch('/api/friendLists/lists', {
@@ -178,4 +194,5 @@ export {
   postVotes,
   getUser,
   getPollsOfUsers,
+  uploadAvatar,
 };

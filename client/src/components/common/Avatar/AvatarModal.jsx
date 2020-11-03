@@ -6,6 +6,7 @@ import { Modal } from '../../common/Modal/Modal';
 import { theme } from '../../../themes/theme';
 import { AiOutlineExpand } from 'react-icons/ai';
 import { Button } from '../../common/Button/Button';
+import { uploadAvatar } from '../../../api/api';
 
 const useStyles = makeStyles((theme) => ({
   modalContent: {
@@ -63,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
 const AvatarModal = ({ open, onClose, className, handleAvatar }) => {
   const classes = useStyles();
 
-  const [avatar, setAvatar] = useState('');
+  const [avatar, setAvatar] = useState([]);
   const [error, setError] = useState({ type: '', description: '' });
   const [disable, setDisable] = useState(false);
 
@@ -77,11 +78,25 @@ const AvatarModal = ({ open, onClose, className, handleAvatar }) => {
     },
   });
 
-  const handleRemoveAvatar = () => setAvatar('');
+  const handleRemoveAvatar = () => setAvatar([]);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('avatar', avatar);
+    console.log('avatar', avatar[0]);
+
+    const formData = new FormData();
+
+    formData.append('avatar', avatar[0]);
+
+    const payload = {
+      avatar: avatar[0],
+    };
+
+    setDisable(true);
+    const response = await uploadAvatar(payload);
+    setDisable(false);
+    setAvatar('');
+    // onClose();
   };
 
   return (
