@@ -151,6 +151,12 @@ const FriendModal = ({ open, onClose, className, name, type, id }) => {
     return null;
   };
 
+  const getAvatar = (friend) => {
+    for (let i = 0; i < friendsDetails.length; i++) {
+      if (friendsDetails[i].id === friend) return friendsDetails[i].avatar;
+    }
+  };
+
   return (
     <Modal
       className={className}
@@ -180,6 +186,7 @@ const FriendModal = ({ open, onClose, className, name, type, id }) => {
                 friends={friends}
                 onChange={setFriends}
                 name={getDetails(friend)}
+                icon={getAvatar(friend)}
               ></FriendItem>
             </li>
           ))}

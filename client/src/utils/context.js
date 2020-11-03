@@ -16,11 +16,14 @@ const getFriendDetails = async (index) => {
 };
 
 const friendsInfo = async () => {
-  const friends = JSON.parse(localStorage.getItem('user')).friends;
+  const friends = getValueFromLocalStorage('user').friends;
+
   let newList = [];
-  for (let i = 0; i < friends.length; i++) {
-    const info = await getFriendDetails(friends[i]);
-    newList = [...newList, { id: info._id, name: info.name, avatar: info.avatar }];
+  if (friends !== undefined) {
+    for (let i = 0; i < friends.length; i++) {
+      const info = await getFriendById(friends[i]);
+      newList = [...newList, { id: info._id, name: info.name, avatar: info.avatar }];
+    }
   }
   return newList;
 };
@@ -28,7 +31,7 @@ const friendsInfo = async () => {
 const globalValue = {
   user: getValueFromLocalStorage('user'),
   userPolls: getValueFromLocalStorage('userPolls'),
-  friendsInfo: friendsInfo(),
+  friendsInfo: getValueFromLocalStorage('user') ? friendsInfo() : undefined,
 };
 
 export { GlobalContext, getValueFromLocalStorage, globalValue, setValueToLocalStorage };

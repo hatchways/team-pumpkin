@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FriendItem = ({ friend, friends, onChange, type, name }) => {
+const FriendItem = ({ friend, friends, onChange, type, name, icon }) => {
   const classes = useStyles();
 
   const [clicked, setClicked] = useState(false);
@@ -36,7 +36,7 @@ const FriendItem = ({ friend, friends, onChange, type, name }) => {
   return (
     <ListItem>
       <ListItemAvatar>
-        <Avatar />
+        <Avatar url={icon} />
       </ListItemAvatar>
       <ListItemText primary={name}></ListItemText>
       <Button
