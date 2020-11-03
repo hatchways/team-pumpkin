@@ -38,6 +38,16 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     marginTop: theme.spacing(2),
+    '&:hover': {
+      transform: 'scale(1.1)',
+      transition: 'transform 0.25s ease',
+    },
+  },
+  settingIcon: {
+    '&:hover': {
+      transform: 'scale(1.2)',
+      transition: 'transform 0.25s ease',
+    },
   },
 }));
 
@@ -65,6 +75,12 @@ const ListContainer = ({ className, listOfFriend, title, friendListId }) => {
     }
   };
 
+  const getAvatar = (friend) => {
+    for (let i = 0; i < friendsDetails.length; i++) {
+      if (friendsDetails[i].id === friend) return friendsDetails[i].avatar;
+    }
+  };
+
   return (
     <Box className={clsx([classes.mainContainer, className])}>
       <FriendModal open={openFriendListModal} onClose={handleFriendListModal} type='Edit' id={friendListId} />
@@ -78,6 +94,7 @@ const ListContainer = ({ className, listOfFriend, title, friendListId }) => {
           </Typography>
         </Box>
         <AiTwotoneSetting
+          className={classes.settingIcon}
           size={theme.spacing(3.75)}
           color={theme.palette.secondary.dark}
           onClick={handleFriendListModal}
@@ -86,7 +103,14 @@ const ListContainer = ({ className, listOfFriend, title, friendListId }) => {
       <Divider light />
       <Box className={classes.list}>
         {listOfFriend.map((friend, id) => (
-          <Avatar key={id} Icon={GrClose} className={classes.avatar} {...friend} name={getName(friend)} />
+          <Avatar
+            key={id}
+            url={getAvatar(friend)}
+            Icon={GrClose}
+            className={classes.avatar}
+            name={getName(friend)}
+            {...friend}
+          />
           // <ListItem ></ListItem>
         ))}
       </Box>

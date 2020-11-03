@@ -120,6 +120,8 @@ const FriendModal = ({ open, onClose, className, name, type, id }) => {
     event.preventDefault();
     // console.log('Edit');
 
+    //Retrieve the existing friendlist
+
     const newList = {
       user: user,
       friendListName: friendListName,
@@ -168,6 +170,7 @@ const FriendModal = ({ open, onClose, className, name, type, id }) => {
         <h2 style={{ marginLeft: 20 }}>{type === 'Create' ? 'Add friends:' : 'Edit friends:'}</h2>
 
         <List className={classes.friendList} alignItems='flex-start'>
+          {/* TODO add condition to check new list or edit list */}
           {myFriends.map((friend) => (
             <li key={friend.id}>
               <Divider />
