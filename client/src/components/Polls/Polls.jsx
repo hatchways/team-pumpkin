@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     overflow: 'hidden',
     overflowX: 'scroll',
+    padding: theme.spacing(2.5),
     '&::-webkit-scrollbar': { display: 'none', width: '0' },
     scrollBehavior: 'smooth',
     scrollbarWidth: 'none',
