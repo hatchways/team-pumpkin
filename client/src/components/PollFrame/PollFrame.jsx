@@ -10,7 +10,7 @@ const useStyles = makeStyles((theme) => ({
   mainContainer: {
     backgroundColor: theme.palette.primary.dark,
     display: 'flex',
-    height: '100%',
+    height: '100vh',
   },
   right: {
     display: 'flex',

@@ -1,7 +1,7 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import React, { useContext, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import { signInCall } from '../../api';
 import { Authentication, Button, InputField } from '../../components';
 import { theme } from '../../themes/theme';
@@ -45,6 +45,12 @@ const Login = () => {
   const [apiError, setApiError] = useState('');
   const history = useHistory();
   const action = useContext(GlobalContext);
+
+  const stateContext = useContext(GlobalContext);
+
+  if (!!stateContext.user) {
+    return <Redirect to='/home' />;
+  }
 
   const handleValidation = (event, handler) => {
     setError({ type: '', description: '' });
@@ -93,7 +99,11 @@ const Login = () => {
         reset();
         // action.dispatch('loggedIn');
         history.push('/home');
+        console.log('this is coming home');
         // window.location.reload();
+        // localStorage.setItem('user', JSON.stringify(result.userObject));
+        // reset();
+        //history.push('/home');
       }
     } catch (err) {
       console.warn(err);
