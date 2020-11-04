@@ -65,11 +65,12 @@ const FriendModal = ({ open, onClose, className, name, type }) => {
   const fetchFriends = async () => {
     const res = await getFriends();
     setMyFriends(res);
+    console.log('myFriends', myFriends);
   };
 
   useEffect(() => {
     fetchFriends();
-  }, []);
+  }, [friends]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
