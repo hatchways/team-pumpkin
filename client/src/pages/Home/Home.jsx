@@ -62,7 +62,7 @@ const Home = () => {
     fetchData();
     // setFriendLists(friendlistData);
     // console.log('this is data', friendLists);
-  }, [data, fetchData]);
+  }, [data]);
 
   const handlePolls = (info) => {
     setPolls(info);

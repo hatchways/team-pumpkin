@@ -37,8 +37,11 @@ router.post(
         });
       }
       const saveUser = await User.findById(user);
-      // console.log(saveUser);
 
+      // friends = [...new Set(friends)];
+      friends.filter(function (value, index, self) {
+        return self.indexOf(value) === index;
+      });
       //Create a new FriendList object
       friendList = new FriendList({
         user,
@@ -150,6 +153,9 @@ router.put(
       if (!friendList) return res.status(400).json({ msg: 'Friend list not found' });
 
       friendList.friendListName = friendListName;
+      // friends.filter(function (value, index, self) {
+      //   return self.indexOf(value) === index;
+      // });
       friendList.friends = friends;
 
       await friendList.save();

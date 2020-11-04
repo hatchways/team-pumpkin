@@ -139,8 +139,6 @@ const FriendModal = ({ open, onClose, className, name, type, id, handleFriendLis
         friends: friends,
       };
 
-      console.log('edit payload', newList);
-
       const response = await editFriendList(id, newList);
       // handleFriendLists(response);
       onClose();
