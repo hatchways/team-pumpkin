@@ -181,6 +181,13 @@ const postVotes = async (payload, pollId) => {
   }
 };
 
+const sendFriendRequest = async () => {
+  try {
+  } catch (err) {
+    return err;
+  }
+};
+
 export {
   signInCall,
   signUpCall,
@@ -194,4 +201,5 @@ export {
   getUser,
   getPollsOfUsers,
   uploadAvatar,
+  sendFriendRequest,
 };
