@@ -1,7 +1,7 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import React, { useState, useContext } from 'react';
-import { Link, Redirect, useHistory } from 'react-router-dom';
+import { Link, Redirect, useHistory, withRouter } from 'react-router-dom';
 import { signInCall } from '../../api';
 import { Authentication, Button, InputField } from '../../components';
 import { theme } from '../../themes/theme';
@@ -48,7 +48,8 @@ const Login = () => {
 
   const stateContext = useContext(GlobalContext);
 
-  if (!!stateContext.user) {
+  if (!!stateContext.globalValue.user) {
+    console.log('redirecting');
     return <Redirect to='/home' />;
   }
 
@@ -57,7 +58,7 @@ const Login = () => {
     handler(event);
   };
 
-  console.log('this is context', action);
+  //console.log('this is context', action);
 
   const onSubmit = async (event) => {
     try {
@@ -96,8 +97,8 @@ const Login = () => {
       } else {
         localStorage.setItem('user', JSON.stringify(result.userObject));
         reset();
-        //history.push('/home');
-        window.location.reload();
+        history.push('/home');
+        //window.location.reload();
       }
     } catch (err) {
       console.warn(err);
@@ -149,4 +150,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default withRouter(Login);

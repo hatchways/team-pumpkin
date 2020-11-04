@@ -1,6 +1,6 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { AiOutlineLogout } from 'react-icons/ai';
 import { useHistory } from 'react-router-dom';
 import { Avatar, Button, PollsModal } from '../';
@@ -64,12 +64,18 @@ const Header = () => {
   const handlePollModal = () => setOpenPoll(!openPoll);
   const handleLogOut = () => {
     localStorage.removeItem('user');
-    history.push('/login');
+    //history.push('/login');
+    window.location.reload();
+  };
+
+  //To show the new poll when using the modal from the header
+  const handlePolls = (info) => {
+    history.push('/home');
   };
 
   return (
     <Box className={classes.mainContainer}>
-      <PollsModal open={openPoll} onClose={handlePollModal} />
+      <PollsModal open={openPoll} onClose={handlePollModal} handlePolls={handlePolls} />
       <ViewFriendsModal open={openFriends} onClose={handleFriendsModal} />
       <Box className={classes.left}>
         <Box className={classes.leftTop}>

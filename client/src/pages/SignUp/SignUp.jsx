@@ -38,7 +38,7 @@ const SignUp = () => {
 
   const stateContext = useContext(GlobalContext);
 
-  if (!!stateContext.user) {
+  if (!!stateContext.globalValue.user) {
     return <Redirect to='/home' />;
   }
 
@@ -86,8 +86,8 @@ const SignUp = () => {
         localStorage.setItem('user', JSON.stringify(userObject));
         reset();
 
-        // //history.push('/home');
-        window.location.reload();
+        history.push('/home');
+        //window.location.reload();
       } else {
         const error = result.data.error.msg;
         setApiError(error);
