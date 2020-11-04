@@ -91,7 +91,7 @@ const Login = () => {
         localStorage.setItem('user', JSON.stringify(result));
         // localStorage.setItem('isOnline', JSON.stringify('true'));
         reset();
-        // action.dispatch('loggedIn');
+        action.dispatch({ type: 'loggedIn', payload: result });
         history.push('/home');
         // window.location.reload();
       }

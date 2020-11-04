@@ -13,17 +13,19 @@ const setValueToLocalStorage = (name, item) => {
 const globalValue = {
   user: getValueFromLocalStorage('user'),
   userPolls: getValueFromLocalStorage('userPolls'),
-  isOnline: getValueFromLocalStorage('isOnline'),
 };
 
 const reducer = (state, action) => {
-  if (action === 'loggedIn') {
+  if (action.type === 'loggedIn') {
     console.log('this is a state', state);
-    state = { ...state, isOnline: true };
+    state = { ...state, user: action.payload };
     console.log('this is a state after attempt', state);
   }
-  if (action === 'loggedOut') {
+  if (action.type === 'loggedOut') {
     state.isOnline = false;
+  }
+  if (action.type === 'test') {
+    console.log('this payload', action.payload);
   }
 };
 
