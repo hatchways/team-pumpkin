@@ -29,7 +29,6 @@ app.use(
 );
 
 app.use(logger('dev'));
-app.use(json({ limit: '50mb' }));
 app.use(
   cors({
     credentials: true,
