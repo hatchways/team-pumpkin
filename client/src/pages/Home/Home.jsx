@@ -45,33 +45,28 @@ const Home = () => {
   const [friendLists, setFriendLists] = useState([]);
   let friendsInfo = [];
   const { data, isLoading, isFetching } = useQuery('polls', getPolls);
+  // const { friendlistData, isLoadingFriendList, isFetchingFriendList } = useQuery('friendlists', getFriendLists);
+  var friendlistData;
   const [friendsData, setFriendsData] = useState([]);
 
   //Helper function for retrieving the friendlists
   const fetchData = async () => {
-    const res = await getFriendLists();
+    friendlistData = await getFriendLists();
     friendsInfo = await userContext.friendsInfo;
-    setFriendLists(res);
-    console.log('Friends info', friendsInfo);
-    // console.log('Friendlists', user.friendLists);
-    // const friendInfo = getFriendsIds.map((info) => {
-    //   [getFriendInfo(info)];
-    // });
-    // console.log('friend info', friendInfo);
+    setFriendLists(friendlistData);
   };
 
   // useEffect(() => {}, [data]);
   useEffect(() => {
     setPolls(data);
     fetchData();
-    console.log('this is data', data);
-  }, [data]);
+    // setFriendLists(friendlistData);
+    // console.log('this is data', friendLists);
+  }, [data, fetchData]);
 
   const handlePolls = (info) => {
     setPolls(info);
   };
-
-  // const { friendListData } = useQuery('friendlists', getFriendLists);
 
   const handleFriendLists = (info) => {
     setFriendLists(info);

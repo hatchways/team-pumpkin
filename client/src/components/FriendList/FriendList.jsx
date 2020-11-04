@@ -28,7 +28,7 @@ const FriendList = ({ className, listOfCategories, handleFriendLists, friendsInf
   return (
     <Box className={clsx([classes.mainContainer, className])}>
       <FriendModal
-        handleFriendLists={handleFriendLists}
+        // handleFriendLists={handleFriendLists}
         open={openModal}
         onClose={handleFriendModal}
         type='Create'

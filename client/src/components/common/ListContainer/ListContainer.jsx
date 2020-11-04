@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ListContainer = ({ className, listOfFriend, title, friendListId }) => {
+const ListContainer = ({ className, listOfFriend, title, friendListId, handleFriendLists }) => {
   const classes = useStyles();
   const userContext = useContext(GlobalContext);
   const [openFriendListModal, setFriendListModal] = useState(false);
@@ -84,6 +84,7 @@ const ListContainer = ({ className, listOfFriend, title, friendListId }) => {
   return (
     <Box className={clsx([classes.mainContainer, className])}>
       <FriendModal
+        handleFriendLists={handleFriendLists}
         open={openFriendListModal}
         onClose={handleFriendListModal}
         type='Edit'

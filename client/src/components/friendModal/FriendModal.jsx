@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FriendModal = ({ open, onClose, className, name, type, id, oldList }) => {
+const FriendModal = ({ open, onClose, className, name, type, id, handleFriendLists }) => {
   const classes = useStyles();
   const userContext = useContext(GlobalContext);
   const user = userContext.user;
@@ -107,13 +107,12 @@ const FriendModal = ({ open, onClose, className, name, type, id, oldList }) => {
       // TODO add user info
 
       const newList = {
-        user: user,
         friendListName: friendListName,
         friends: friends,
       };
-      console.log(newList);
-      console.log('friends', friends);
-      await createFriendList(newList);
+
+      const response = await createFriendList(newList);
+      // handleFriendLists(response);
       setError({ description: '' });
       onClose();
       refreshPage();
@@ -142,8 +141,8 @@ const FriendModal = ({ open, onClose, className, name, type, id, oldList }) => {
 
       console.log('edit payload', newList);
 
-      const result = await editFriendList(id, newList);
-      console.log(result);
+      const response = await editFriendList(id, newList);
+      // handleFriendLists(response);
       onClose();
       refreshPage();
       setError({ description: '' });

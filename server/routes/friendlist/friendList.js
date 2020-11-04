@@ -16,10 +16,7 @@ const User = require('../../models/User');
 router.post(
   '/lists',
   authentication,
-  [
-    check('user', 'User is required').not().isEmpty(),
-    check('friendListName', 'Friend List name is required').not().isEmpty(),
-  ],
+  [check('friendListName', 'Friend List name is required').not().isEmpty()],
   async (req, res) => {
     //Errors from express validation
     const errors = validationResult(req);
@@ -28,7 +25,8 @@ router.post(
     }
 
     //Destructuring
-    const { user, friendListName, friends } = req.body;
+    const { friendListName, friends } = req.body;
+    const user = req.user.id;
 
     try {
       //Make sure that the friend list name is unique
