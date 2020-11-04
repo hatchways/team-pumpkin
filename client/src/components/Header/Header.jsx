@@ -1,13 +1,12 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
 import { AiOutlineLogout } from 'react-icons/ai';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { Avatar, Button, PollsModal } from '../';
-import { ViewFriendsModal } from '../friendModal/ViewFriendsModal';
 import Logo from '../../assets/logo-trans.png';
 import { theme } from '../../themes/theme';
 import { GlobalContext } from '../../utils';
+import { ViewFriendsModal } from '../friendModal/ViewFriendsModal';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -35,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
   leftTop: {
     flex: 2,
+    cursor: 'pointer',
   },
   headerOption: {
     fontWeight: 'bold',
@@ -72,7 +72,7 @@ const Header = () => {
       <PollsModal open={openPoll} onClose={handlePollModal} />
       <ViewFriendsModal open={openFriends} onClose={handleFriendsModal} />
       <Box className={classes.left}>
-        <Box className={classes.leftTop}>
+        <Box className={classes.leftTop} onClick={() => history.push('/home')}>
           <img className={classes.logo} src={Logo} alt='logo' />
         </Box>
       </Box>
