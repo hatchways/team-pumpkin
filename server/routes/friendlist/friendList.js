@@ -29,14 +29,19 @@ router.post(
     const user = req.user.id;
 
     try {
-      //Make sure that the friend list name is unique for this user
-      let friendList = await FriendList.findOne({ friendListName, user });
+      //Make sure that the friend list name is unique
+      let friendList = await FriendList.findOne({ user, friendListName });
       if (friendList) {
         return res.status(400).json({
           error: { msg: 'Already have a friend list of the same name.' },
         });
       }
+      const saveUser = await User.findById(user);
 
+      // friends = [...new Set(friends)];
+      friends.filter(function (value, index, self) {
+        return self.indexOf(value) === index;
+      });
       //Create a new FriendList object
       friendList = new FriendList({
         user,
@@ -44,8 +49,10 @@ router.post(
         friends,
       });
 
-      // console.log(friends);
+      saveUser.friendLists.unshift(friendList);
 
+      // console.log(friends);
+      await saveUser.save();
       await friendList.save();
 
       // console.log(friendList);
@@ -65,7 +72,7 @@ router.post(
 */
 router.delete('/lists/:list_id', authentication, async (req, res) => {
   try {
-    const friendList = await FriendList.findById(req.param.list_id);
+    const friendList = await FriendList.findById(req.params.list_id);
     if (!friendList) return res.status(400).json({ msg: 'Friend List not found' });
 
     await friendList.remove();
@@ -139,9 +146,13 @@ router.put(
 
       //Get the existing friend list
       const friendList = await FriendList.findById(req.params.list_id);
+
       if (!friendList) return res.status(400).json({ msg: 'Friend list not found' });
 
       friendList.friendListName = friendListName;
+      // friends.filter(function (value, index, self) {
+      //   return self.indexOf(value) === index;
+      // });
       friendList.friends = friends;
 
       await friendList.save();

@@ -15,33 +15,28 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FriendItem = ({ friend, friends, onChange }) => {
+const FriendItem = ({ friend, friends, onChange, type, name, icon, checked }) => {
   const classes = useStyles();
 
-  const [clicked, setClicked] = useState(false);
+  const [clicked, setClicked] = useState(checked);
 
-  const handleAdd = (id) => {
-    if (friends.includes(id)) {
-      //Remove the friend from the friends list
-    } else {
-      //Add friend to friends list
-      //   console.add(id);
-      setClicked(!clicked);
-      const newList = [...friends, { name: friend.name, id: friend.id }];
-      onChange(newList);
-    }
+  const handleAddandRemove = () => {
+    setClicked(!clicked);
+    const newList = [...friends, friend];
+
+    onChange([...new Set(newList)]);
   };
 
   return (
     <ListItem>
       <ListItemAvatar>
-        <Avatar />
+        <Avatar url={icon} />
       </ListItemAvatar>
-      <ListItemText primary={friend.name}></ListItemText>
+      <ListItemText primary={name}></ListItemText>
       <Button
         className={clicked ? classes.removeFriendButton : classes.addFriendButton}
         variant='contained'
-        onClick={handleAdd}
+        onClick={handleAddandRemove}
       >
         {clicked ? 'Remove' : 'Add'}
       </Button>

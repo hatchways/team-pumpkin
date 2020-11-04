@@ -1,8 +1,11 @@
 import { Box, makeStyles } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
+import { getFriends, getPolls } from '../../api/api';
 import { useQuery } from 'react-query';
-import { getPolls } from '../../api';
 import { FriendList, Friends, Polls } from '../../components';
+import { getFriendLists, getFriendInfo } from '../../api/api';
+import { AiOutlineConsoleSql } from 'react-icons/ai';
+import { GlobalContext } from '../../utils/context';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -36,16 +39,37 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
   const classes = useStyles();
+  const userContext = useContext(GlobalContext);
+  const user = userContext.user;
   const [polls, setPolls] = useState([]);
+  const [friendLists, setFriendLists] = useState([]);
+  let friendsInfo = [];
   const { data, isLoading, isFetching } = useQuery('polls', getPolls);
+  // const { friendlistData, isLoadingFriendList, isFetchingFriendList } = useQuery('friendlists', getFriendLists);
+  var friendlistData;
+  const [friendsData, setFriendsData] = useState([]);
 
+  //Helper function for retrieving the friendlists
+  const fetchData = async () => {
+    friendlistData = await getFriendLists();
+    friendsInfo = await userContext.friendsInfo;
+    setFriendLists(friendlistData);
+  };
+
+  // useEffect(() => {}, [data]);
   useEffect(() => {
     setPolls(data);
-    console.log('this is data', data);
+    fetchData();
+    // setFriendLists(friendlistData);
+    // console.log('this is data', friendLists);
   }, [data]);
 
   const handlePolls = (info) => {
     setPolls(info);
+  };
+
+  const handleFriendLists = (info) => {
+    setFriendLists(info);
   };
 
   return (
@@ -55,17 +79,13 @@ const Home = () => {
       </Box>
       <Box className={classes.right}>
         <Polls handlePolls={handlePolls} listOfPolls={polls} className={classes.polls} />
+
         <FriendList
-          listOfCategories={Array(4).fill({
-            title: 'Fashion',
-            category: Array(5).fill({
-              name: 'demo',
-              url:
-                'https://img1.looper.com/img/gallery/things-about-thanos-that-didnt-make-it-into-the-mcu/intro-1590779038.jpg',
-            }),
-          })}
+          listOfCategories={friendLists}
+          handleFriendLists={handleFriendLists}
           className={classes.friendList}
-        />
+          friendsInfo={friendsInfo}
+        ></FriendList>
       </Box>
     </Box>
   );

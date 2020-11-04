@@ -1,7 +1,8 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import React, { useState, useContext } from 'react';
-import { Link, Redirect, useHistory, withRouter } from 'react-router-dom';
+import { BsArrowCounterclockwise } from 'react-icons/bs';
+import { Link, Redirect, useHistory } from 'react-router-dom';
 import { signInCall } from '../../api';
 import { Authentication, Button, InputField } from '../../components';
 import { theme } from '../../themes/theme';
@@ -150,4 +151,4 @@ const Login = () => {
   );
 };
 
-export default withRouter(Login);
+export default Login;
