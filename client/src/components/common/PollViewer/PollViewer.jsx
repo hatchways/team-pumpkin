@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 3,
     padding: theme.spacing(5),
     marginRight: theme.spacing(2.5),
+    boxShadow: `0 8px 16px -7px ${theme.palette.secondary.main}`,
   },
   header: {},
   answer: {

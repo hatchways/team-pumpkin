@@ -12,11 +12,10 @@ const useStyles = makeStyles((theme) => ({
   right: {
     display: 'flex',
     flexDirection: 'column',
-    height: '100%',
-    width: '85%',
+    width: '80%',
   },
   left: {
-    width: '15%',
+    width: '20%',
     borderRightColor: theme.palette.secondary.dark,
     borderRight: 'solid',
     borderWidth: 1,
