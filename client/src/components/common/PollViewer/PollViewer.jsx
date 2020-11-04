@@ -69,7 +69,7 @@ const PollViewer = ({ question, numberOfAnswer, url1, url2, votesForUrl1, votesF
         {question}
       </Typography>
       <Typography className={classes.answer} variant='h5'>
-        {`${totalVotes} ${totalVotes > 1 ? 'answer' : 'answers'}`}
+        {`${totalVotes} ${totalVotes > 1 ? 'answers' : 'answer'}`}
       </Typography>
       <Box className={classes.imagesContainer}>
         <Box className={classes.imageContainer}>
