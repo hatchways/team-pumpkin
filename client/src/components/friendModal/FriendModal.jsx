@@ -84,10 +84,7 @@ const FriendModal = ({ open, onClose, className, name, type, id, oldList }) => {
 
   const fetchFriends = async () => {
     const res = await userContext.friendsInfo;
-    // console.log('res:', res);
     setFriendsDetails(res);
-    // console.log('new stuff', res);
-    // console.log('friends detail: ', friendsDetails);
   };
 
   useEffect(() => {
@@ -114,11 +111,12 @@ const FriendModal = ({ open, onClose, className, name, type, id, oldList }) => {
         friendListName: friendListName,
         friends: friends,
       };
-
+      console.log(newList);
+      console.log('friends', friends);
       await createFriendList(newList);
       setError({ description: '' });
-      // onClose();
-      // refreshPage();
+      onClose();
+      refreshPage();
     }
   };
 
@@ -146,8 +144,8 @@ const FriendModal = ({ open, onClose, className, name, type, id, oldList }) => {
 
       const result = await editFriendList(id, newList);
       console.log(result);
-      // onClose();
-      // refreshPage();
+      onClose();
+      refreshPage();
       setError({ description: '' });
     }
   };

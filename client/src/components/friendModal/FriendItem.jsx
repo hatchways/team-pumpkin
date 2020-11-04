@@ -21,21 +21,10 @@ const FriendItem = ({ friend, friends, onChange, type, name, icon, checked }) =>
   const [clicked, setClicked] = useState(checked);
 
   const handleAddandRemove = () => {
-    // if (friends.includes(id)) {
-    //Remove the friend from the friends list
-    // } else {
-    //Add friend to friends list
-    // console.add(id);
-    console.log('old list', friends);
     setClicked(!clicked);
-    if (checked) {
-      friends = [...friends, friends.filter((e) => e !== friend)];
-    } else {
-      friends = [...friends, friend];
-    }
-    // friends = checked?[...friends.filter((e) => e !== friend)]
-    console.log('new list', friends);
-    onChange(new Set(friends));
+    const newList = [...friends, friend];
+
+    onChange([...new Set(newList)]);
   };
 
   return (

@@ -109,14 +109,7 @@ const ListContainer = ({ className, listOfFriend, title, friendListId }) => {
       <Divider light />
       <Box className={classes.list}>
         {listOfFriend.map((friend, id) => (
-          <Avatar
-            key={id}
-            url={getAvatar(friend)}
-            Icon={GrClose}
-            className={classes.avatar}
-            name={getName(friend)}
-            {...friend}
-          />
+          <Avatar key={id} url={getAvatar(friend)} className={classes.avatar} name={getName(friend)} {...friend} />
           // <ListItem ></ListItem>
         ))}
       </Box>

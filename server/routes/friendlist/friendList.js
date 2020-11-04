@@ -39,7 +39,7 @@ router.post(
         });
       }
       const saveUser = await User.findById(user);
-      console.log(saveUser);
+      // console.log(saveUser);
 
       //Create a new FriendList object
       friendList = new FriendList({
