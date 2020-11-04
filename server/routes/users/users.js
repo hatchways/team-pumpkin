@@ -8,7 +8,6 @@ router.post('/users', authentication, async (req, res) => {
   try {
     const userId = req.user.id;
     const { votesForUrl1, votesForUrl2 } = req.body;
-    console.log('this is body', req.body);
     const userListForVote1 = await User.find({
       _id: {
         $in: votesForUrl1,
@@ -22,15 +21,14 @@ router.post('/users', authentication, async (req, res) => {
     let result = [];
     const dupUserListVote1 = [...userListForVote1];
     const dupUserListVote2 = [...userListForVote2];
-    dupUserListVote1.map((elem) =>
+    dupUserListVote1.forEach((elem) =>
       result.push({
         name: elem.name,
         avatar: elem.avatar ? elem.avatar : null,
         votesFor: 'img1',
       }),
     );
-    dupUserListVote1.map((elem) => (elem.votesFor = 'img1'));
-    dupUserListVote2.map((elem) =>
+    dupUserListVote2.forEach((elem) =>
       result.push({
         name: elem.name,
         avatar: elem.avatar ? elem.avatar : null,
