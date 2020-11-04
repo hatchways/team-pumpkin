@@ -13,17 +13,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.dark,
     fontSize: 30,
   },
-  pollsContainer: {
-    // position: 'relative',
-    // display: 'flex',
-    // overflow: 'hidden',
-    // overflowX: 'scroll',
-    // '&::-webkit-scrollbar': { display: 'none', width: '0' },
-    // scrollBehavior: 'smooth',
-    // scrollbarWidth: 'none',
-    // scrollbarColor: 'none',
-    // '&::-webkit-overflow-scrolling': 'touch',
-  },
+  pollsContainer: {},
   polls: {
     display: 'flex',
     alignItems: 'center',
