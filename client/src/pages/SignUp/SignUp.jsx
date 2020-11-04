@@ -1,10 +1,10 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import { Redirect, useHistory } from 'react-router-dom';
 import { signUpCall } from '../../api';
 import { Authentication, Button, InputField } from '../../components';
 import { theme } from '../../themes/theme';
-import { useForm, validateEmail, validateString } from '../../utils';
+import { useForm, validateEmail, validateString, GlobalContext } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -35,6 +35,12 @@ const SignUp = () => {
   const [apiError, setApiError] = useState('');
   const [error, setError] = useState({ type: '', description: '' });
   const history = useHistory();
+
+  const stateContext = useContext(GlobalContext);
+
+  if (!!stateContext.user) {
+    return <Redirect to='/home' />;
+  }
 
   const handleValidation = (event, handler) => {
     setError({ type: '', description: '' });
@@ -75,13 +81,13 @@ const SignUp = () => {
         return;
       }
       const result = await signUpCall(values);
-      const status = result.status;
-      const data = result.data;
-      if (status === 200) {
-        const { userObject } = data;
+      const { userObject } = result;
+      if (userObject) {
         localStorage.setItem('user', JSON.stringify(userObject));
         reset();
-        history.push('/home');
+
+        // //history.push('/home');
+        window.location.reload();
       } else {
         const error = result.data.error.msg;
         setApiError(error);

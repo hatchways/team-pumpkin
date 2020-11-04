@@ -1,11 +1,12 @@
 import React, { Suspense, useContext, useState } from 'react';
 import { ReactQueryDevtools } from 'react-query-devtools';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import './App.css';
 import { Header, LoadingScreen } from './components';
 import { ViewFriendsModal } from './components/friendModal/ViewFriendsModal';
-import { HomeScreen, LoginScreen, PollFrameScreen, SignUpScreen } from './LazyComponents';
+import { HomeScreen, LoginScreen, SignUpScreen, PollFrameScreen, FriendsPollsScreen } from './LazyComponents';
 import { GlobalContext } from './utils';
+import PrivateRoute from '../src/components/PrivateRoute/PrivateRoute';
 
 const App = () => {
   const user = useContext(GlobalContext).globalValue.user;
@@ -21,16 +22,13 @@ const App = () => {
       {user !== null && <Header />}
       <Switch>
         <Suspense fallback={<LoadingScreen />}>
-          {/* <Redirect to={!!stateContext.user ? '/home' : '/login'} /> */}
+          <Redirect from='/' to={!!user ? '/home' : '/login'} />
           <Route exact path='/signup' component={SignUpScreen} />
           <Route exact path='/login' component={LoginScreen} />
-          <Route exact path='/home' component={HomeScreen} />
           <Route path='/poll/:id' component={PollFrameScreen} />
-          <Route
-            exact
-            path='/friends'
-            render={(props) => <ViewFriendsModal open={openFriendsModal} onClose={handleClick} />}
-          />
+          <PrivateRoute exact path='/home' component={HomeScreen} />
+          <PrivateRoute exact path='/friends-polls' component={FriendsPollsScreen} />
+          <Route exact path='/friends' children={<ViewFriendsModal open={openFriendsModal} onClose={handleClick} />} />
         </Suspense>
       </Switch>
       <ReactQueryDevtools initialIsOpen={false} />

@@ -26,11 +26,11 @@ router.post('/friends', [authentication], async function (req, res) {
     const userIndex = user.receivedFriendRequests.indexOf(friendId);
     const friendIndex = friend.outgoingFriendRequests.indexOf(userId);
     if (userIndex !== -1 && friendIndex !== -1) {
-      user.friends.unshift(friendId);
+      user.friends.push(friend);
       //remove the friend from list of received requests
       user.receivedFriendRequests.splice(userIndex, 1);
 
-      friend.friends.unshift(userId);
+      friend.friends.push(user);
       //remove user from friend's list of sent requests
       friend.outgoingFriendRequests.splice(friendIndex);
     } else if (user.outgoingFriendRequests.includes(friendId)) {
@@ -73,8 +73,8 @@ router.delete('/friends/:id', [authentication], async function (req, res) {
 
     //Ensure user and friend are friends
     //If so, delete each other from friends array
-    const friendIndex = user.friends.indexOf(friendId);
-    const userIndex = friend.friends.indexOf(userId);
+    const friendIndex = user.friends.indexOf(friend._id);
+    const userIndex = friend.friends.indexOf(user._id);
 
     if (friendIndex !== -1 && userIndex !== -1) {
       user.friends.splice(friendIndex, 1);
@@ -103,6 +103,7 @@ router.post('/outgoing-requests', [authentication], async function (req, res) {
   //The ID passed in the params will be the ID of the user who you want to add as a friend
   //We have the current user's id stored as part of the authentication middleware
   const friendId = req.body.id;
+  console.log(req.body);
   const userId = req.user.id;
   try {
     if (friendId === userId) {
@@ -123,8 +124,8 @@ router.post('/outgoing-requests', [authentication], async function (req, res) {
     } else if (user.friends.includes(friendId)) {
       return res.status(400).json({ msg: 'You are already friends with this user.' });
     } else {
-      user.outgoingFriendRequests.unshift(friendId);
-      friend.receivedFriendRequests.unshift(userId);
+      user.outgoingFriendRequests.push(friend);
+      friend.receivedFriendRequests.push(user);
 
       await user.save();
       await friend.save();
@@ -160,8 +161,8 @@ router.delete('/outgoing-requests/:id', [authentication], async function (req, r
 
     //Ensure the user has sent a friend request to another user
     //Delete the request
-    const friendIndex = user.outgoingFriendRequests.indexOf(friendId);
-    const userIndex = friend.receivedFriendRequests.indexOf(userId);
+    const friendIndex = user.outgoingFriendRequests.indexOf(friend.id);
+    const userIndex = friend.receivedFriendRequests.indexOf(user.id);
 
     if (friendIndex !== -1 && userIndex !== -1) {
       user.outgoingFriendRequests.splice(friendIndex, 1);
@@ -201,8 +202,8 @@ router.delete('/received-requests/:id', [authentication], async function (req, r
 
     //Ensure the user has sent a friend request to another user
     //Delete the request
-    const friendIndex = user.receivedFriendRequests.indexOf(friendId);
-    const userIndex = friend.outgoingFriendRequests.indexOf(userId);
+    const friendIndex = user.receivedFriendRequests.indexOf(friend.id);
+    const userIndex = friend.outgoingFriendRequests.indexOf(user.id);
 
     if (friendIndex !== -1 && userIndex !== -1) {
       user.receivedFriendRequests.splice(friendIndex, 1);
@@ -228,8 +229,8 @@ router.delete('/received-requests/:id', [authentication], async function (req, r
 //@access               Private
 router.get('/friends', [authentication], async function (req, res) {
   try {
-    const user = await (await User.findById(req.user.id)).populate('friends');
-    res.json(user.friends);
+    const user = await (await User.findById(req.user.id)).populate('friends', ['name']).execPopulate();
+    res.json({ friends: user.friends });
   } catch (error) {
     console.log(error.message);
     res.status(500).send('Server error');
@@ -241,8 +242,8 @@ router.get('/friends', [authentication], async function (req, res) {
 //@access               Private
 router.get('/outgoing-requests', [authentication], async function (req, res) {
   try {
-    const user = await (await User.findById(req.user.id)).populate('outgoingFriendRequests');
-    res.json(user.outgoingFriendRequests);
+    const user = await (await User.findById(req.user.id)).populate('outgoingFriendRequests', ['name']).execPopulate();
+    res.json({ outgoingRequests: user.outgoingFriendRequests });
   } catch (error) {
     console.log(error.message);
     res.status(500).send('Server error');
@@ -254,8 +255,8 @@ router.get('/outgoing-requests', [authentication], async function (req, res) {
 //@access               Private
 router.get('/received-requests', [authentication], async function (req, res) {
   try {
-    const user = await (await User.findById(req.user.id)).populate('receivedFriendRequests');
-    res.json(user.receivedFriendRequests);
+    const user = await (await User.findById(req.user.id)).populate('receivedFriendRequests', ['name']).execPopulate();
+    res.json({ receivedRequests: user.receivedFriendRequests });
   } catch (error) {
     console.log(error.message);
     res.status(500).send('Server error');
@@ -273,11 +274,16 @@ router.get('/suggested-friends', [authentication], async function (req, res) {
     //Ensure that suggested friends do not include users who are already friends
     //If the total users in the database, excluding friends and yourself
     //is less than 20, then suggest all the users in the database
-    userCount -= user.friends.length + 1;
+    userCount -= user.friends.length + user.outgoingFriendRequests.length + 1;
     if (userCount <= 20) {
       let allUsers = await User.find();
-      allUsers = allUsers.filter((oneUser) => !user.friends.includes(oneUser.id) && oneUser.id !== user.id);
-      return res.json(allUsers);
+      allUsers = allUsers.filter(
+        (oneUser) =>
+          !user.friends.includes(oneUser._id) &&
+          !user.outgoingFriendRequests.includes(oneUser._id) &&
+          oneUser._id !== user._id,
+      );
+      return res.json({ suggestedFriends: allUsers });
     } else {
       const suggestedFriends = [];
       const numbersAdded = [];
@@ -291,14 +297,17 @@ router.get('/suggested-friends', [authentication], async function (req, res) {
         if (!numbersAdded.includes(rand)) {
           randomUser = await User.findOne().skip(rand).lean();
 
-          if (!user.friends.includes(randomUser.id) && randomUser.id !== user.id) {
+          if (
+            !user.friends.includes(randomUser._id) &&
+            !user.outgoingFriendRequests.includes(randomUser._id) &&
+            randomUser._id !== user._id
+          ) {
             suggestedFriends.unshift(randomUser);
-            console.log(suggestedFriends.length);
           }
           numbersAdded.unshift(rand);
         }
       }
-      return res.json(suggestedFriends);
+      return res.json({ suggestedFriends });
     }
   } catch (error) {
     console.log(error.message);
