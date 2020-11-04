@@ -8,7 +8,7 @@ const signUpCall = async (user) => {
     });
 
     const response = await result.json();
-    return response.userObject;
+    return response;
   } catch (err) {
     return err;
   }
@@ -24,9 +24,7 @@ const signInCall = async (user) => {
     });
 
     const response = await result.json();
-    console.log(response);
-
-    return response.userObject;
+    return response;
   } catch (err) {
     console.log('this is err', err);
     return err;
@@ -51,16 +49,15 @@ const createFriendList = async (friendList) => {
   }
 };
 
-const editFriendList = async (friendList) => {
+const editFriendList = async (list_id, payload) => {
   try {
-    const result = await fetch('/api/friendLists/lists', {
+    const result = await fetch(`/api/friendLists/lists/${list_id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(friendList),
+      body: JSON.stringify(payload),
       credentials: 'include',
     });
 
-    console.log('result', result);
     const response = await result.json();
     return response;
   } catch (err) {

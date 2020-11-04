@@ -1,4 +1,4 @@
-import { Box, makeStyles, List, Grid, Divider, Button } from '@material-ui/core';
+import { Box, makeStyles, List, Grid, Divider, Button, Typography } from '@material-ui/core';
 import React, { useState, useEffect, useContext } from 'react';
 import { useValue } from '../../utils/';
 import { Modal } from '../common/Modal/Modal';
@@ -59,15 +59,20 @@ const useStyles = makeStyles((theme) => ({
     scrollbarColor: 'black lightgrey',
     scrollbarWidth: 'thin',
   },
+  miscError: {
+    display: 'flex',
+    justifyContent: 'center',
+    color: theme.palette.primary.main,
+  },
 }));
 
-const FriendModal = ({ open, onClose, className, name, type, id }) => {
+const FriendModal = ({ open, onClose, className, name, type, id, oldList }) => {
   const classes = useStyles();
   const userContext = useContext(GlobalContext);
   const user = userContext.user;
   const [friendListName, handleFriendListName, setFriendListName] = useValue('');
   // const friendsInfo = async () => await userContext.friendsInfo;
-
+  const [error, setError] = useState({ description: '' });
   const [friendsDetails, setFriendsDetails] = useState([]);
   const [friends, setFriends] = useState([]);
   const [myFriends, setMyFriends] = useState(user.friends);
@@ -94,11 +99,13 @@ const FriendModal = ({ open, onClose, className, name, type, id }) => {
     // console.log('Create');
     // If the friend list doesn't have a name
     if (!friendListName) {
-      console.log('No Friend list name');
+      setError({ description: 'The friend list has no name' });
+      return;
     }
     // If no friends are added to the list
-    else if (!friends) {
-      console.log('No friends added to the list');
+    else if (!friends || friends.length === 0) {
+      setError({ description: 'The friend list has no friends' });
+      return;
     } else {
       // TODO add user info
 
@@ -109,28 +116,40 @@ const FriendModal = ({ open, onClose, className, name, type, id }) => {
       };
 
       await createFriendList(newList);
-
-      //Create a Success alert
+      setError({ description: '' });
+      // onClose();
+      // refreshPage();
     }
-    onClose();
-    refreshPage();
   };
 
   const handleEdit = async (event) => {
     event.preventDefault();
-    // console.log('Edit');
 
-    //Retrieve the existing friendlist
+    if (!friendListName) {
+      setError({ description: 'The friend list has no name' });
+      return;
+    }
+    // If no friends are added to the list
+    else if (!friends || friends.length == 0) {
+      setError({ description: 'The friend list has no friends' });
+      return;
+    } else {
+      //Retrieve the existing friendlist
 
-    const newList = {
-      user: user,
-      friendListName: friendListName,
-      friends: friends,
-    };
+      const newList = {
+        user: user,
+        friendListName: friendListName,
+        friends: friends,
+      };
 
-    const result = await editFriendList(newList);
-    // onClose();
-    // refreshPage();
+      console.log('edit payload', newList);
+
+      const result = await editFriendList(id, newList);
+      console.log(result);
+      // onClose();
+      // refreshPage();
+      setError({ description: '' });
+    }
   };
 
   const handleDelete = async (event) => {
@@ -141,7 +160,7 @@ const FriendModal = ({ open, onClose, className, name, type, id }) => {
     refreshPage();
   };
 
-  const getDetails = (friend) => {
+  const getName = (friend) => {
     if (friendsDetails !== null) {
       for (let i = 0; i < friendsDetails.length; i++) {
         if (friendsDetails[i].id === friend) return friendsDetails[i].name;
@@ -176,21 +195,41 @@ const FriendModal = ({ open, onClose, className, name, type, id }) => {
         <h2 style={{ marginLeft: 20 }}>{type === 'Create' ? 'Add friends:' : 'Edit friends:'}</h2>
 
         <List className={classes.friendList} alignItems='flex-start'>
-          {/* TODO add condition to check new list or edit list */}
-          {myFriends.map((friend) => (
-            <li key={friend.id}>
-              <Divider />
-              <FriendItem
-                friend={friend}
-                checked={false}
-                friends={friends}
-                onChange={setFriends}
-                name={getDetails(friend)}
-                icon={getAvatar(friend)}
-              ></FriendItem>
-            </li>
-          ))}
+          {/* Create List */}
+          {type === 'Create'
+            ? myFriends.map((friend) => (
+                <li key={friend.id}>
+                  <Divider />
+                  <FriendItem
+                    friend={friend}
+                    checked={false}
+                    friends={friends}
+                    onChange={setFriends}
+                    name={getName(friend)}
+                    icon={getAvatar(friend)}
+                  ></FriendItem>
+                </li>
+              ))
+            : // Edit List
+              myFriends.map((friend) => (
+                <li key={friend.id}>
+                  <Divider />
+                  <FriendItem
+                    friend={friend}
+                    checked={false}
+                    friends={friends}
+                    onChange={setFriends}
+                    name={getName(friend)}
+                    icon={getAvatar(friend)}
+                  ></FriendItem>
+                </li>
+              ))}
         </List>
+        {error !== undefined && (
+          <Typography className={classes.miscError} variant='inherit'>
+            {error.description}
+          </Typography>
+        )}
         <Box className={classes.buttonContainer}>
           {type === 'Create' ? (
             <Button className={classes.creatButton} onClick={handleSubmit}>

@@ -83,7 +83,13 @@ const ListContainer = ({ className, listOfFriend, title, friendListId }) => {
 
   return (
     <Box className={clsx([classes.mainContainer, className])}>
-      <FriendModal open={openFriendListModal} onClose={handleFriendListModal} type='Edit' id={friendListId} />
+      <FriendModal
+        open={openFriendListModal}
+        onClose={handleFriendListModal}
+        type='Edit'
+        id={friendListId}
+        oldList={listOfFriend}
+      />
       <Box className={classes.headerContainer}>
         <Box>
           <Typography className={classes.header} variant='h5'>
