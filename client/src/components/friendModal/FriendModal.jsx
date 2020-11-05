@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
 const FriendModal = ({ open, onClose, className, name, type, id, handleFriendLists }) => {
   const classes = useStyles();
   const userContext = useContext(GlobalContext);
-  const user = userContext.user;
+  const user = userContext.globalValue.user;
   const [friendListName, handleFriendListName, setFriendListName] = useValue('');
   const [error, setError] = useState({ description: '' });
   const [friendsDetails, setFriendsDetails] = useState([]);
@@ -80,7 +80,7 @@ const FriendModal = ({ open, onClose, className, name, type, id, handleFriendLis
   };
 
   const fetchFriends = async () => {
-    const res = await userContext.friendsInfo;
+    const res = await userContext.globalValue.friendsInfo;
     setFriendsDetails(res);
   };
 
@@ -153,7 +153,7 @@ const FriendModal = ({ open, onClose, className, name, type, id, handleFriendLis
   };
 
   const getName = (friend) => {
-    if (friendsDetails !== null) {
+    if (friendsDetails) {
       for (let i = 0; i < friendsDetails.length; i++) {
         if (friendsDetails[i].id === friend) return friendsDetails[i].name;
       }
@@ -189,34 +189,35 @@ const FriendModal = ({ open, onClose, className, name, type, id, handleFriendLis
         <List className={classes.friendList} alignItems='flex-start'>
           {/* Create List */}
 
-          {type === 'Create'
-            ? myFriends.map((friend) => (
-                <li key={friend.id}>
-                  <Divider />
-                  <FriendItem
-                    friend={friend}
-                    checked={false}
-                    friends={friends}
-                    onChange={setFriends}
-                    name={getName(friend)}
-                    icon={getAvatar(friend)}
-                  ></FriendItem>
-                </li>
-              ))
-            : // Edit List
-              myFriends.map((friend) => (
-                <li key={friend.id}>
-                  <Divider />
-                  <FriendItem
-                    friend={friend}
-                    checked={false}
-                    friends={friends}
-                    onChange={setFriends}
-                    name={getName(friend)}
-                    icon={getAvatar(friend)}
-                  ></FriendItem>
-                </li>
-              ))}
+          {myFriends &&
+            (type === 'Create'
+              ? myFriends.map((friend) => (
+                  <li key={friend.id}>
+                    <Divider />
+                    <FriendItem
+                      friend={friend}
+                      checked={false}
+                      friends={friends}
+                      onChange={setFriends}
+                      name={getName(friend)}
+                      icon={getAvatar(friend)}
+                    ></FriendItem>
+                  </li>
+                ))
+              : // Edit List
+                myFriends.map((friend) => (
+                  <li key={friend.id}>
+                    <Divider />
+                    <FriendItem
+                      friend={friend}
+                      checked={false}
+                      friends={friends}
+                      onChange={setFriends}
+                      name={getName(friend)}
+                      icon={getAvatar(friend)}
+                    ></FriendItem>
+                  </li>
+                )))}
         </List>
         {error !== undefined && (
           <Typography className={classes.miscError} variant='inherit'>

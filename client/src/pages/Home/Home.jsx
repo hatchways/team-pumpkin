@@ -79,12 +79,12 @@ const Home = () => {
       <Box className={classes.right}>
         <Polls handlePolls={handlePolls} listOfPolls={polls} className={classes.polls} />
 
-        {/* <FriendList
+        <FriendList
           listOfCategories={friendLists}
           handleFriendLists={handleFriendLists}
           className={classes.friendList}
           friendsInfo={friendsInfo}
-        ></FriendList> */}
+        ></FriendList>
       </Box>
     </Box>
   );

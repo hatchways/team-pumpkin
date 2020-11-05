@@ -92,7 +92,7 @@ const Login = () => {
           description: 'Wrong Details',
         });
       } else {
-        localStorage.setItem('user', JSON.stringify(result));
+        localStorage.setItem('user', JSON.stringify(result.userObject));
         reset();
         history.push('/home');
       }
