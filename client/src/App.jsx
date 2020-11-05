@@ -19,13 +19,13 @@ const App = () => {
 
   return (
     <>
-      {user !== null && <Header />}
+      {!!user && <Header />}
       <Switch>
         <Suspense fallback={<LoadingScreen />}>
           <Redirect from='/' to={!!user ? '/home' : '/login'} />
           <Route exact path='/signup' component={SignUpScreen} />
           <Route exact path='/login' component={LoginScreen} />
-          <Route exact path='/home' component={HomeScreen} />
+          <PrivateRoute exact path='/home' component={HomeScreen} />
           <PrivateRoute exact path='/friends-polls' component={FriendsPollsScreen} />
           <Route path='/poll/:id' component={PollFrameScreen} />
           <Route exact path='/friends' children={<ViewFriendsModal open={openFriendsModal} onClose={handleClick} />} />

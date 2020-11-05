@@ -57,8 +57,6 @@ const Login = () => {
     handler(event);
   };
 
-  console.log('this is context', action);
-
   const onSubmit = async (event) => {
     try {
       event.preventDefault();
@@ -95,15 +93,8 @@ const Login = () => {
         });
       } else {
         localStorage.setItem('user', JSON.stringify(result));
-        // localStorage.setItem('isOnline', JSON.stringify('true'));
         reset();
-        // action.dispatch('loggedIn');
         history.push('/home');
-        console.log('this is coming home');
-        // window.location.reload();
-        // localStorage.setItem('user', JSON.stringify(result.userObject));
-        // reset();
-        //history.push('/home');
       }
     } catch (err) {
       console.warn(err);
