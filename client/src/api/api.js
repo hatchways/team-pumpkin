@@ -220,5 +220,7 @@ export {
   editFriendList,
   postVotes,
   deleteFriendList,
-  deletePolls, updatePost, getUserList
+  deletePolls,
+  updatePost,
+  getUserList,
 };
