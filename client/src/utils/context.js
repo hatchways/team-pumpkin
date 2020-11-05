@@ -17,15 +17,10 @@ const globalValue = {
 
 const reducer = (state, action) => {
   if (action.type === 'loggedIn') {
-    console.log('this is a state', state);
-    state = { ...state, user: action.payload };
-    console.log('this is a state after attempt', state);
+    return { ...state, user: action.payload };
   }
   if (action.type === 'loggedOut') {
-    state.isOnline = false;
-  }
-  if (action.type === 'test') {
-    console.log('this payload', action.payload);
+    return { ...state, user: null };
   }
 };
 

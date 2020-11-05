@@ -1,10 +1,10 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { signUpCall } from '../../api';
 import { Authentication, Button, InputField } from '../../components';
 import { theme } from '../../themes/theme';
-import { useForm, validateEmail, validateString } from '../../utils';
+import { GlobalContext, useForm, validateEmail, validateString } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -35,6 +35,7 @@ const SignUp = () => {
   const [apiError, setApiError] = useState('');
   const [error, setError] = useState({ type: '', description: '' });
   const history = useHistory();
+  const action = useContext(GlobalContext);
 
   const handleValidation = (event, handler) => {
     setError({ type: '', description: '' });
@@ -75,18 +76,20 @@ const SignUp = () => {
         return;
       }
       const result = await signUpCall(values);
-      const status = result.status;
-      const data = result.data;
-      if (status === 200) {
-        const { userObject } = data;
-        localStorage.setItem('user', JSON.stringify(userObject));
+      if (result === undefined) {
+        setError({
+          type: 'password',
+          description: 'Wrong Details',
+        });
+      } else {
+        localStorage.setItem('user', JSON.stringify(result));
+        action.dispatch({ type: 'loggedIn', payload: result });
         reset();
         history.push('/home');
-      } else {
-        const error = result.data.error.msg;
-        setApiError(error);
       }
     } catch (err) {
+      const error = err.msg;
+      setApiError(error);
       console.warn(err);
     }
   };
