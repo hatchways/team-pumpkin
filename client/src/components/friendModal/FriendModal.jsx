@@ -66,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FriendModal = ({ open, onClose, className, name, type, id, handleFriendLists }) => {
+const FriendModal = ({ open, onClose, className, type, id, handleFriendLists }) => {
   const classes = useStyles();
   const userContext = useContext(GlobalContext);
   const user = userContext.user;
@@ -125,7 +125,7 @@ const FriendModal = ({ open, onClose, className, name, type, id, handleFriendLis
       return;
     }
     // If no friends are added to the list
-    else if (!friends || friends.length == 0) {
+    else if (!friends || friends.length === 0) {
       setError({ description: 'The friend list has no friends' });
       return;
     } else {
