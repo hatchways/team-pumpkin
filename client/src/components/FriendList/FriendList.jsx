@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FriendList = ({ className, listOfCategories, handleFriendLists }) => {
+const FriendList = ({ className, listOfCategories, handleFriendLists, friendsInfo }) => {
   const classes = useStyles();
 
   const [openModal, setOpenModal] = useState(false);
@@ -27,16 +27,22 @@ const FriendList = ({ className, listOfCategories, handleFriendLists }) => {
   const handleFriendModal = () => setOpenModal(!openModal);
   return (
     <Box className={clsx([classes.mainContainer, className])}>
-      <FriendModal handleFriendLists={handleFriendLists} open={openModal} onClose={handleFriendModal} type='Create' />
+      <FriendModal
+        handleFriendLists={handleFriendLists}
+        open={openModal}
+        onClose={handleFriendModal}
+        type='Create'
+        friendsInfo={friendsInfo}
+      />
       <HomeFrame
         className={classes.listContainer}
         onClick={handleFriendModal}
         buttonLabel='Create list'
         header='Friend lists'
       >
-        {console.log('listOfCategories', listOfCategories)}
+        {/* {console.log('listOfCategories', listOfCategories)} */}
         {listOfCategories === undefined || listOfCategories.length === 0 ? (
-          <Typography variant='h2'>No polls available</Typography>
+          <Typography variant='h2'>No Friendlists available</Typography>
         ) : (
           listOfCategories.map((item) => (
             <ListContainer

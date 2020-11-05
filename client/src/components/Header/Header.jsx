@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = () => {
+const Header = (props) => {
   const classes = useStyles();
   const [openPoll, setOpenPoll] = useState(false);
   const history = useHistory();
@@ -64,6 +64,7 @@ const Header = () => {
     setOpenFriends(!openFriends);
   }
   const handlePollModal = () => setOpenPoll(!openPoll);
+
   const handleLogOut = () => {
     localStorage.removeItem('user');
     window.location.reload();
@@ -71,27 +72,24 @@ const Header = () => {
 
   const handleAvatarModal = () => setAvatarModal(!openAvatarModal);
 
-  const toProfile = (userId) => {
-    history.push(`/profile`);
-    // window.location.reload();
-  };
-
-  const toHome = () => {
-    history.push('/home');
-    window.location.reload();
-  };
-
   return (
     <Box className={classes.mainContainer}>
       <PollsModal open={openPoll} onClose={handlePollModal} />
       <ViewFriendsModal open={openFriends} onClose={handleFriendsModal} />
       <AvatarModal open={openAvatarModal} onClose={handleAvatarModal} />
       <Box className={classes.left}>
-        <Box className={classes.leftTop}>
-          <img className={classes.logo} src={Logo} alt='logo' onClick={toHome} />
-        </Box>
+        <Link to='/home' className={classes.link}>
+          <Box className={classes.leftTop}>
+            <img className={classes.logo} src={Logo} alt='logo' />
+          </Box>
+        </Link>
       </Box>
       <Box className={classes.right}>
+        <Link to={'/5f8f6509154d4602b3188057/profile'}>
+          <Typography variant='h6' className={classes.headerOption}>
+            Not a friend
+          </Typography>
+        </Link>
         <Typography variant='h6' className={classes.headerOption} onClick={handleAvatarModal}>
           Avatar
         </Typography>
@@ -116,7 +114,9 @@ const Header = () => {
         >
           Create Poll
         </Button>
-        <Avatar name={user.name} url={user.avatar} onClick={toProfile} />
+        <Link to={`/${user._id}/profile`} className={classes.link}>
+          <Avatar name={user.name} url={user.avatar} />
+        </Link>
         <AiOutlineLogout className={classes.logOut} size={theme.spacing(4)} onClick={handleLogOut} />
       </Box>
     </Box>

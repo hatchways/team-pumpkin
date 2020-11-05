@@ -24,8 +24,7 @@ const App = () => {
           <Redirect from='/' to={!!stateContext.user ? '/home' : '/login'} />
           <Route exact path='/signup' component={SignUpScreen} />
           <Route exact path='/login' component={LoginScreen} />
-          <Route exact path='/home' component={HomeScreen} />
-          <Route exact path='/profile' component={ProfileScreen} />
+          <Route exact path='/:userId/profile' name='profile' component={ProfileScreen} />
           <PrivateRoute exact path='/home' component={HomeScreen} />
           <PrivateRoute exact path='/friends-polls' component={FriendsPollsScreen} />
           <Route exact path='/friends' children={<ViewFriendsModal open={openFriendsModal} onClose={handleClick} />} />

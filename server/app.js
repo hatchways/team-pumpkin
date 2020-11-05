@@ -21,7 +21,6 @@ const friendList = require('./routes/friendlist/friendList');
 const user = require('./routes/user/user');
 
 const { json, urlencoded } = express;
-/*Friend requests*/
 
 var app = express();
 
@@ -32,7 +31,6 @@ app.use(
 );
 
 app.use(logger('dev'));
-app.use(json());
 app.use(
   cors({
     credentials: true,

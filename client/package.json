@@ -10,9 +10,9 @@
     "react": "^16.14.0",
     "react-cookie": "^4.0.3",
     "react-dom": "^16.14.0",
-    "react-dropzone": "^11.2.0",
+    "react-dropzone": "^11.2.3",
     "react-icons": "^3.11.0",
-    "react-query": "^2.25.2",
+    "react-query": "^2.26.1",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.0.1"
   },
@@ -48,6 +48,6 @@
   "devDependencies": {
     "husky": "^4.3.0",
     "prettier": "^2.1.2",
-    "react-query-devtools": "^2.6.0"
+    "react-query-devtools": "^2.6.1"
   }
 }

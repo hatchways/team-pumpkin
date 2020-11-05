@@ -62,16 +62,29 @@ const createFriendList = async (friendList) => {
   }
 };
 
-const editFriendList = async (friendList) => {
+const editFriendList = async (list_id, payload) => {
   try {
-    const result = await fetch('/api/friendLists/lists', {
+    const result = await fetch(`/api/friendLists/lists/${list_id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(friendList),
+      body: JSON.stringify(payload),
       credentials: 'include',
     });
 
-    console.log('result', result);
+    const response = await result.json();
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
+const deleteFriendList = async (list_id) => {
+  try {
+    const result = await fetch(`/api/friendLists/lists/${list_id}`, {
+      method: 'DELETE',
+      credentials: 'include',
+    });
+
     const response = await result.json();
     return response;
   } catch (err) {
@@ -163,6 +176,19 @@ const getFriends = async () => {
   }
 };
 
+const getFriendById = async (friend_id) => {
+  try {
+    const result = await fetch(`/api/friends/${friend_id}`, {
+      method: 'GET',
+      credentials: 'include',
+    });
+    const response = await result.json();
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
 const postVotes = async (payload, pollId) => {
   try {
     console.log('this is payload before go', payload);
@@ -174,13 +200,6 @@ const postVotes = async (payload, pollId) => {
     });
     const response = await result.json();
     return response;
-  } catch (err) {
-    return err;
-  }
-};
-
-const sendFriendRequest = async () => {
-  try {
   } catch (err) {
     return err;
   }
@@ -199,5 +218,6 @@ export {
   getUser,
   getPollsOfUsers,
   uploadAvatar,
-  sendFriendRequest,
+  getFriendById,
+  deleteFriendList,
 };
