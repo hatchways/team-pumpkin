@@ -1,4 +1,4 @@
-import { Box, makeStyles } from '@material-ui/core';
+import { Box, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import React, { useState } from 'react';
 import { HomeFrame, ListContainer } from '..';
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FriendList = ({ className, listOfCategories }) => {
+const FriendList = ({ className, listOfCategories, handleFriendLists, friendsInfo }) => {
   const classes = useStyles();
 
   const [openModal, setOpenModal] = useState(false);
@@ -26,16 +26,33 @@ const FriendList = ({ className, listOfCategories }) => {
   const handleFriendModal = () => setOpenModal(!openModal);
   return (
     <Box className={clsx([classes.mainContainer, className])}>
-      <FriendModal open={openModal} onClose={handleFriendModal} />
+      <FriendModal
+        handleFriendLists={handleFriendLists}
+        open={openModal}
+        onClose={handleFriendModal}
+        type='Create'
+        friendsInfo={friendsInfo}
+      />
       <HomeFrame
         className={classes.listContainer}
         onClick={handleFriendModal}
         buttonLabel='Create list'
         header='Friend lists'
       >
-        {listOfCategories.map((category, id) => (
-          <ListContainer key={id} className={classes.list} title={category.title} listOfFriend={category.category} />
-        ))}
+        {/* {console.log('listOfCategories', listOfCategories)} */}
+        {(!listOfCategories && listOfCategories === undefined) || listOfCategories.length === 0 ? (
+          <Typography variant='h2'>No Friendlists available</Typography>
+        ) : (
+          listOfCategories.map((item) => (
+            <ListContainer
+              key={item.id}
+              className={classes.list}
+              title={item.friendListName}
+              listOfFriend={item.friends}
+              friendListId={item._id}
+            />
+          ))
+        )}
       </HomeFrame>
     </Box>
   );

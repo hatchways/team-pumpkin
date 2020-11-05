@@ -1,6 +1,6 @@
 import React from 'react';
 import { Box, makeStyles, Button, Typography } from '@material-ui/core';
-import { ArrowBackIos, ArrowForwardIos } from '@material-ui/icons';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { Friends } from '../../components';
 import { FriendsPollsList } from '../../components/FriendsPollsList/FriendsPollsList';
 
@@ -113,13 +113,13 @@ const FriendsPolls = () => {
         </Typography>
         <div className={classes.pollContainer}>
           <Button variant='fab' aria-label='Add' className={classes.buttonScroll} onClick={leftScroll}>
-            <ArrowBackIos />
+            <IoIosArrowBack />
           </Button>
           <div className={classes.pollsListContainer} ref={ref}>
             <FriendsPollsList handlePolls={handlePolls} listOfPolls={polls} className={classes.polls} />
           </div>
           <Button variant='fab' aria-label='Add' className={classes.buttonScroll} onClick={rightScroll}>
-            <ArrowForwardIos />
+            <IoIosArrowForward />
           </Button>
         </div>
       </Box>

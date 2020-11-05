@@ -14,10 +14,19 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  avatar: {
+    type: String,
+  },
   friends: [
     {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'user',
+    },
+  ],
+  friendLists: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'friendList',
     },
   ],
   receivedFriendRequests: [
@@ -32,6 +41,10 @@ const UserSchema = new mongoose.Schema({
       ref: 'user',
     },
   ],
+  online: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 module.exports = User = mongoose.model('user', UserSchema);

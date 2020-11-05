@@ -54,6 +54,21 @@ router.post('/friends', [authentication], async function (req, res) {
   }
 });
 
+//@route            GET /api/friends/:friend_id
+//@desc             get a friend info by id
+//@access           Private
+router.get('/friends/:friend_id', [authentication], async (req, res) => {
+  try {
+    //There is already a check for the user's friend so we can
+    //Search the particular user in the DB
+    const friend = await User.findById(req.params.friend_id);
+    if (!friend) return res.status(400).json({ msg: 'Friend not found' });
+    res.json(friend);
+  } catch (err) {
+    res.status(500).send('Server error');
+  }
+});
+
 //@route            DELETE /api/friends/:id
 //@desc             Delete the user as a friend
 //@access           Private
