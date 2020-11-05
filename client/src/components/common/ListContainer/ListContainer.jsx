@@ -2,10 +2,8 @@ import { Box, Divider, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
 import React, { useEffect, useState, useContext } from 'react';
 import { AiTwotoneSetting } from 'react-icons/ai';
-import { GrClose } from 'react-icons/gr';
 import { theme } from '../../../themes/theme';
 import { Avatar } from '../Avatar/Avatar';
-import ListItem from './ListItem';
 import FriendModal from '../../friendModal/FriendModal';
 import { GlobalContext } from '../../../utils';
 

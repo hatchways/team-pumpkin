@@ -31,54 +31,6 @@ const signInCall = async (user) => {
   }
 };
 
-const createFriendList = async (friendList) => {
-  try {
-    const result = await fetch('/api/friendLists/lists', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(friendList),
-      credentials: 'include',
-    });
-    // console.log(JSON.stringify(friendList));
-    console.log('result', result);
-    const response = await result.json();
-    console.log('response', response);
-    return response;
-  } catch (err) {
-    return err;
-  }
-};
-
-const editFriendList = async (list_id, payload) => {
-  try {
-    const result = await fetch(`/api/friendLists/lists/${list_id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
-      credentials: 'include',
-    });
-
-    const response = await result.json();
-    return response;
-  } catch (err) {
-    return err;
-  }
-};
-
-const deleteFriendList = async (list_id) => {
-  try {
-    const result = await fetch(`/api/friendLists/lists/${list_id}`, {
-      method: 'DELETE',
-      credentials: 'include',
-    });
-
-    const response = await result.json();
-    return response;
-  } catch (err) {
-    return err;
-  }
-};
-
 const createPost = async (payload) => {
   try {
     const result = await fetch('/api/polls', {
@@ -88,19 +40,6 @@ const createPost = async (payload) => {
       credentials: 'include',
     });
 
-    const response = await result.json();
-    return response;
-  } catch (err) {
-    return err;
-  }
-};
-
-const getFriendLists = async () => {
-  try {
-    const result = await fetch('/api/friendLists/lists', {
-      method: 'GET',
-      credentials: 'include',
-    });
     const response = await result.json();
     return response;
   } catch (err) {
@@ -134,18 +73,18 @@ const getFriends = async () => {
   }
 };
 
-const getFriendById = async (friend_id) => {
-  try {
-    const result = await fetch(`/api/friends/${friend_id}`, {
-      method: 'GET',
-      credentials: 'include',
-    });
-    const response = await result.json();
-    return response;
-  } catch (err) {
-    return err;
-  }
-};
+// const getFriendById = async (friend_id) => {
+//   try {
+//     const result = await fetch(`/api/friends/${friend_id}`, {
+//       method: 'GET',
+//       credentials: 'include',
+//     });
+//     const response = await result.json();
+//     return response;
+//   } catch (err) {
+//     return err;
+//   }
+// };
 
 const postVotes = async (payload, pollId) => {
   try {
@@ -208,19 +147,4 @@ const getUserList = async (payload) => {
   }
 };
 
-export {
-  signInCall,
-  signUpCall,
-  getFriendLists,
-  createFriendList,
-  createPost,
-  getPolls,
-  getFriends,
-  getFriendById,
-  editFriendList,
-  postVotes,
-  deleteFriendList,
-  deletePolls,
-  updatePost,
-  getUserList,
-};
+export { signInCall, signUpCall, createPost, getPolls, getFriends, postVotes, deletePolls, updatePost, getUserList };

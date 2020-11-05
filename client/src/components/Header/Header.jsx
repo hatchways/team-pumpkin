@@ -1,6 +1,6 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import React, { useContext, useState } from 'react';
-import { Link, Redirect } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { AiOutlineLogout } from 'react-icons/ai';
 import { useHistory } from 'react-router-dom';
 import { Avatar, Button, PollsModal } from '../';
@@ -53,6 +53,7 @@ const Header = () => {
   const classes = useStyles();
   const [openPoll, setOpenPoll] = useState(false);
   const history = useHistory();
+  const action = useContext(GlobalContext);
 
   const user = useContext(GlobalContext).globalValue.user;
 
@@ -64,8 +65,8 @@ const Header = () => {
   const handlePollModal = () => setOpenPoll(!openPoll);
   const handleLogOut = () => {
     localStorage.removeItem('user');
-    //history.push('/login');
-    window.location.reload();
+    action.dispatch({ type: 'loggedOut' });
+    history.push('/login');
   };
 
   //To show the new poll when using the modal from the header

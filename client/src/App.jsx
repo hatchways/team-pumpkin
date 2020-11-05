@@ -1,6 +1,6 @@
 import React, { Suspense, useContext, useState } from 'react';
 import { ReactQueryDevtools } from 'react-query-devtools';
-import { Route, Switch, Redirect, Router } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import './App.css';
 import { Header, LoadingScreen } from './components';
 import { ViewFriendsModal } from './components/friendModal/ViewFriendsModal';
@@ -19,7 +19,7 @@ const App = () => {
 
   return (
     <>
-      {user && <Header />}
+      {!!user && <Header />}
       <Switch>
         <Suspense fallback={<LoadingScreen />}>
           <Redirect from='/' to={!!user ? '/home' : '/login'} />

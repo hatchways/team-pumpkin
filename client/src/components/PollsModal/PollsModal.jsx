@@ -6,7 +6,7 @@ import { useDropzone } from 'react-dropzone';
 import { AiOutlineExpand } from 'react-icons/ai';
 import { useHistory } from 'react-router-dom';
 import { createPost, updatePost } from '../../api';
-import { getAllFriendLists } from '../../api/friendListsApi';
+import { getFriendLists } from '../../api/friendListsApi';
 import { theme } from '../../themes/theme';
 import { useValue } from '../../utils/';
 import { Button } from '../common/Button/Button';
@@ -95,7 +95,7 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.primary.main,
   },
 }));
-const mockFriendsList = ['one', 'two', 'three'];
+
 const PollsModal = ({ open, onClose, className, handlePolls, isForUpdate, pollId }) => {
   const classes = useStyles();
   const [question, handleQuestion, resetQuestion] = useValue('');
@@ -106,12 +106,12 @@ const PollsModal = ({ open, onClose, className, handlePolls, isForUpdate, pollId
   const [friendsLists, setFriendsLists] = useState([]);
   const history = useHistory();
 
-  const allFriendLists = useQuery('allFriendLists', getAllFriendLists);
+  const allFriendLists = useQuery('allFriendLists', getFriendLists);
   const allFriendListsData = allFriendLists.data;
 
   useEffect(() => {
     if (allFriendListsData) {
-      const friendListArray = allFriendListsData.data;
+      const friendListArray = allFriendListsData;
       if (friendListArray.length > 0) {
         setFriendsLists(friendListArray.map((friendList) => friendList.friendListName));
       }
