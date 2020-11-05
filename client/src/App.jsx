@@ -5,7 +5,14 @@ import PrivateRoute from '../src/components/PrivateRoute/PrivateRoute';
 import './App.css';
 import { Header, LoadingScreen } from './components';
 import { ViewFriendsModal } from './components/friendModal/ViewFriendsModal';
-import { FriendsPollsScreen, HomeScreen, LoginScreen, PollFrameScreen, SignUpScreen } from './LazyComponents';
+import {
+  FriendsPollsScreen,
+  HomeScreen,
+  LoginScreen,
+  PollFrameScreen,
+  ProfileScreen,
+  SignUpScreen,
+} from './LazyComponents';
 import { GlobalContext } from './utils';
 
 const App = () => {
@@ -28,6 +35,7 @@ const App = () => {
           <Route exact path='/home' component={HomeScreen} />
           <PrivateRoute exact path='/friends-polls' component={FriendsPollsScreen} />
           <Route path='/poll/:id' component={PollFrameScreen} />
+          <Route exact path='/:user_id/profile' component={ProfileScreen} />
           <Route exact path='/friends' children={<ViewFriendsModal open={openFriendsModal} onClose={handleClick} />} />
         </Suspense>
       </Switch>

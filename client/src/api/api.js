@@ -31,6 +31,19 @@ const signInCall = async (user) => {
   }
 };
 
+const getUser = async (userId) => {
+  try {
+    const result = await fetch(`/api/user/${userId}`, {
+      method: 'GET',
+      credentials: 'include',
+    });
+    const response = await result.json();
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
 const createFriendList = async (friendList) => {
   try {
     const result = await fetch('/api/friendLists/lists', {
@@ -83,8 +96,23 @@ const createPost = async (payload) => {
   try {
     const result = await fetch('/api/polls', {
       method: 'POST',
-      // headers: { 'Content-Type': 'multipart/form-data' },
       body: payload,
+      credentials: 'include',
+    });
+
+    const response = await result.json();
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
+const uploadAvatar = async (payload) => {
+  try {
+    const result = await fetch('http://localhost:3001/api/user/avatar', {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
       credentials: 'include',
     });
 
@@ -124,6 +152,19 @@ const getPolls = async () => {
 const getFriends = async () => {
   try {
     const result = await fetch('/api/friends', {
+      method: 'GET',
+      credentials: 'include',
+    });
+    const response = await result.json();
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
+const getPollsOfUsers = async (userId) => {
+  try {
+    const result = await fetch(`/api/polls/view/${userId}`, {
       method: 'GET',
       credentials: 'include',
     });
@@ -223,4 +264,7 @@ export {
   deletePolls,
   updatePost,
   getUserList,
+  getPollsOfUsers,
+  uploadAvatar,
+  getUser,
 };

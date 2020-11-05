@@ -6,5 +6,6 @@ const HomeScreen = lazy(() => import('../src/pages/Home/Home'));
 const PollFrameScreen = lazy(() => import('../src/components/PollFrame/PollFrame'));
 
 const FriendsPollsScreen = lazy(() => import('../src/pages/FriendsPolls/FriendsPolls'));
+const ProfileScreen = lazy(() => import('../src/pages/Profile/Profile'));
 
-export { SignUpScreen, LoginScreen, HomeScreen, FriendsPollsScreen, PollFrameScreen };
+export { SignUpScreen, LoginScreen, HomeScreen, FriendsPollsScreen, PollFrameScreen, ProfileScreen };

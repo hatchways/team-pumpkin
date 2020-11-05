@@ -6,6 +6,7 @@ import { Avatar, Button, PollsModal } from '../';
 import Logo from '../../assets/logo-trans.png';
 import { theme } from '../../themes/theme';
 import { GlobalContext } from '../../utils';
+import { AvatarModal } from '../common/Avatar/AvatarModal';
 import { ViewFriendsModal } from '../friendModal/ViewFriendsModal';
 
 const useStyles = makeStyles((theme) => ({
@@ -59,6 +60,7 @@ const Header = () => {
   const user = useContext(GlobalContext).globalValue.user;
 
   const [openFriends, setOpenFriends] = useState(false);
+  const [openAvatarModal, setAvatarModal] = useState(false);
 
   function handleFriendsModal() {
     setOpenFriends(!openFriends);
@@ -70,16 +72,30 @@ const Header = () => {
     history.push('/login');
   };
 
+  const handleAvatarModal = () => setAvatarModal(!openAvatarModal);
+
+  const toProfile = () => {
+    history.push(`/${user._id}/profile`);
+  };
+
+  const toHome = () => {
+    history.push('/home');
+  };
+
   return (
     <Box className={classes.mainContainer}>
       <PollsModal open={openPoll} onClose={handlePollModal} />
       <ViewFriendsModal open={openFriends} onClose={handleFriendsModal} />
+      <AvatarModal open={openAvatarModal} onClose={handleAvatarModal} />
       <Box className={classes.left}>
-        <Box className={classes.leftTop} onClick={() => history.push('/home')}>
-          <img className={classes.logo} src={Logo} alt='logo' />
+        <Box className={classes.leftTop}>
+          <img className={classes.logo} src={Logo} alt='logo' onClick={toHome} />
         </Box>
       </Box>
       <Box className={classes.right}>
+        <Typography variant='h6' className={classes.headerOption} onClick={handleAvatarModal}>
+          Avatar
+        </Typography>
         <Typography variant='h6' className={classes.headerOption} onClick={handleFriendsModal}>
           Friends
         </Typography>
@@ -101,7 +117,11 @@ const Header = () => {
         >
           Create Poll
         </Button>
-        <Avatar name={user.name} url='https://img1.grunge.com/img/uploads/2018/05/characters-destroyed-thanos.jpg' />
+        <Avatar
+          name={user.name}
+          url='https://img1.grunge.com/img/uploads/2018/05/characters-destroyed-thanos.jpg'
+          onClick={toProfile}
+        />
         <AiOutlineLogout className={classes.logOut} size={theme.spacing(4)} onClick={handleLogOut} />
       </Box>
     </Box>
