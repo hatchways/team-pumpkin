@@ -82,7 +82,6 @@ const PollFrame = () => {
   const numberOfVotesForUrl2 = votesForUrl2.length;
   const totalVotes = numberOfVotesForUrl1 + numberOfVotesForUrl2;
 
-  console.log('this is params', params);
   const handlePollModal = () => setOpenPOll(!openPoll);
 
   const handleDeletePolls = async (event) => {
@@ -95,8 +94,6 @@ const PollFrame = () => {
   useEffect(() => {
     getUserList({ votesForUrl1, votesForUrl2 }).then((result) => setUserList(result));
   }, [votesForUrl1, votesForUrl2]);
-
-  console.log('this is votes', userList);
 
   return (
     <Box className={classes.mainContainer}>

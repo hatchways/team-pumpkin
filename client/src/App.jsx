@@ -16,8 +16,6 @@ const App = () => {
   };
   const user = useContext(GlobalContext).globalValue.user;
 
-  console.log('this is user', useContext(GlobalContext));
-
   return (
     <>
       {!!user && <Header />}

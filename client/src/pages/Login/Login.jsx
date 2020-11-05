@@ -51,8 +51,6 @@ const Login = () => {
     handler(event);
   };
 
-  console.log('this is context', action);
-
   const onSubmit = async (event) => {
     try {
       event.preventDefault();

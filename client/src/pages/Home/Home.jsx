@@ -40,7 +40,6 @@ const Home = () => {
 
   useEffect(() => {
     setPolls(data);
-    console.log('this is data', data);
   }, [data]);
 
   const handlePolls = (info) => {
