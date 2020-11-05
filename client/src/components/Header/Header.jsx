@@ -51,7 +51,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Header = () => {
+const Header = ({ name }) => {
   const classes = useStyles();
   const [openPoll, setOpenPoll] = useState(false);
   const history = useHistory();

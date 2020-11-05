@@ -97,7 +97,7 @@ const SignUp = () => {
         //window.location.reload();
       } else {
         localStorage.setItem('user', JSON.stringify(result.userObject));
-        action.dispatch({ type: 'loggedIn', payload: result });
+        action.dispatch({ type: 'loggedIn', payload: result.userObject });
         reset();
         history.push('/home');
       }
