@@ -78,13 +78,15 @@ const Header = () => {
     history.push(`/${user._id}/profile`);
   };
 
-  const toHome = () => {
+  const toHome = () => history.push('/home');
+  //To show the new poll when u sing the modal from the header
+  const handlePolls = (info) => {
     history.push('/home');
   };
 
   return (
     <Box className={classes.mainContainer}>
-      <PollsModal open={openPoll} onClose={handlePollModal} />
+      <PollsModal open={openPoll} onClose={handlePollModal} handlePolls={handlePolls} />
       <ViewFriendsModal open={openFriends} onClose={handleFriendsModal} />
       <AvatarModal open={openAvatarModal} onClose={handleAvatarModal} />
       <Box className={classes.left}>

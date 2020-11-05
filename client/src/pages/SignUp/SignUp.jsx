@@ -39,7 +39,7 @@ const SignUp = () => {
 
   const stateContext = useContext(GlobalContext);
 
-  if (!!stateContext.user) {
+  if (!!stateContext.globalValue.user) {
     return <Redirect to='/home' />;
   }
 
@@ -87,6 +87,14 @@ const SignUp = () => {
           type: 'password',
           description: 'Wrong Details',
         });
+      }
+      const { userObject } = result;
+      if (userObject) {
+        localStorage.setItem('user', JSON.stringify(userObject));
+        reset();
+
+        history.push('/home');
+        //window.location.reload();
       } else {
         localStorage.setItem('user', JSON.stringify(result.userObject));
         action.dispatch({ type: 'loggedIn', payload: result });

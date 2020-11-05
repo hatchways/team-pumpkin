@@ -8,7 +8,7 @@ const createFriendList = async (payload) => {
       credentials: 'include',
       body: JSON.stringify(payload),
     });
-    const response = { status: result.status, data: await result.json() };
+    const response = await result.json();
     return response;
   } catch (err) {
     console.log(err);
@@ -16,30 +16,45 @@ const createFriendList = async (payload) => {
   }
 };
 
-const deleteFriendList = async (listId) => {
+const editFriendList = async (list_id, payload) => {
   try {
-    const result = await fetch(`api/friendLists/lists/${listId}`, {
+    const result = await fetch(`/api/friendLists/lists/${list_id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      credentials: 'include',
+    });
+
+    const response = await result.json();
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
+const deleteFriendList = async (list_id) => {
+  try {
+    const result = await fetch(`/api/friendLists/lists/${list_id}`, {
       method: 'DELETE',
       credentials: 'include',
     });
-    const response = { status: result.status, data: await result.json() };
+
+    const response = await result.json();
     return response;
   } catch (err) {
-    console.log(err);
     return err;
   }
 };
 
-const getAllFriendLists = async () => {
+const getFriendLists = async () => {
   try {
-    const result = await fetch('api/friendLists/lists', {
+    const result = await fetch('/api/friendLists/lists', {
       method: 'GET',
       credentials: 'include',
     });
-    const response = { status: result.status, data: await result.json() };
+    const response = await result.json();
     return response;
   } catch (err) {
-    console.log(err);
     return err;
   }
 };
@@ -76,4 +91,4 @@ const updateFriendList = async (listId, payload) => {
   }
 };
 
-export { createFriendList, updateFriendList, deleteFriendList, getOneFriendList, getAllFriendLists };
+export { createFriendList, updateFriendList, editFriendList, deleteFriendList, getOneFriendList, getFriendLists };

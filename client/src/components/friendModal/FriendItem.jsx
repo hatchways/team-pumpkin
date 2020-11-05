@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { ListItem, ListItemAvatar, ListItemText, Button, Avatar, makeStyles } from '@material-ui/core';
-import { theme } from '../../themes/theme';
 
 const useStyles = makeStyles((theme) => ({
   addFriendButton: {

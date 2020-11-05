@@ -108,7 +108,8 @@ const FriendModal = ({ open, onClose, className, name, type, id, handleFriendLis
         friends: friends,
       };
 
-      const response = await createFriendList(newList);
+      //const response = await createFriendList(newList);
+      await createFriendList(newList);
       // handleFriendLists(response);
       setError({ description: '' });
       onClose();
@@ -124,7 +125,7 @@ const FriendModal = ({ open, onClose, className, name, type, id, handleFriendLis
       return;
     }
     // If no friends are added to the list
-    else if (!friends || friends.length == 0) {
+    else if (!friends || friends.length === 0) {
       setError({ description: 'The friend list has no friends' });
       return;
     } else {
@@ -136,7 +137,8 @@ const FriendModal = ({ open, onClose, className, name, type, id, handleFriendLis
         friends: friends,
       };
 
-      const response = await editFriendList(id, newList);
+      //const response = await editFriendList(id, newList);
+      await editFriendList(id, newList);
       // handleFriendLists(response);
       onClose();
       refreshPage();
@@ -146,7 +148,6 @@ const FriendModal = ({ open, onClose, className, name, type, id, handleFriendLis
 
   const handleDelete = async (event) => {
     event.preventDefault();
-    // console.log('id', id);
     await deleteFriendList(id);
     onClose();
     refreshPage();
@@ -163,8 +164,10 @@ const FriendModal = ({ open, onClose, className, name, type, id, handleFriendLis
   };
 
   const getAvatar = (friend) => {
-    for (let i = 0; i < friendsDetails.length; i++) {
-      if (friendsDetails[i].id === friend) return friendsDetails[i].avatar;
+    if (friendsDetails) {
+      for (let i = 0; i < friendsDetails.length; i++) {
+        if (friendsDetails[i].id === friend) return friendsDetails[i].avatar;
+      }
     }
   };
 
@@ -188,7 +191,6 @@ const FriendModal = ({ open, onClose, className, name, type, id, handleFriendLis
 
         <List className={classes.friendList} alignItems='flex-start'>
           {/* Create List */}
-
           {myFriends &&
             (type === 'Create'
               ? myFriends.map((friend) => (

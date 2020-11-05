@@ -1,7 +1,8 @@
 import { Box, makeStyles } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
-import { getFriendLists, getPolls } from '../../api/api';
+import { getPolls } from '../../api/api';
+import { getFriendLists } from '../../api/friendListsApi';
 import { FriendList, Friends, Polls } from '../../components';
 import { GlobalContext } from '../../utils/context';
 
@@ -36,30 +37,23 @@ const useStyles = makeStyles((theme) => ({
 
 const Home = () => {
   const classes = useStyles();
-  const stateContext = useContext(GlobalContext);
-  const user = stateContext.user;
+  const userContext = useContext(GlobalContext);
   const [polls, setPolls] = useState([]);
   const [friendLists, setFriendLists] = useState([]);
   let friendsInfo = [];
-  const { data, isLoading, isFetching } = useQuery('polls', getPolls);
-  // const { friendlistData, isLoadingFriendList, isFetchingFriendList } = useQuery('friendlists', getFriendLists);
+  const { data } = useQuery('polls', getPolls);
   var friendlistData;
-  const [friendsData, setFriendsData] = useState([]);
 
   //Helper function for retrieving the friendlists
   const fetchData = async () => {
     friendlistData = await getFriendLists();
-    friendsInfo = await stateContext.globalValue.friendsInfo;
-    console.log('this is friendlistData', friendsInfo);
+    friendsInfo = await userContext.globalValue.friendsInfo;
     setFriendLists(friendlistData);
   };
 
-  // useEffect(() => {}, [data]);
   useEffect(() => {
     setPolls(data);
     fetchData();
-    // setFriendLists(friendlistData);
-    // console.log('this is data', friendLists);
   }, [data]);
 
   const handlePolls = (info) => {

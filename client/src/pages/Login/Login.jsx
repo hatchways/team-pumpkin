@@ -48,7 +48,7 @@ const Login = () => {
 
   const stateContext = useContext(GlobalContext);
 
-  if (!!stateContext.user) {
+  if (!!stateContext.globalValue.user) {
     return <Redirect to='/home' />;
   }
 

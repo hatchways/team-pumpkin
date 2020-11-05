@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const PollViewer = (props) => {
-  const { question, numberOfAnswer, url1, url2, votesForUrl1, votesForUrl2, _id, userId, handlePolls } = props;
+  const { question, url1, url2, votesForUrl1, votesForUrl2, _id, userId, handlePolls } = props;
   const classes = useStyles();
 
   const makeVotes = async (img, userID) => {

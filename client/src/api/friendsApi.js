@@ -12,21 +12,30 @@ const getFriends = async () => {
   }
 };
 
-async function getSuggestedFriends() {
+const getSuggestedFriends = async () => {
   try {
     return await makeGetRequest('/api/suggested-friends');
   } catch (err) {
     return err;
   }
-}
+};
 
-async function getReceivedRequests() {
+const getReceivedRequests = async () => {
   try {
     return await makeGetRequest('/api/received-requests');
   } catch (err) {
     return err;
   }
-}
+};
+
+const getFriendById = async (friend_id) => {
+  try {
+    const result = await makeGetRequest(`/api/friends/${friend_id}`);
+    return result.data;
+  } catch (err) {
+    return err;
+  }
+};
 
 /**
  *
@@ -130,4 +139,5 @@ export {
   deleteFriend,
   deleteOutgoingFriendRequest,
   deleteReceivedFriendRequest,
+  getFriendById,
 };

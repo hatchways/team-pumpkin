@@ -131,10 +131,7 @@ router.get('/lists/:list_id', authentication, async (req, res) => {
 router.put(
   '/lists/:list_id',
   authentication,
-  [
-    check('user', 'User is required').not().isEmpty(),
-    check('friendListName', 'Friend List name is required').not().isEmpty(),
-  ],
+  [check('friendListName', 'Friend List name is required').not().isEmpty()],
   async (req, res) => {
     try {
       console.log('edit');
@@ -175,7 +172,7 @@ router.put(
 */
 router.patch('/lists/:list_id', authentication, async (req, res) => {
   try {
-    const { user, friendListName, friends } = req.body;
+    const { friendListName, friends } = req.body;
     const updateFriendList = { friendListName, friends };
 
     FriendList.findByIdAndUpdate(req.params.list_id, updateFriendList, {
