@@ -85,11 +85,6 @@ const Header = (props) => {
         </Link>
       </Box>
       <Box className={classes.right}>
-        <Link to={'/5f8f6509154d4602b3188057/profile'}>
-          <Typography variant='h6' className={classes.headerOption}>
-            Not a friend
-          </Typography>
-        </Link>
         <Typography variant='h6' className={classes.headerOption} onClick={handleAvatarModal}>
           Avatar
         </Typography>
