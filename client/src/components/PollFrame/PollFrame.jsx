@@ -15,12 +15,11 @@ const useStyles = makeStyles((theme) => ({
   right: {
     display: 'flex',
     flexDirection: 'column',
-    // height: '100vh',
-    width: '85%',
+    width: '80%',
     padding: theme.spacing(10),
   },
   left: {
-    width: '15%',
+    width: '20%',
     borderRightColor: theme.palette.secondary.dark,
     borderRight: 'solid',
     borderWidth: 1,
@@ -41,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
   },
   imagesContainer: {
     display: 'flex',
-    // justifyContent: 'space-evenly',
     marginTop: theme.spacing(5),
   },
   imageContainer: {

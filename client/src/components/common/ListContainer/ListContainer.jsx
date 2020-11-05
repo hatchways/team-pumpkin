@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 3,
     display: 'flex',
     flexDirection: 'column',
+    boxShadow: `0 8px 16px -7px ${theme.palette.secondary.main}`,
   },
   headerContainer: {
     padding: theme.spacing(2),

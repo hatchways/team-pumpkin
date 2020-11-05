@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
     position: 'sticky',
     top: 0,
     zIndex: 1200,
+    boxShadow: `0 3px 4px -3px ${theme.palette.secondary.dark}`,
   },
   left: {
     flex: 4,
