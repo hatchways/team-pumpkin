@@ -93,6 +93,7 @@ const Login = () => {
         });
       } else {
         localStorage.setItem('user', JSON.stringify(result.userObject));
+        action.dispatch({ type: 'loggedIn', payload: result });
         reset();
         history.push('/home');
       }

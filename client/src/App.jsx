@@ -9,13 +9,13 @@ import { FriendsPollsScreen, HomeScreen, LoginScreen, PollFrameScreen, SignUpScr
 import { GlobalContext } from './utils';
 
 const App = () => {
-  const user = useContext(GlobalContext).globalValue.user;
   const [openFriendsModal, setOpenFriendsModal] = useState(true);
   // const user = getValueFromLocalStorage('user');
 
   const handleClick = () => {
     setOpenFriendsModal(!openFriendsModal);
   };
+  const user = useContext(GlobalContext).globalValue.user;
 
   return (
     <>

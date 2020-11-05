@@ -54,6 +54,7 @@ const Header = () => {
   const classes = useStyles();
   const [openPoll, setOpenPoll] = useState(false);
   const history = useHistory();
+  const action = useContext(GlobalContext);
 
   const user = useContext(GlobalContext).globalValue.user;
 
@@ -65,6 +66,7 @@ const Header = () => {
   const handlePollModal = () => setOpenPoll(!openPoll);
   const handleLogOut = () => {
     localStorage.removeItem('user');
+    action.dispatch({ type: 'loggedOut' });
     history.push('/login');
   };
 
