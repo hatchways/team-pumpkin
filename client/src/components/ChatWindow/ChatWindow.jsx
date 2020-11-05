@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Button, makeStyles, Paper, Box, Grow, Avatar, Typography } from '@material-ui/core';
 import { InputField } from '../common/InputField/InputField';
-import SendIcon from '@material-ui/icons/Send';
-import MinimizeIcon from '@material-ui/icons/Minimize';
-import CloseIcon from '@material-ui/icons/Close';
+import { IoIosClose, IoIosRemove, IoMdSend } from 'react-icons/io';
 
 const useStyles = makeStyles((theme) => ({
   paperStyle: {
@@ -181,8 +179,8 @@ const ChatWindow = ({ close, setClose }) => {
             User 2
           </Typography>
           <Box className={classes.closeIcons}>
-            <MinimizeIcon className={classes.minimise} onClick={handleMinimise} />
-            <CloseIcon className={classes.minimise} onClick={handleClose} />
+            <IoIosRemove className={classes.minimise} onClick={handleMinimise} size={24} />
+            <IoIosClose className={classes.minimise} onClick={handleClose} size={24} />
           </Box>
         </Box>
         <div className={minimise ? classes.hidden : classes.container}>
@@ -198,7 +196,7 @@ const ChatWindow = ({ close, setClose }) => {
         <div className={minimise ? classes.hidden : classes.inputContainer}>
           <InputField placeholder='Enter message...' onChange={handleTyping} />
           <Button className={classes.sendBtn}>
-            <SendIcon />
+            <IoMdSend size={24} />
           </Button>
         </div>
       </Paper>
