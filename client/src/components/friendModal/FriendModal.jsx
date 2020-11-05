@@ -71,12 +71,9 @@ const FriendModal = ({ open, onClose, className, name, type, id, handleFriendLis
   const userContext = useContext(GlobalContext);
   const user = userContext.user;
   const [friendListName, handleFriendListName, setFriendListName] = useValue('');
-  // const friendsInfo = async () => await userContext.friendsInfo;
   const [error, setError] = useState({ description: '' });
   const [friendsDetails, setFriendsDetails] = useState([]);
   const [friends, setFriends] = useState([]);
-  const [myFriends, setMyFriends] = useState(user.friends);
-  // const [friendData, setFriendsData] = useState([]);
 
   const refreshPage = () => {
     window.location.reload();
@@ -89,6 +86,7 @@ const FriendModal = ({ open, onClose, className, name, type, id, handleFriendLis
 
   useEffect(() => {
     fetchFriends();
+    console.log('Friends detail', friendsDetails);
   }, [friendsDetails]);
 
   const handleSubmit = async (event) => {
@@ -155,22 +153,6 @@ const FriendModal = ({ open, onClose, className, name, type, id, handleFriendLis
     refreshPage();
   };
 
-  const getName = (friend) => {
-    if (friendsDetails !== null) {
-      for (let i = 0; i < friendsDetails.length; i++) {
-        if (friendsDetails[i].id === friend) return friendsDetails[i].name;
-      }
-    }
-
-    return null;
-  };
-
-  const getAvatar = (friend) => {
-    for (let i = 0; i < friendsDetails.length; i++) {
-      if (friendsDetails[i].id === friend) return friendsDetails[i].avatar;
-    }
-  };
-
   return (
     <Modal
       className={className}
@@ -192,30 +174,30 @@ const FriendModal = ({ open, onClose, className, name, type, id, handleFriendLis
         <List className={classes.friendList} alignItems='flex-start'>
           {/* Create List */}
           {type === 'Create'
-            ? myFriends.map((friend) => (
+            ? friendsDetails.map((friend) => (
                 <li key={friend.id}>
                   <Divider />
                   <FriendItem
-                    friend={friend}
+                    friend={friend.id}
                     checked={false}
                     friends={friends}
                     onChange={setFriends}
-                    name={getName(friend)}
-                    icon={getAvatar(friend)}
+                    name={friend.name}
+                    icon={friend.avatar}
                   ></FriendItem>
                 </li>
               ))
             : // Edit List
-              myFriends.map((friend) => (
+              friendsDetails.map((friend) => (
                 <li key={friend.id}>
                   <Divider />
                   <FriendItem
-                    friend={friend}
+                    friend={friend.id}
                     checked={false}
                     friends={friends}
                     onChange={setFriends}
-                    name={getName(friend)}
-                    icon={getAvatar(friend)}
+                    name={friend.name}
+                    icon={friend.avatar}
                   ></FriendItem>
                 </li>
               ))}

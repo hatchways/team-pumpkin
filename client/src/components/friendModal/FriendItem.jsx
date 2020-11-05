@@ -30,7 +30,7 @@ const FriendItem = ({ friend, friends, onChange, type, name, icon, checked }) =>
   return (
     <ListItem>
       <ListItemAvatar>
-        <Avatar url={icon} />
+        <Avatar src={icon} />
       </ListItemAvatar>
       <ListItemText primary={name}></ListItemText>
       <Button
