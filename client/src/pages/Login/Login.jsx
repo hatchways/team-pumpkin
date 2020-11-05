@@ -86,7 +86,7 @@ const Login = () => {
       }
       const result = await signInCall(values);
 
-      if (result === undefined) {
+      if (result.userObject === undefined) {
         setError({
           type: 'password',
           description: 'Wrong Details',

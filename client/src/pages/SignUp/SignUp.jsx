@@ -82,7 +82,7 @@ const SignUp = () => {
         return;
       }
       const result = await signUpCall(values);
-      if (result === undefined) {
+      if (result.userObject === undefined) {
         setError({
           type: 'password',
           description: 'Wrong Details',
