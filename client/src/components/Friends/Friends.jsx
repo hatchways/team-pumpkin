@@ -1,5 +1,6 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
+import clsx from 'clsx';
 import { Avatar } from '../common/Avatar/Avatar';
 import { ChatWindow } from '../ChatWindow/ChatWindow';
 
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Friends = ({ friendList, ...rest }) => {
+const Friends = ({ friendList, className, ...rest }) => {
   const classes = useStyles();
   const [close, setClose] = useState(true);
 
@@ -42,7 +43,7 @@ const Friends = ({ friendList, ...rest }) => {
 
   return (
     <Box className={classes.mainContainer}>
-      <Typography className={classes.header} variant='h3'>
+      <Typography className={clsx([classes.header, className])} variant='h3'>
         Friends
       </Typography>
 
