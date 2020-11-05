@@ -59,7 +59,7 @@ const ListContainer = ({ className, listOfFriend, title, friendListId, handleFri
   const handleFriendListModal = () => setFriendListModal(!openFriendListModal);
 
   const fetchFriends = async () => {
-    const res = await userContext.friendsInfo;
+    const res = await userContext.globalValue.friendsInfo;
     setFriendsDetails(res);
   };
 
@@ -68,7 +68,7 @@ const ListContainer = ({ className, listOfFriend, title, friendListId, handleFri
   }, [friendsDetails]);
 
   const getName = (friend) => {
-    if (friendsDetails !== null) {
+    if (friendsDetails) {
       for (let i = 0; i < friendsDetails.length; i++) {
         if (friendsDetails[i].id === friend) return friendsDetails[i].name;
       }
@@ -76,8 +76,10 @@ const ListContainer = ({ className, listOfFriend, title, friendListId, handleFri
   };
 
   const getAvatar = (friend) => {
-    for (let i = 0; i < friendsDetails.length; i++) {
-      if (friendsDetails[i].id === friend) return friendsDetails[i].avatar;
+    if (friendsDetails) {
+      for (let i = 0; i < friendsDetails.length; i++) {
+        if (friendsDetails[i].id === friend) return friendsDetails[i].avatar;
+      }
     }
   };
 

@@ -12,12 +12,16 @@ router.post('/votes/:pollId', authentication, async (req, res) => {
     const { pollId } = req.params;
     const pollOwnerDetails = await User.findOne({ _id: pollOwnerId });
 
+    console.log('Poll owner and user', pollOwnerId, userId);
+    console.log('Poll Owner Details', pollOwnerDetails);
+
     if (pollOwnerId !== userId && pollOwnerDetails.friends.includes(userId)) {
       const votesArray = voteFor === 'img1' ? 'votesForUrl1' : 'votesForUrl2';
       const pollOwnerSpecificPoll = await Poll.findOne({ userId: pollOwnerId, _id: pollId });
 
       //Check if the user is part of the invited users for this poll
       const friendList = await FriendList.findOne({ friendListName: pollOwnerSpecificPoll.friend, user: pollOwnerId });
+      console.log(friendList);
       if (!friendList.friends.includes(userId)) {
         return res.status(400).json({ msg: 'User is not a part of this friendlist' });
       }
