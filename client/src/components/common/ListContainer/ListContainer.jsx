@@ -123,7 +123,7 @@ const ListContainer = ({ className, listOfFriend, title, friendListId, handleFri
       <Divider light />
       <Box className={classes.list}>
         {listOfFriend.map((friend, id) => (
-          <Link to={`/${friend}/profile`}>
+          <Link to={`/${friend}/profile`} className={classes.link}>
             <Avatar
               key={id}
               url={getAvatar(friend)}
