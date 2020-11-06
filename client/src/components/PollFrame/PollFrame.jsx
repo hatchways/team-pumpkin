@@ -1,10 +1,11 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { BsFillHeartFill } from 'react-icons/bs';
 import { useHistory, useLocation, useParams } from 'react-router-dom';
 import { Button, Friend, Friends, PollsModal } from '..';
 import { deletePolls, getUserList } from '../../api';
 import { theme } from '../../themes/theme';
+import { GlobalContext } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -73,6 +74,8 @@ const PollFrame = () => {
   const classes = useStyles();
   const [openPoll, setOpenPOll] = useState(false);
   const [userList, setUserList] = useState([]);
+  const [friends, setFriends] = useState([]);
+  const userContext = useContext(GlobalContext);
 
   const params = useParams();
   const history = useHistory();
@@ -93,13 +96,16 @@ const PollFrame = () => {
 
   useEffect(() => {
     getUserList({ votesForUrl1, votesForUrl2 }).then((result) => setUserList(result));
+    getUserList({ votesForUrl1: userContext.globalValue.user.friends, votesForUrl2: [] }).then((resp) => {
+      setFriends(resp);
+    });
   }, [votesForUrl1, votesForUrl2]);
 
   return (
     <Box className={classes.mainContainer}>
       <PollsModal handlePolls={handlePolls} open={openPoll} isForUpdate={true} pollId={_id} onClose={handlePollModal} />
       <Box className={classes.left}>
-        <Friends friendList={Array(10).fill({ name: 'demo' })} />
+        <Friends friendList={friends} />
       </Box>
       <Box className={classes.right}>
         <Box className={classes.top}>
