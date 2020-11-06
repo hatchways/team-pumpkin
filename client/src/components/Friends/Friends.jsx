@@ -48,11 +48,20 @@ const Friends = ({ friendList, className, avatar, ...rest }) => {
         Friends
       </Typography>
 
-      <Box className={classes.list}>
-        {friendList.map((friend, id) => (
-          <Avatar className={classes.avatar} key={id} url={avatar} name={friend.name} {...rest} onClick={openChatBox} />
-        ))}
-      </Box>
+      {friendList && (
+        <Box className={classes.list}>
+          {friendList.map((friend, id) => (
+            <Avatar
+              className={classes.avatar}
+              key={id}
+              url={avatar}
+              name={friend.name}
+              {...rest}
+              onClick={openChatBox}
+            />
+          ))}
+        </Box>
+      )}
       <ChatWindow close={close} setClose={setClose} />
     </Box>
   );

@@ -96,7 +96,7 @@ const FriendsPolls = () => {
 
   useEffect(() => {
     fetchFriendsPolls();
-  });
+  }, []);
 
   const fetchFriendsPolls = async () => {
     const friendPolls = await getFriendPolls();
@@ -107,7 +107,7 @@ const FriendsPolls = () => {
   };
 
   const handlePolls = (info) => {
-    history.push('/friends-polls');
+    setPolls(info);
   };
 
   const leftScroll = (event) => {

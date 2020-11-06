@@ -125,7 +125,6 @@ router.get('/polls/friends-polls', authentication, async (req, res) => {
           const poll = await Polls.findOne({ friend: list.friendListName });
           //console.log(poll);
           userPartOfPolls.unshift(poll);
-          console.log(userPartOfPolls);
         }
       }
     }
