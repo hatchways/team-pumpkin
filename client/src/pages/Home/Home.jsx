@@ -52,7 +52,6 @@ const Home = () => {
     setFriendLists(friendlistData);
   };
 
-  console.log('this is friends', userContext.globalValue.user.friends);
   useEffect(() => {
     setPolls(data);
     fetchData();

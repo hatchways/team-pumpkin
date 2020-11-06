@@ -78,6 +78,10 @@ const AvatarModal = ({ open, onClose, className, handleAvatar }) => {
     },
   });
 
+  const refreshPage = () => {
+    window.location.reload();
+  };
+
   const handleRemoveAvatar = () => setAvatar([]);
 
   const handleSubmit = async (event) => {
@@ -93,10 +97,11 @@ const AvatarModal = ({ open, onClose, className, handleAvatar }) => {
     };
 
     setDisable(true);
-    const response = await uploadAvatar(payload);
+    const response = await uploadAvatar(formData);
     setDisable(false);
     setAvatar('');
-    // onClose();
+    onClose();
+    refreshPage();
   };
 
   return (

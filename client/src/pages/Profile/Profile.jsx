@@ -1,9 +1,12 @@
 import { Box, Button, CardMedia, Divider, Grid, List, makeStyles, Tab, Tabs, Typography } from '@material-ui/core';
-import React, { useEffect, useState } from 'react';
-import { useQuery } from 'react-query';
-import { getFriends, getPollsOfUsers, getUser } from '../../api/api';
+import React, { useEffect, useState, useContext } from 'react';
+import { getFriends, getPollsOfUsers, getUser, getFriendById, getPublicUser } from '../../api/api';
 import { ViewFriendItem } from '../../components/friendModal/ViewFriendItem';
 import { ProfilePolls } from './ProfilePolls';
+import { Link } from 'react-router-dom';
+import { postNewFriendRequest, deleteFriend } from '../../api/friendsApi';
+import { ProfileFriendItem } from '../../components/common/Profile/ProfileFriendItem';
+import { GlobalContext } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -43,6 +46,11 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.primary.light,
     alignSelf: 'center',
   },
+  removeFriendButton: {
+    maxWidth: '350px',
+    backgroundColor: theme.palette.primary.light,
+    alignSelf: 'center',
+  },
   paper: {
     padding: theme.spacing(1),
     textAlign: 'center',
@@ -51,116 +59,81 @@ const useStyles = makeStyles((theme) => ({
   pollGrid: {
     marginTop: theme.spacing(5),
   },
+  friendList: {
+    maxWidth: '100%',
+    // alignSelf: 'center',
+  },
 }));
 
-const Profile = (userId) => {
+const Profile = (props) => {
   const classes = useStyles();
-  const [user, setUser] = useState([]);
-  const [isFriend, setIsFriend] = useState();
-  const [loading, setLoading] = useState(false);
+  // Get own user data
+  const viewUserId = props.match.params.userId;
+  const self = useContext(GlobalContext).globalValue.user;
+
+  // const userRes = async () => await getUser(viewUserId);
+  const [user, setUser] = useState('');
+  const [isFriend, setIsFriend] = useState(false);
   const [tabValue, setTabValue] = useState(0);
-  const { data, isLoading, isFetching } = useQuery('users', getFriends);
   const [userFriends, setUserFriends] = useState([]);
-  const [userPolls, setUserPolls] = useState([]);
+  const [userPolls, setUserPolls] = useState();
+  const [isSelf, setIsSelf] = useState(false);
+  let friendsDetails = [];
+  const [friendsInfos, setFriendsInfo] = useState([]);
 
   const handleChange = (event, newValue) => {
     setTabValue(newValue);
   };
 
-  const demoPolls = [
-    {
-      id: '5f97682d8c592005ef01dae8',
-      votesForUrl1: [],
-      votesForUrl2: [],
-      userId: '5f8cc7bdc7579901cc2c7440',
-      url1: 'http://res.cloudinary.com/dma2slece/image/upload/v1603758123/egds5zk28fqfgh6dphsg.jpg',
-      url2: 'http://res.cloudinary.com/dma2slece/image/upload/v1603758125/ymi7hoecjjwndwpfa5au.jpg',
-      friend: 'Saad',
-      question: 'Poll 1',
-    },
-    {
-      id: '5fa07eac85a6e9ba44353711',
-      votesForUrl1: [],
-      votesForUrl2: ['5f9c1d121386c14194de9d30'],
-      userId: '5f9c1d121386c14194de9d30',
-      url1: 'http://res.cloudinary.com/dma2slece/image/upload/v1604353707/xjqihsnsq2gqzg8ocaun.png',
-      url2: 'http://res.cloudinary.com/dma2slece/image/upload/v1604353707/bytf0evsncebgyprkudd.jpg',
-      friend: 'Allen',
-      question: 'Poll 2',
-    },
-    {
-      id: '5fa082be6d4648c834f0479c',
-      votesForUrl1: [],
-      votesForUrl2: [],
-      userId: '5f8a06543ae93a3c54b260d1',
-      url1: 'http://res.cloudinary.com/dma2slece/image/upload/v1604354748/hfi3pol2vlgveuofpp6j.png',
-      url2: 'http://res.cloudinary.com/dma2slece/image/upload/v1604354749/o542xp30uycmzgo9cnyj.png',
-      friend: 'Saad',
-      question: ' Poll 3',
-    },
-    {
-      id: '5f97682d8c592005ef01dae8',
-      votesForUrl1: [],
-      votesForUrl2: [],
-      userId: '5f8cc7bdc7579901cc2c7440',
-      url1: 'http://res.cloudinary.com/dma2slece/image/upload/v1603758123/egds5zk28fqfgh6dphsg.jpg',
-      url2: 'http://res.cloudinary.com/dma2slece/image/upload/v1603758125/ymi7hoecjjwndwpfa5au.jpg',
-      friend: 'Saad',
-      question: 'Poll 1',
-    },
-    {
-      id: '5fa07eac85a6e9ba44353711',
-      votesForUrl1: [],
-      votesForUrl2: ['5f9c1d121386c14194de9d30'],
-      userId: '5f9c1d121386c14194de9d30',
-      url1: 'http://res.cloudinary.com/dma2slece/image/upload/v1604353707/xjqihsnsq2gqzg8ocaun.png',
-      url2: 'http://res.cloudinary.com/dma2slece/image/upload/v1604353707/bytf0evsncebgyprkudd.jpg',
-      friend: 'Allen',
-      question: 'Poll 2',
-    },
-    {
-      id: '5fa082be6d4648c834f0479c',
-      votesForUrl1: [],
-      votesForUrl2: [],
-      userId: '5f8a06543ae93a3c54b260d1',
-      url1: 'http://res.cloudinary.com/dma2slece/image/upload/v1604354748/hfi3pol2vlgveuofpp6j.png',
-      url2: 'http://res.cloudinary.com/dma2slece/image/upload/v1604354749/o542xp30uycmzgo9cnyj.png',
-      friend: 'Saad',
-      question: ' Poll 3',
-    },
-  ];
+  const friendsInfo = async () => {};
 
-  const friendList = [
-    {
-      name: 'Friend 1',
-      id: 1,
-    },
-    {
-      name: 'Friend 2',
-      id: 2,
-    },
-    {
-      name: 'Friend 3',
-      id: 3,
-    },
-  ];
-
-  const fetchData = async () => {
-    const userInfo = await getUser('5f88c8a2e3d2cbc4e1a1885c');
-    console.log('User', userInfo);
-    setUser(userInfo);
-    setUserFriends(userInfo.friends);
-    const pollsInfo = await getPollsOfUsers(userInfo._id);
-    setUserPolls(pollsInfo);
-    console.log('Polls', pollsInfo);
+  const sendFriendRequest = async () => {
+    const response = await postNewFriendRequest(viewUserId);
+    console.log(response);
   };
 
-  useEffect(async () => {
+  const removeFriend = async () => {
+    const response = await deleteFriend(viewUserId);
+    window.location.reload();
+  };
+
+  const fetchData = async () => {
+    // setUser(userRes);
+    const viewUserInfo = await getUser(viewUserId);
+    const pollsInfo = await getPollsOfUsers(viewUserInfo._id);
+
+    setUser(viewUserInfo);
+    setUserFriends(viewUserInfo.friends);
+    setUserPolls(pollsInfo);
+
+    if (viewUserInfo.friends !== undefined && viewUserInfo.friends.length !== 0) {
+      for (let i = 0; i < viewUserInfo.friends.length; i++) {
+        const info = await getPublicUser(viewUserInfo.friends[i]);
+        console.log('user info', info);
+        friendsDetails = [...friendsDetails, { id: info._id, name: info.name, avatar: info.avatar }];
+      }
+    }
+    setFriendsInfo(friendsDetails);
+  };
+
+  useEffect(() => {
     // setUserFriends(data);
+    // window.location.reload();
+    fetchData();
+    // friendsInfo();
+    if (viewUserId === self._id) {
+      setIsSelf(true);
+    } else {
+      setIsSelf(false);
+    }
+    if (self.friends.includes(viewUserId)) {
+      setIsFriend(true);
+    } else {
+      setIsFriend(false);
+    }
 
-    await fetchData();
-
-    console.log('user friends', userFriends);
+    console.log('friends info', friendsDetails);
+    console.log('userPolls', userPolls);
   }, []);
 
   return (
@@ -173,62 +146,80 @@ const Profile = (userId) => {
         <Typography className={classes.profileName} variant='h4'>
           {user.name}
         </Typography>
-
-        <Button className={classes.friendButton}>Add Friend</Button>
+        {isSelf ? (
+          <div></div>
+        ) : !isFriend ? (
+          <Button className={classes.friendButton} onClick={sendFriendRequest}>
+            Add Friend
+          </Button>
+        ) : (
+          <Button className={classes.removeFriendButton} onClick={removeFriend}>
+            Remove Friend
+          </Button>
+        )}
         <br></br>
-        <Grid container direction='column' className={classes.profileContent}>
-          <Tabs value={tabValue} onChange={handleChange} centered variant='fullWidth'>
-            <Tab
-              label={
-                <Typography variant='h7' className={classes.headerOption}>
-                  Polls
-                </Typography>
-              }
-            />
-            <Tab
-              label={
-                <Typography variant='h7' className={classes.headerOption}>
-                  Friends
-                </Typography>
-              }
-            />
-          </Tabs>
-          {tabValue === 0 && (
-            <Grid container spacing={12} direction='column'>
-              <Grid className={classes.pollGrid} container item xs={12}>
-                {userPolls === undefined || userPolls.length === 0 ? (
+
+        {!(isFriend || isSelf) ? (
+          <Grid container direction='column' className={classes.profileContent}>
+            <Typography variant='h7' className={classes.headerOption} style={{ alignSelf: 'center' }}>
+              No Permission to to see user profile
+            </Typography>
+          </Grid>
+        ) : (
+          <Grid container direction='column' className={classes.profileContent}>
+            <Tabs value={tabValue} onChange={handleChange} centered variant='fullWidth'>
+              <Tab
+                label={
+                  <Typography variant='h7' className={classes.headerOption}>
+                    Polls
+                  </Typography>
+                }
+              />
+              <Tab
+                label={
+                  <Typography variant='h7' className={classes.headerOption}>
+                    Friends
+                  </Typography>
+                }
+              />
+            </Tabs>
+            {tabValue === 0 && (
+              <Grid container spacing={12} direction='column'>
+                <Grid className={classes.pollGrid} container item xs={12}>
+                  {userPolls === undefined || userPolls.length === 0 ? (
+                    <div>
+                      <Typography variant='h2'>No polls available</Typography>
+                    </div>
+                  ) : (
+                    <>
+                      {userPolls.map((elem, id) => (
+                        <ProfilePolls key={id} {...elem} typeOfFriendRequest='Friends' />
+                      ))}
+                    </>
+                  )}
+                </Grid>
+              </Grid>
+            )}
+            {tabValue === 1 && (
+              <List alignItems='flex-start' className={classes.friendList}>
+                {friendsInfos === undefined || friendsInfos.length === 0 ? (
                   <div>
-                    <Typography variant='h2'>No polls available</Typography>
+                    <Typography variant='h2'>No Friends available</Typography>
                   </div>
                 ) : (
                   <>
-                    {userPolls.map((elem, id) => (
-                      <ProfilePolls key={id} {...elem} typeOfFriendRequest='Friends' />
+                    {friendsInfos.map((friend) => (
+                      <li key={friend.id} className={classes.scrollbar}>
+                        <Divider />
+                        <ProfileFriendItem name={friend.name} icon={friend.avatar} />
+                      </li>
                     ))}
                   </>
                 )}
-              </Grid>
-            </Grid>
-          )}
-          {tabValue === 1 && (
-            <List alignItems='flex-start' className={classes.friendList}>
-              {userFriends === undefined || userFriends.length === 0 ? (
-                <div>
-                  <Typography variant='h2'>No Friends available</Typography>
-                </div>
-              ) : (
-                <>
-                  {userFriends.map((friend) => (
-                    <li key={friend} className={classes.scrollbar}>
-                      <Divider />
-                      <ViewFriendItem friend={userFriends} typeOfFriendRequest='Friends' />
-                    </li>
-                  ))}
-                </>
-              )}
-            </List>
-          )}
-        </Grid>
+              </List>
+            )}
+          </Grid>
+        )}
       </Box>
     </Grid>
   );

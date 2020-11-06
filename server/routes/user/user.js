@@ -24,19 +24,17 @@ router.get('/user/:user_id', async (req, res) => {
 router.put('/user/avatar', authentication, async (req, res) => {
   try {
     const userId = req.user.id;
-    const { avatar } = req.body;
 
     const user = await User.findById(userId);
     console.log(user.name);
     if (!user) return res.status(400).json({ msg: 'User not found' });
 
-    console.log(req.body.avatar);
-    const uploadAvatar = await cloudinary.uploader.upload(req.avatar.tempFilePath, {
+    const uploadAvatar = await cloudinary.uploader.upload(req.files.avatar.tempFilePath, {
       upload_preset: 'team_pumpkin',
     });
     console.log(uploadAvatar.url);
     // const uploadAvatar = 'avatar test';
-    avatar = uploadAvatar.url;
+    user.avatar = uploadAvatar.url;
     await user.save();
     res.status(200).json(user.avatar);
   } catch (err) {

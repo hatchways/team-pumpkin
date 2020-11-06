@@ -1,11 +1,12 @@
 import { Box, Divider, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AiTwotoneSetting } from 'react-icons/ai';
+import { Link, useHistory } from 'react-router-dom';
 import { theme } from '../../../themes/theme';
-import { Avatar } from '../Avatar/Avatar';
-import FriendModal from '../../friendModal/FriendModal';
 import { GlobalContext } from '../../../utils';
+import FriendModal from '../../friendModal/FriendModal';
+import { Avatar } from '../Avatar/Avatar';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -36,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
     paddingBottom: theme.spacing(3),
   },
   avatar: {
+    marginLeft: theme.spacing(1),
     marginTop: theme.spacing(2),
     '&:hover': {
       transform: 'scale(1.1)',
@@ -48,14 +50,24 @@ const useStyles = makeStyles((theme) => ({
       transition: 'transform 0.25s ease',
     },
   },
+  link: {
+    textDecoration: 'none',
+    color: 'inherit',
+  },
 }));
 
 const ListContainer = ({ className, listOfFriend, title, friendListId, handleFriendLists }) => {
   const classes = useStyles();
+  const history = useHistory();
   const userContext = useContext(GlobalContext);
   const [openFriendListModal, setFriendListModal] = useState(false);
   const [friendsDetails, setFriendsDetails] = useState([]);
   const handleFriendListModal = () => setFriendListModal(!openFriendListModal);
+
+  const viewProfile = (event) => {
+    // history.push(`/${userId}/profile`);
+    console.log('userId', event.target);
+  };
 
   const fetchFriends = async () => {
     const res = await userContext.globalValue.friendsInfo;
@@ -111,8 +123,9 @@ const ListContainer = ({ className, listOfFriend, title, friendListId, handleFri
       <Divider light />
       <Box className={classes.list}>
         {listOfFriend.map((friend, id) => (
-          <Avatar key={id} url={getAvatar(friend)} className={classes.avatar} name={getName(friend)} {...friend} />
-          // <ListItem ></ListItem>
+          <Link className={classes.link} to={`/${friend}/profile`}>
+            <Avatar key={id} url={getAvatar(friend)} className={classes.avatar} name={getName(friend)} {...friend} />
+          </Link>
         ))}
       </Box>
     </Box>
