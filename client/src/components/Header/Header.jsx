@@ -74,12 +74,6 @@ const Header = () => {
 
   const handleAvatarModal = () => setAvatarModal(!openAvatarModal);
 
-  const toProfile = () => {
-    history.push(`/${user._id}/profile`);
-  };
-
-  const toHome = () => history.push('/home');
-  //To show the new poll when u sing the modal from the header
   const handlePolls = (info) => {
     history.push('/home');
   };
@@ -90,9 +84,11 @@ const Header = () => {
       <ViewFriendsModal open={openFriends} onClose={handleFriendsModal} />
       <AvatarModal open={openAvatarModal} onClose={handleAvatarModal} />
       <Box className={classes.left}>
-        <Box className={classes.leftTop}>
-          <img className={classes.logo} src={Logo} alt='logo' onClick={toHome} />
-        </Box>
+        <Link to='/home' className={classes.link}>
+          <Box className={classes.leftTop}>
+            <img className={classes.logo} src={Logo} alt='logo' />
+          </Box>
+        </Link>
       </Box>
       <Box className={classes.right}>
         <Typography variant='h6' className={classes.headerOption} onClick={handleAvatarModal}>
@@ -119,11 +115,9 @@ const Header = () => {
         >
           Create Poll
         </Button>
-        <Avatar
-          name={user.name}
-          url='https://img1.grunge.com/img/uploads/2018/05/characters-destroyed-thanos.jpg'
-          onClick={toProfile}
-        />
+        <Link to={`/${user._id}/profile`} className={classes.link}>
+          <Avatar name={user.name} url={user.avatar} />
+        </Link>
         <AiOutlineLogout className={classes.logOut} size={theme.spacing(4)} onClick={handleLogOut} />
       </Box>
     </Box>
