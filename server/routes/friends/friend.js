@@ -244,7 +244,7 @@ router.delete('/received-requests/:id', [authentication], async function (req, r
 //@access               Private
 router.get('/friends', [authentication], async function (req, res) {
   try {
-    const user = await (await User.findById(req.user.id)).populate('friends', ['name']).execPopulate();
+    const user = await (await User.findById(req.user.id)).populate('friends', ['name', 'avatar']).execPopulate();
     res.json({ friends: user.friends });
   } catch (error) {
     console.log(error.message);
@@ -257,7 +257,9 @@ router.get('/friends', [authentication], async function (req, res) {
 //@access               Private
 router.get('/outgoing-requests', [authentication], async function (req, res) {
   try {
-    const user = await (await User.findById(req.user.id)).populate('outgoingFriendRequests', ['name']).execPopulate();
+    const user = await (await User.findById(req.user.id))
+      .populate('outgoingFriendRequests', ['name', 'avatar'])
+      .execPopulate();
     res.json({ outgoingRequests: user.outgoingFriendRequests });
   } catch (error) {
     console.log(error.message);
@@ -270,7 +272,9 @@ router.get('/outgoing-requests', [authentication], async function (req, res) {
 //@access               Private
 router.get('/received-requests', [authentication], async function (req, res) {
   try {
-    const user = await (await User.findById(req.user.id)).populate('receivedFriendRequests', ['name']).execPopulate();
+    const user = await (await User.findById(req.user.id))
+      .populate('receivedFriendRequests', ['name', 'avatar'])
+      .execPopulate();
     res.json({ receivedRequests: user.receivedFriendRequests });
   } catch (error) {
     console.log(error.message);

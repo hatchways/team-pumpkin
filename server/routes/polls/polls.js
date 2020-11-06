@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const authentication = require('../../middleware/authentication');
 const Polls = require('../../models/Polls');
+const User = require('../../models/User');
+const FriendList = require('../../models/FriendList');
 const { cloudinary } = require('../../cloudinary/cloudinary');
 
 router.post('/polls', authentication, async (req, res) => {
@@ -108,6 +110,27 @@ router.get('/polls/view/:user_id', async (req, res) => {
     const response = await Polls.find({ userId });
     res.status(200).json(response);
   } catch (err) {
+    res.status(500).send('Server error');
+  }
+});
+
+router.get('/polls/friends-polls', authentication, async (req, res) => {
+  try {
+    const user = await User.findOne({ _id: req.user.id });
+    const userPartOfPolls = [];
+    for (const friendId of user.friends) {
+      const friendListsOfFriend = await FriendList.find({ user: friendId });
+      for (const list of friendListsOfFriend) {
+        if (list.friends.includes(req.user.id)) {
+          const poll = await Polls.findOne({ friend: list.friendListName });
+          //console.log(poll);
+          userPartOfPolls.unshift(poll);
+        }
+      }
+    }
+    return res.json(userPartOfPolls);
+  } catch (err) {
+    console.log(err);
     res.status(500).send('Server error');
   }
 });

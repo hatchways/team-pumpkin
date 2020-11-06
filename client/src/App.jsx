@@ -28,7 +28,7 @@ const App = () => {
       {!!user && <Header />}
       <Switch>
         <Suspense fallback={<LoadingScreen />}>
-          <Redirect from='/' to={!!user ? '/home' : '/login'} />
+          <Redirect from exact='/' to={!!user ? '/home' : '/login'} />
           <Route exact path='/signup' component={SignUpScreen} />
           <Route exact path='/login' component={LoginScreen} />
           <Route exact path='/home' component={HomeScreen} />

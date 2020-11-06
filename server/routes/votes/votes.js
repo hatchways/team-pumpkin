@@ -12,9 +12,6 @@ router.post('/votes/:pollId', authentication, async (req, res) => {
     const { pollId } = req.params;
     const pollOwnerDetails = await User.findOne({ _id: pollOwnerId });
 
-    console.log('Poll owner and user', pollOwnerId, userId);
-    console.log('Poll Owner Details', pollOwnerDetails);
-
     if (pollOwnerId !== userId && pollOwnerDetails.friends.includes(userId)) {
       const votesArray = voteFor === 'img1' ? 'votesForUrl1' : 'votesForUrl2';
       const pollOwnerSpecificPoll = await Poll.findOne({ userId: pollOwnerId, _id: pollId });

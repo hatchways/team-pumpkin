@@ -149,6 +149,19 @@ const getPolls = async () => {
   }
 };
 
+const getFriendPolls = async () => {
+  try {
+    const result = await fetch('/api/polls/friends-polls', {
+      method: 'GET',
+      credentials: 'include',
+    });
+    const response = await result.json();
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
 const getFriends = async () => {
   try {
     const result = await fetch('/api/friends', {
@@ -267,4 +280,5 @@ export {
   getPollsOfUsers,
   uploadAvatar,
   getUser,
+  getFriendPolls,
 };
