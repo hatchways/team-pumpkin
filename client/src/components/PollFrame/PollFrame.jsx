@@ -99,7 +99,7 @@ const PollFrame = () => {
     getUserList({ votesForUrl1: userContext.globalValue.user.friends, votesForUrl2: [] }).then((resp) => {
       setFriends(resp);
     });
-  }, [votesForUrl1, votesForUrl2]);
+  }, [votesForUrl1, votesForUrl2, userContext.globalValue.user.friends]);
 
   return (
     <Box className={classes.mainContainer}>
