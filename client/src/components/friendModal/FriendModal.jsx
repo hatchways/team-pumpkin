@@ -63,6 +63,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     color: theme.palette.primary.main,
   },
+  btnContainer: {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+  },
 }));
 
 const FriendModal = ({ open, onClose, className, type, id, handleFriendLists }) => {
@@ -213,14 +217,14 @@ const FriendModal = ({ open, onClose, className, type, id, handleFriendLists }) 
               Create
             </Button>
           ) : (
-            <div>
+            <Box className={classes.btnContainer}>
               <Button className={classes.creatButton} onClick={handleEdit}>
                 Edit
               </Button>
               <Button className={classes.deleteButton} onClick={handleDelete}>
                 Delete
               </Button>
-            </div>
+            </Box>
           )}
         </Box>
       </Grid>
