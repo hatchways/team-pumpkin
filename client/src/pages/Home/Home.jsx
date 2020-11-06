@@ -1,7 +1,7 @@
 import { Box, makeStyles } from '@material-ui/core';
 import React, { useContext, useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
-import { getPolls } from '../../api/api';
+import { getPolls, getUserList } from '../../api/api';
 import { getFriendLists } from '../../api/friendListsApi';
 import { FriendList, Friends, Polls } from '../../components';
 import { GlobalContext } from '../../utils/context';
@@ -40,6 +40,7 @@ const Home = () => {
   const userContext = useContext(GlobalContext);
   const [polls, setPolls] = useState([]);
   const [friendLists, setFriendLists] = useState([]);
+  const [friends, setFriends] = useState([]);
   let friendsInfo = [];
   const { data } = useQuery('polls', getPolls);
   var friendlistData;
@@ -51,9 +52,13 @@ const Home = () => {
     setFriendLists(friendlistData);
   };
 
+  console.log('this is friends', userContext.globalValue.user.friends);
   useEffect(() => {
     setPolls(data);
     fetchData();
+    getUserList({ votesForUrl1: userContext.globalValue.user.friends, votesForUrl2: [] }).then((resp) => {
+      setFriends(resp);
+    });
   }, [data]);
 
   const handlePolls = (info) => {
@@ -67,7 +72,7 @@ const Home = () => {
   return (
     <Box className={classes.mainContainer}>
       <Box className={classes.left}>
-        <Friends friendList={Array(10).fill({ name: 'demo' })} />
+        <Friends friendList={friends} />
       </Box>
       <Box className={classes.right}>
         <Polls handlePolls={handlePolls} listOfPolls={polls} className={classes.polls} />
