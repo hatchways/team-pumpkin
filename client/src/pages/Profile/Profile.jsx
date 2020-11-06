@@ -118,9 +118,15 @@ const Profile = (props) => {
     return newList;
   };
 
-  const sendFriendRequest = () => {};
+  const sendFriendRequest = async () => {
+    const response = await postNewFriendRequest(viewUserId);
+    console.log(response);
+  };
 
-  const deleteFriend = () => {};
+  const removeFriend = async () => {
+    const response = await deleteFriend(viewUserId);
+    window.location.reload();
+  };
 
   const fetchData = async () => {
     // setUser(userRes);
@@ -167,9 +173,13 @@ const Profile = (props) => {
         {isSelf ? (
           <div></div>
         ) : !isFriend ? (
-          <Button className={classes.friendButton}>Add Friend</Button>
+          <Button className={classes.friendButton} onClick={sendFriendRequest}>
+            Add Friend
+          </Button>
         ) : (
-          <Button className={classes.removeFriendButton}>Remove Friend</Button>
+          <Button className={classes.removeFriendButton} onClick={removeFriend}>
+            Remove Friend
+          </Button>
         )}
         <br></br>
 

@@ -205,17 +205,15 @@ const ViewFriendsModal = ({ open, onClose, className, ...rest }) => {
           <List alignItems='flex-start' className={classes.friendList}>
             {friendsArray.receivedRequests.length !== 0 &&
               friendsArray.receivedRequests.map((friend) => (
-                <Link to={`/${friend._id}/profile`} className={classes.link} onClick={onClose}>
-                  <li key={friend.id} className={classes.scrollbar}>
-                    <Divider />
-                    <ViewFriendItem
-                      friend={friend}
-                      typeOfFriendRequest='Received'
-                      refresh={refresh}
-                      setRefresh={setRefresh}
-                    />
-                  </li>
-                </Link>
+                <li key={friend.id} className={classes.scrollbar}>
+                  <Divider />
+                  <ViewFriendItem
+                    friend={friend}
+                    typeOfFriendRequest='Received'
+                    refresh={refresh}
+                    setRefresh={setRefresh}
+                  />
+                </li>
               ))}
           </List>
         )}
