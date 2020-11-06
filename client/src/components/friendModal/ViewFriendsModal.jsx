@@ -1,9 +1,9 @@
-import { makeStyles, Grid, Tabs, Tab, Typography, List, Divider, CircularProgress } from '@material-ui/core';
-import React, { useState, useEffect } from 'react';
+import { CircularProgress, Divider, Grid, List, makeStyles, Tab, Tabs, Typography } from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { getFriends, getReceivedRequests, getSuggestedFriends } from '../../api/friendsApi';
 import { Modal } from '../common/Modal/Modal';
 import { ViewFriendItem } from './ViewFriendItem';
-import { getFriends, getReceivedRequests, getSuggestedFriends } from '../../api/friendsApi';
-import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   modalContent: {
@@ -175,7 +175,7 @@ const ViewFriendsModal = ({ open, onClose, className, ...rest }) => {
           <List alignItems='flex-start' className={classes.friendList}>
             {friendsArray.suggestedFriends.length !== 0 &&
               friendsArray.suggestedFriends.map((friend) => (
-                <Link to={`/${friend._id}/profile`} className={classes.link} onClick={onClose}>
+                <>
                   <li key={friend.id} className={classes.scrollbar}>
                     <Divider />
                     <ViewFriendItem
@@ -183,9 +183,10 @@ const ViewFriendsModal = ({ open, onClose, className, ...rest }) => {
                       typeOfFriendRequest='Suggested'
                       refresh={refresh}
                       setRefresh={setRefresh}
+                      onClose={onClose}
                     />
                   </li>
-                </Link>
+                </>
               ))}
           </List>
         )}
