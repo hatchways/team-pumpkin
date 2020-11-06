@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FriendsPollsList = ({ className, listOfPolls }) => {
+const FriendsPollsList = ({ className, listOfPolls, handlePolls }) => {
   const classes = useStyles();
   return (
     <Box className={clsx([classes.mainContainer, className])}>
@@ -28,7 +28,7 @@ const FriendsPollsList = ({ className, listOfPolls }) => {
         ) : (
           <>
             {listOfPolls.map((elem, id) => (
-              <PollViewer key={id} {...elem} />
+              <PollViewer key={id} {...elem} handlePolls={handlePolls} />
             ))}
           </>
         )}

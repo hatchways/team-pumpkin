@@ -89,7 +89,7 @@ const ViewFriendItem = ({ friend, typeOfFriendRequest, refresh, setRefresh }) =>
   return (
     <ListItem>
       <ListItemAvatar>
-        <Avatar />
+        <Avatar src={friend.avatar} />
       </ListItemAvatar>
       <ListItemText primary={friend.name}></ListItemText>
       <Button

@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Box, makeStyles, Button, Typography } from '@material-ui/core';
 import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
 import { Friends } from '../../components';
+import { useHistory } from 'react-router-dom';
 import { FriendsPollsList } from '../../components/FriendsPollsList/FriendsPollsList';
+import { getFriendPolls, getUserList } from '../../api/api';
+import { theme } from '../../themes/theme';
+import { GlobalContext } from '../../utils/context';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -13,10 +17,10 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     flexDirection: 'column',
     height: '100%',
-    width: '85%',
+    width: '80%',
   },
   left: {
-    width: '15%',
+    width: '20%',
     borderRightColor: theme.palette.secondary.dark,
     borderRight: 'solid',
     borderWidth: 1,
@@ -30,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     overflow: 'hidden',
     overflowX: 'scroll',
+    padding: theme.spacing(2.5),
     '&::-webkit-scrollbar': { display: 'none', width: '0' },
     scrollBehavior: 'smooth',
     scrollbarWidth: 'none',
@@ -82,17 +87,27 @@ const useStyles = makeStyles((theme) => ({
 const FriendsPolls = () => {
   const classes = useStyles();
   const ref = React.useRef(null);
-  const polls = Array(4).fill({
-    question: 'Which is your favourite?',
-    numberOfAnswer: 2,
-    url1: 'https://img1.grunge.com/img/uploads/2018/05/characters-destroyed-thanos.jpg',
-    url2: 'https://img1.grunge.com/img/uploads/2018/05/characters-destroyed-thanos.jpg',
-    votesForUrl1: Array(20).fill(1),
-    votesForUrl2: Array(20).fill(1),
+
+  const userContext = useContext(GlobalContext);
+  const [polls, setPolls] = useState([]);
+  const [friends, setFriends] = useState([]);
+
+  const history = useHistory();
+
+  useEffect(() => {
+    fetchFriendsPolls();
   });
 
+  const fetchFriendsPolls = async () => {
+    const friendPolls = await getFriendPolls();
+    setPolls(friendPolls);
+    getUserList({ votesForUrl1: userContext.globalValue.user.friends, votesForUrl2: [] }).then((resp) => {
+      setFriends(resp);
+    });
+  };
+
   const handlePolls = (info) => {
-    //setPolls(info);
+    history.push('/friends-polls');
   };
 
   const leftScroll = (event) => {
@@ -105,22 +120,26 @@ const FriendsPolls = () => {
   return (
     <Box className={classes.mainContainer}>
       <Box className={classes.left}>
-        <Friends className={classes.friendsHeader} friendList={Array(10).fill({ name: 'demo' })} />
+        <Friends className={classes.friendsHeader} friendList={friends} />
       </Box>
       <Box className={classes.right}>
         <Typography variant='h3' className={classes.header}>
           Friends Polls
         </Typography>
         <div className={classes.pollContainer}>
-          <Button variant='fab' aria-label='Add' className={classes.buttonScroll} onClick={leftScroll}>
-            <IoIosArrowBack />
-          </Button>
+          {polls.length !== 0 && (
+            <Button variant='fab' aria-label='Add' className={classes.buttonScroll} onClick={leftScroll}>
+              <IoIosArrowBack size={theme.spacing(2)} />
+            </Button>
+          )}
           <div className={classes.pollsListContainer} ref={ref}>
             <FriendsPollsList handlePolls={handlePolls} listOfPolls={polls} className={classes.polls} />
           </div>
-          <Button variant='fab' aria-label='Add' className={classes.buttonScroll} onClick={rightScroll}>
-            <IoIosArrowForward />
-          </Button>
+          {polls.length !== 0 && (
+            <Button variant='fab' aria-label='Add' className={classes.buttonScroll} onClick={rightScroll}>
+              <IoIosArrowForward size={theme.spacing(2)} />
+            </Button>
+          )}
         </div>
       </Box>
     </Box>
