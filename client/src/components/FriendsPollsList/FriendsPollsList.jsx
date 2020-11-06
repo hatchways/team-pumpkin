@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
 
 const FriendsPollsList = ({ className, listOfPolls, handlePolls }) => {
   const classes = useStyles();
+  console.log('this is list of polls', listOfPolls);
   return (
     <Box className={clsx([classes.mainContainer, className])}>
       <HomeFrame className={classes.pollsContainer} isButton={false}>
@@ -27,9 +28,11 @@ const FriendsPollsList = ({ className, listOfPolls, handlePolls }) => {
           <Typography variant='h2'>No polls available</Typography>
         ) : (
           <>
-            {listOfPolls.map((elem, id) => (
-              <PollViewer key={id} {...elem} handlePolls={handlePolls} />
-            ))}
+            {listOfPolls.map((elem, id) => {
+              if (elem !== null) {
+                return <PollViewer key={id} {...elem} handlePolls={handlePolls} />;
+              }
+            })}
           </>
         )}
       </HomeFrame>
