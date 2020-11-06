@@ -32,6 +32,7 @@ const FriendList = ({ className, listOfCategories, handleFriendLists, friendsInf
         onClose={handleFriendModal}
         type='Create'
         friendsInfo={friendsInfo}
+        friendsDetail={listOfCategories}
       />
       <HomeFrame
         className={classes.listContainer}

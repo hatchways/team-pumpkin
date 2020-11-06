@@ -109,10 +109,9 @@ const createPost = async (payload) => {
 
 const uploadAvatar = async (payload) => {
   try {
-    const result = await fetch('http://localhost:3001/api/user/avatar', {
+    const result = await fetch('/api/user/avatar', {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
+      body: payload,
       credentials: 'include',
     });
 
@@ -249,6 +248,18 @@ const getUserList = async (payload) => {
   }
 };
 
+const getPublicUser = async (userId) => {
+  try {
+    const result = await fetch(`/api/user/${userId}`, {
+      method: 'GET',
+    });
+    const response = await result.json();
+    return response;
+  } catch (err) {
+    return err;
+  }
+};
+
 export {
   signInCall,
   signUpCall,
@@ -258,8 +269,6 @@ export {
   getPolls,
   getFriends,
   getFriendById,
-  editFriendList,
-  postVotes,
   deleteFriendList,
   deletePolls,
   updatePost,
@@ -267,4 +276,7 @@ export {
   getPollsOfUsers,
   uploadAvatar,
   getUser,
+  postVotes,
+  editFriendList,
+  getPublicUser,
 };

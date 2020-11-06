@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     height: '100%',
     alignItems: 'center',
-    paddingLeft: theme.spacing(6),
+    paddingLeft: theme.spacing(3),
   },
 
   list: {
@@ -50,7 +50,14 @@ const Friends = ({ friendList, className, avatar, ...rest }) => {
 
       <Box className={classes.list}>
         {friendList.map((friend, id) => (
-          <Avatar className={classes.avatar} key={id} url={avatar} name={friend.name} {...rest} onClick={openChatBox} />
+          <Avatar
+            className={classes.avatar}
+            key={id}
+            url={friend.avatar}
+            name={friend.name}
+            {...rest}
+            onClick={openChatBox}
+          />
         ))}
       </Box>
       <ChatWindow close={close} setClose={setClose} />

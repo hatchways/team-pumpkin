@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { Modal } from '../common/Modal/Modal';
 import { ViewFriendItem } from './ViewFriendItem';
 import { getFriends, getReceivedRequests, getSuggestedFriends } from '../../api/friendsApi';
+import { Link } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   modalContent: {
@@ -34,6 +35,10 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '50%',
     marginTop: '50%',
   },
+  link: {
+    textDecoration: 'none',
+    color: 'inherit',
+  },
 }));
 
 //TODO: Use Query and useEffect to cleanup code
@@ -64,6 +69,7 @@ const ViewFriendsModal = ({ open, onClose, className, ...rest }) => {
       });
       getSuggestedFriendsArray();
     }
+    console.log('friends', friendsArray);
   }, [open]);
 
   //If a button was clicked in another tab, then the data needs to be refreshed, so clear the current data
@@ -131,7 +137,13 @@ const ViewFriendsModal = ({ open, onClose, className, ...rest }) => {
   }
 
   return (
-    <Modal className={className} open={open} onClose={onClose} maxWidth='sm'>
+    <Modal
+      className={className}
+      open={open}
+      onClose={onClose}
+      maxWidth='sm'
+      onClick={console.log('friendsArray', friendsArray)}
+    >
       <Grid container direction='column' className={classes.modalContent}>
         <Tabs value={tabValue} onChange={handleChange} centered variant='fullWidth'>
           <Tab
@@ -163,15 +175,17 @@ const ViewFriendsModal = ({ open, onClose, className, ...rest }) => {
           <List alignItems='flex-start' className={classes.friendList}>
             {friendsArray.suggestedFriends.length !== 0 &&
               friendsArray.suggestedFriends.map((friend) => (
-                <li key={friend.id} className={classes.scrollbar}>
-                  <Divider />
-                  <ViewFriendItem
-                    friend={friend}
-                    typeOfFriendRequest='Suggested'
-                    refresh={refresh}
-                    setRefresh={setRefresh}
-                  />
-                </li>
+                <Link to={`/${friend._id}/profile`} className={classes.link} onClick={onClose}>
+                  <li key={friend.id} className={classes.scrollbar}>
+                    <Divider />
+                    <ViewFriendItem
+                      friend={friend}
+                      typeOfFriendRequest='Suggested'
+                      refresh={refresh}
+                      setRefresh={setRefresh}
+                    />
+                  </li>
+                </Link>
               ))}
           </List>
         )}
@@ -179,15 +193,17 @@ const ViewFriendsModal = ({ open, onClose, className, ...rest }) => {
           <List alignItems='flex-start' className={classes.friendList}>
             {friendsArray.friends.length !== 0 &&
               friendsArray.friends.map((friend) => (
-                <li key={friend.id} className={classes.scrollbar}>
-                  <Divider />
-                  <ViewFriendItem
-                    friend={friend}
-                    typeOfFriendRequest='Friends'
-                    refresh={refresh}
-                    setRefresh={setRefresh}
-                  />
-                </li>
+                <Link to={`/${friend._id}/profile`} className={classes.link} onClick={onClose}>
+                  <li key={friend.id} className={classes.scrollbar}>
+                    <Divider />
+                    <ViewFriendItem
+                      friend={friend}
+                      typeOfFriendRequest='Friends'
+                      refresh={refresh}
+                      setRefresh={setRefresh}
+                    />
+                  </li>
+                </Link>
               ))}
           </List>
         )}

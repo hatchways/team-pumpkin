@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(5),
     marginRight: theme.spacing(2.5),
     marginTop: theme.spacing(2.5),
+    boxShadow: `0 8px 16px -7px ${theme.palette.secondary.main}`,
   },
   answer: {
     color: theme.palette.secondary.dark,

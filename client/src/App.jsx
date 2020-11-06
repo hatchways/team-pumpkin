@@ -16,7 +16,6 @@ import { GlobalContext } from './utils';
 
 const App = () => {
   const [openFriendsModal, setOpenFriendsModal] = useState(true);
-  // const user = getValueFromLocalStorage('user');
 
   const handleClick = () => {
     setOpenFriendsModal(!openFriendsModal);
@@ -34,7 +33,7 @@ const App = () => {
           <Route exact path='/home' component={HomeScreen} />
           <Route exact path='/friends-polls' component={FriendsPollsScreen} />
           <Route path='/poll/:id' component={PollFrameScreen} />
-          <Route exact path='/:user_id/profile' component={ProfileScreen} />
+          <Route exact path='/:userId/profile' name='profile' component={ProfileScreen} />
           <Route exact path='/friends' children={<ViewFriendsModal open={openFriendsModal} onClose={handleClick} />} />
         </Suspense>
       </Switch>
