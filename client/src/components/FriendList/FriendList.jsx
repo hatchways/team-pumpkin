@@ -1,8 +1,10 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { HomeFrame, ListContainer } from '..';
 import FriendModal from '../friendModal/FriendModal';
+import { IoIosArrowBack, IoIosArrowForward } from 'react-icons/io';
+import { theme } from '../../themes/theme';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -13,6 +15,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
   },
   list: {
+    marginLeft: theme.spacing(6),
     marginRight: theme.spacing(5),
     marginBottom: theme.spacing(5),
   },
@@ -24,6 +27,7 @@ const FriendList = ({ className, listOfCategories, handleFriendLists, friendsInf
   const [openModal, setOpenModal] = useState(false);
 
   const handleFriendModal = () => setOpenModal(!openModal);
+
   return (
     <Box className={clsx([classes.mainContainer, className])}>
       <FriendModal
