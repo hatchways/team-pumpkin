@@ -44,6 +44,7 @@ const Home = () => {
   let friendsInfo = [];
   const { data } = useQuery('polls', getPolls);
   var friendlistData;
+  const { friendlistInfo } = useQuery('friendList', async () => await getFriendLists());
 
   //Helper function for retrieving the friendlists
   const fetchData = async () => {
@@ -58,6 +59,7 @@ const Home = () => {
     getUserList({ votesForUrl1: userContext.globalValue.user.friends, votesForUrl2: [] }).then((resp) => {
       setFriends(resp);
     });
+    console.log('friendlistData', friendlistInfo);
   }, [data]);
 
   const handlePolls = (info) => {

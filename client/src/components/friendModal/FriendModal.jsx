@@ -112,12 +112,12 @@ const FriendModal = ({ open, onClose, className, type, id, handleFriendLists }) 
         friends: friends,
       };
 
-      //const response = await createFriendList(newList);
-      await createFriendList(newList);
-      // handleFriendLists(response);
+      const response = await createFriendList(newList);
+      // await createFriendList(newList);
+      handleFriendLists(response);
       setError({ description: '' });
       onClose();
-      refreshPage();
+      // refreshPage();
     }
   };
 
@@ -145,7 +145,7 @@ const FriendModal = ({ open, onClose, className, type, id, handleFriendLists }) 
       await editFriendList(id, newList);
       // handleFriendLists(response);
       onClose();
-      refreshPage();
+      // refreshPage();
       setError({ description: '' });
     }
   };
@@ -154,7 +154,7 @@ const FriendModal = ({ open, onClose, className, type, id, handleFriendLists }) 
     event.preventDefault();
     await deleteFriendList(id);
     onClose();
-    refreshPage();
+    // refreshPage();
   };
 
   return (
