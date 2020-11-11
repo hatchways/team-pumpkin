@@ -6,6 +6,7 @@ import { useValue } from '../../utils/';
 import { InputField } from '../common/InputField/InputField';
 import { Modal } from '../common/Modal/Modal';
 import FriendItem from './FriendItem';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   friendModal: {
@@ -77,6 +78,7 @@ const FriendModal = ({ open, onClose, className, type, id, handleFriendLists }) 
   const [error, setError] = useState({ description: '' });
   const [friendsDetails, setFriendsDetails] = useState([]);
   const [friends, setFriends] = useState([]);
+  const history = useHistory();
 
   const refreshPage = () => {
     window.location.reload();
@@ -89,12 +91,10 @@ const FriendModal = ({ open, onClose, className, type, id, handleFriendLists }) 
 
   useEffect(() => {
     fetchFriends();
-    console.log('Friends detail', friendsDetails);
   }, [friendsDetails]);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // console.log('Create');
     // If the friend list doesn't have a name
     if (!friendListName) {
       setError({ description: 'The friend list has no name' });
@@ -113,10 +113,12 @@ const FriendModal = ({ open, onClose, className, type, id, handleFriendLists }) 
       };
 
       const response = await createFriendList(newList);
+      console.log('response data', response);
       // await createFriendList(newList);
-      handleFriendLists(response);
+      handleFriendLists(response.data);
       setError({ description: '' });
-      onClose();
+      // onClose();
+      // history.push('/home');
       // refreshPage();
     }
   };
@@ -146,13 +148,15 @@ const FriendModal = ({ open, onClose, className, type, id, handleFriendLists }) 
       // handleFriendLists(response);
       onClose();
       // refreshPage();
+      history.push('/home');
       setError({ description: '' });
     }
   };
 
   const handleDelete = async (event) => {
     event.preventDefault();
-    await deleteFriendList(id);
+    const response = await deleteFriendList(id);
+    handleFriendLists(response.data);
     onClose();
     // refreshPage();
   };

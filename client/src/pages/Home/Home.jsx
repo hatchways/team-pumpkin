@@ -44,23 +44,21 @@ const Home = () => {
   let friendsInfo = [];
   const { data } = useQuery('polls', getPolls);
   var friendlistData;
-  const { friendlistInfo } = useQuery('friendList', async () => await getFriendLists());
+  const getFriendlistInfo = useQuery('friendList', getFriendLists);
 
   //Helper function for retrieving the friendlists
   const fetchData = async () => {
-    friendlistData = await getFriendLists();
     friendsInfo = await userContext.globalValue.friendsInfo;
-    setFriendLists(friendlistData);
   };
 
   useEffect(() => {
-    setPolls(data);
     fetchData();
+    setPolls(data);
+    setFriendLists(getFriendlistInfo.data);
     getUserList({ votesForUrl1: userContext.globalValue.user.friends, votesForUrl2: [] }).then((resp) => {
       setFriends(resp);
     });
-    console.log('friendlistData', friendlistInfo);
-  }, [data]);
+  }, [data, getFriendlistInfo]);
 
   const handlePolls = (info) => {
     setPolls(info);
@@ -79,8 +77,8 @@ const Home = () => {
         <Polls handlePolls={handlePolls} listOfPolls={polls} className={classes.polls} />
 
         <FriendList
-          listOfCategories={friendLists}
           handleFriendLists={handleFriendLists}
+          listOfCategories={friendLists}
           className={classes.friendList}
           friendsInfo={friendsInfo}
         ></FriendList>

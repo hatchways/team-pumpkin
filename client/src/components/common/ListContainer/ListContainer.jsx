@@ -56,7 +56,8 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ListContainer = ({ className, listOfFriend, title, friendListId, handleFriendLists }) => {
+const ListContainer = (props) => {
+  const { className, listOfFriend, title, friendListId, handleFriendLists } = props;
   const classes = useStyles();
   const history = useHistory();
   const userContext = useContext(GlobalContext);

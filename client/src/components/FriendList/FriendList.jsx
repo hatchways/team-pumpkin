@@ -45,16 +45,18 @@ const FriendList = ({ className, listOfCategories, handleFriendLists, friendsInf
         header='Friend lists'
       >
         {/* {console.log('listOfCategories', listOfCategories)} */}
-        {(!listOfCategories && listOfCategories === undefined) || listOfCategories.length === 0 ? (
+        {listOfCategories === undefined || listOfCategories.length === 0 ? (
           <Typography variant='h2'>No Friendlists available</Typography>
         ) : (
-          listOfCategories.map((item) => (
+          listOfCategories.map((item, id) => (
             <ListContainer
-              key={item.id}
+              key={id}
+              {...item}
               className={classes.list}
               title={item.friendListName}
               listOfFriend={item.friends}
               friendListId={item._id}
+              handleFriendLists={handleFriendLists}
             />
           ))
         )}

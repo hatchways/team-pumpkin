@@ -2,11 +2,11 @@ const createFriendList = async (payload) => {
   try {
     const result = await fetch('api/friendLists/lists', {
       method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-      },
+      // headers: {
+      //   'content-type': 'application/json',
+      // },
       credentials: 'include',
-      body: JSON.stringify(payload),
+      body: payload,
     });
     const response = await result.json();
     return response;
@@ -20,8 +20,8 @@ const editFriendList = async (list_id, payload) => {
   try {
     const result = await fetch(`/api/friendLists/lists/${list_id}`, {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload),
+      // headers: { 'Content-Type': 'application/json' },
+      body: payload,
       credentials: 'include',
     });
 
