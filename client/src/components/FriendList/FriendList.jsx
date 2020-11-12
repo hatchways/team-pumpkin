@@ -48,10 +48,9 @@ const FriendList = ({ className, listOfCategories, handleFriendLists, friendsInf
         {listOfCategories === undefined || listOfCategories.length === 0 ? (
           <Typography variant='h2'>No Friendlists available</Typography>
         ) : (
-          listOfCategories.map((item, id) => (
+          listOfCategories.map((item) => (
             <ListContainer
-              key={id}
-              {...item}
+              key={item._id}
               className={classes.list}
               title={item.friendListName}
               listOfFriend={item.friends}

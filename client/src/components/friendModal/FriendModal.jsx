@@ -81,7 +81,7 @@ const FriendModal = ({ open, onClose, className, type, id, handleFriendLists }) 
   const history = useHistory();
 
   const refreshPage = () => {
-    window.location.reload();
+    window.location.reload(false);
   };
 
   const fetchFriends = async () => {
@@ -113,11 +113,10 @@ const FriendModal = ({ open, onClose, className, type, id, handleFriendLists }) 
       };
 
       const response = await createFriendList(newList);
-      console.log('response data', response);
       // await createFriendList(newList);
-      handleFriendLists(response.data);
+      handleFriendLists(response);
       setError({ description: '' });
-      // onClose();
+      onClose();
       // history.push('/home');
       // refreshPage();
     }
@@ -143,11 +142,10 @@ const FriendModal = ({ open, onClose, className, type, id, handleFriendLists }) 
         friends: friends,
       };
 
-      //const response = await editFriendList(id, newList);
-      await editFriendList(id, newList);
+      const response = await editFriendList(id, newList);
       // handleFriendLists(response);
       onClose();
-      // refreshPage();
+      refreshPage();
       history.push('/home');
       setError({ description: '' });
     }
@@ -156,9 +154,9 @@ const FriendModal = ({ open, onClose, className, type, id, handleFriendLists }) 
   const handleDelete = async (event) => {
     event.preventDefault();
     const response = await deleteFriendList(id);
-    handleFriendLists(response.data);
+    // handleFriendLists(response.data);
     onClose();
-    // refreshPage();
+    refreshPage();
   };
 
   return (

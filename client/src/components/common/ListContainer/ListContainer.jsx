@@ -103,7 +103,6 @@ const ListContainer = (props) => {
         onClose={handleFriendListModal}
         type='Edit'
         id={friendListId}
-        oldList={listOfFriend}
       />
       <Box className={classes.headerContainer}>
         <Box>

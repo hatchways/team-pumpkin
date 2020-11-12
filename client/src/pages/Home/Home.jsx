@@ -64,8 +64,8 @@ const Home = () => {
     setPolls(info);
   };
 
-  const handleFriendLists = (info) => {
-    setFriendLists(info);
+  const handleFriendLists = (item) => {
+    setFriendLists((lists) => [item, ...lists]);
   };
 
   return (
