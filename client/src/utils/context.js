@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { getFriendById } from '../api/api';
+import { getFriendById } from '../api/friendsApi';
 
 const GlobalContext = createContext();
 
@@ -9,10 +9,6 @@ const getValueFromLocalStorage = (item) => {
 
 const setValueToLocalStorage = (name, item) => {
   return JSON.parse(localStorage.setIem(name, JSON.stringify(item)));
-};
-
-const getFriendDetails = async (index) => {
-  return await getFriendById(index);
 };
 
 const friendsInfo = async () => {
@@ -34,4 +30,13 @@ const globalValue = {
   friendsInfo: getValueFromLocalStorage('user') ? friendsInfo() : undefined,
 };
 
-export { GlobalContext, getValueFromLocalStorage, globalValue, setValueToLocalStorage };
+const reducer = (state, action) => {
+  if (action.type === 'loggedIn') {
+    return { ...state, user: action.payload };
+  }
+  if (action.type === 'loggedOut') {
+    return { ...state, user: null };
+  }
+};
+
+export { GlobalContext, getValueFromLocalStorage, globalValue, setValueToLocalStorage, reducer };

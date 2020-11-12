@@ -1,9 +1,12 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useQuery } from 'react-query';
 import { useDropzone } from 'react-dropzone';
 import { AiOutlineExpand } from 'react-icons/ai';
-import { createPost } from '../../api';
+import { useHistory } from 'react-router-dom';
+import { createPost, updatePost } from '../../api';
+import { getFriendLists } from '../../api/friendListsApi';
 import { theme } from '../../themes/theme';
 import { useValue } from '../../utils/';
 import { Button } from '../common/Button/Button';
@@ -93,15 +96,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const mockFriendList = ['Zeeshan', 'Allen', 'Saad', 'Conner', ' Aecio'];
-
-const PollsModal = ({ open, onClose, className, handlePolls }) => {
+const PollsModal = ({ open, onClose, className, handlePolls, isForUpdate, pollId }) => {
   const classes = useStyles();
   const [question, handleQuestion, resetQuestion] = useValue('');
   const [friend, setFriend] = useState('');
   const [disable, setDisable] = useState(false);
   const [files, setFiles] = useState([]);
   const [error, setError] = useState({ type: '', description: '' });
+  const [friendsLists, setFriendsLists] = useState([]);
+  const history = useHistory();
+
+  const allFriendLists = useQuery('allFriendLists', getFriendLists);
+  const allFriendListsData = allFriendLists.data;
+
+  useEffect(() => {
+    if (allFriendListsData) {
+      const friendListArray = allFriendListsData;
+      if (friendListArray.length > 0) {
+        setFriendsLists(friendListArray.map((friendList) => friendList.friendListName));
+      }
+    }
+  }, [allFriendListsData]);
 
   const { getRootProps, getInputProps } = useDropzone({
     accept: 'image/*',
@@ -131,8 +146,16 @@ const PollsModal = ({ open, onClose, className, handlePolls }) => {
     formData.append('img1', files[0]);
     formData.append('img2', files[1]);
     setDisable(true);
-    const response = await createPost(formData);
-    handlePolls(response);
+    if (isForUpdate) {
+      const response = await updatePost(formData, pollId);
+      handlePolls(response);
+      history.push('/home');
+    } else {
+      const response = await createPost(formData);
+      if (handlePolls) {
+        handlePolls(response);
+      }
+    }
     setDisable(false);
     resetQuestion();
     setFriend('');
@@ -157,7 +180,7 @@ const PollsModal = ({ open, onClose, className, handlePolls }) => {
           <Select
             className={classes.inputField}
             label='Friend list:'
-            menuItems={mockFriendList}
+            menuItems={friendsLists}
             labelStyle={classes.selectLabelStyle}
             value={friend}
             onChange={handleFriend}

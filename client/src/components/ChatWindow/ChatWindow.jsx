@@ -1,13 +1,13 @@
+import { Avatar, Box, Button, Grow, makeStyles, Paper, Typography } from '@material-ui/core';
 import React, { useState } from 'react';
-import { Button, makeStyles, Paper, Box, Grow, Avatar, Typography } from '@material-ui/core';
-import { InputField } from '../common/InputField/InputField';
 import { IoIosClose, IoIosRemove, IoMdSend } from 'react-icons/io';
+import { InputField } from '../common/InputField/InputField';
 
 const useStyles = makeStyles((theme) => ({
   paperStyle: {
     width: '400px',
     position: 'fixed',
-    zIndex: '1',
+    zIndex: 10,
     bottom: '10px',
     right: '10px',
     height: '500px',
@@ -19,12 +19,15 @@ const useStyles = makeStyles((theme) => ({
   },
   header: {
     display: 'flex',
-    backgroundColor: theme.palette.message.sent,
+    backgroundColor: theme.palette.primary.main,
     position: 'sticky',
     height: '100px',
     alignItems: 'center',
     color: theme.palette.secondary.light,
     width: '100%',
+    paddingRight: theme.spacing(2.5),
+    paddingLeft: theme.spacing(2.5),
+    borderRadius: theme.spacing(0.5),
   },
 
   inputContainer: {
@@ -39,9 +42,8 @@ const useStyles = makeStyles((theme) => ({
 
   sendBtn: {
     margin: '5px',
-    backgroundColor: theme.palette.message.sent,
+    backgroundColor: theme.palette.primary.main,
     color: theme.palette.secondary.light,
-    borderRadius: '100%',
   },
   container: {
     display: 'flex',
@@ -62,6 +64,8 @@ const useStyles = makeStyles((theme) => ({
     scrollbarColor: 'black lightgrey',
     scrollbarWidth: 'thin',
     flexDirection: 'column-reverse',
+    paddingLeft: theme.spacing(1.25),
+    paddingRight: theme.spacing(1.25),
   },
 
   windowContainer: {
@@ -91,7 +95,7 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: theme.palette.primary.dark,
     },
     '$right &': {
-      backgroundColor: theme.palette.message.sent,
+      backgroundColor: theme.palette.primary.main,
       color: theme.palette.secondary.light,
     },
   },

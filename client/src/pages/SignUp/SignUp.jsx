@@ -1,10 +1,10 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
-import React, { useState, useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { Redirect, useHistory } from 'react-router-dom';
 import { signUpCall } from '../../api';
 import { Authentication, Button, InputField } from '../../components';
 import { theme } from '../../themes/theme';
-import { useForm, validateEmail, validateString, GlobalContext } from '../../utils';
+import { GlobalContext, useForm, validateEmail, validateString } from '../../utils';
 
 const useStyles = makeStyles((theme) => ({
   heading: {
@@ -35,10 +35,11 @@ const SignUp = () => {
   const [apiError, setApiError] = useState('');
   const [error, setError] = useState({ type: '', description: '' });
   const history = useHistory();
+  const action = useContext(GlobalContext);
 
   const stateContext = useContext(GlobalContext);
 
-  if (!!stateContext.user) {
+  if (!!stateContext.globalValue.user) {
     return <Redirect to='/home' />;
   }
 
@@ -81,18 +82,28 @@ const SignUp = () => {
         return;
       }
       const result = await signUpCall(values);
+      if (result.userObject === undefined) {
+        setError({
+          type: 'password',
+          description: 'Wrong Details',
+        });
+      }
       const { userObject } = result;
       if (userObject) {
         localStorage.setItem('user', JSON.stringify(userObject));
         reset();
 
-        // //history.push('/home');
-        window.location.reload();
+        history.push('/home');
+        //window.location.reload();
       } else {
-        const error = result.data.error.msg;
-        setApiError(error);
+        localStorage.setItem('user', JSON.stringify(result.userObject));
+        action.dispatch({ type: 'loggedIn', payload: result.userObject });
+        reset();
+        history.push('/home');
       }
     } catch (err) {
+      const error = err.msg;
+      setApiError(error);
       console.warn(err);
     }
   };

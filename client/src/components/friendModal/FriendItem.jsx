@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { ListItem, ListItemAvatar, ListItemText, Button, Avatar, makeStyles } from '@material-ui/core';
-import { theme } from '../../themes/theme';
 
 const useStyles = makeStyles((theme) => ({
   addFriendButton: {
@@ -21,8 +20,14 @@ const FriendItem = ({ friend, friends, onChange, type, name, icon, checked }) =>
   const [clicked, setClicked] = useState(checked);
 
   const handleAddandRemove = () => {
+    //Set Removing a friend from the friend list
+    let newList = [];
     setClicked(!clicked);
-    const newList = [...friends, friend];
+    if (!clicked) {
+      newList = [...friends, friend];
+    } else {
+      newList = friends.filter((e) => e !== friend);
+    }
 
     onChange([...new Set(newList)]);
   };
@@ -30,7 +35,7 @@ const FriendItem = ({ friend, friends, onChange, type, name, icon, checked }) =>
   return (
     <ListItem>
       <ListItemAvatar>
-        <Avatar url={icon} />
+        <Avatar src={icon} />
       </ListItemAvatar>
       <ListItemText primary={name}></ListItemText>
       <Button

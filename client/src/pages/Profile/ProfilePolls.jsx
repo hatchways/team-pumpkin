@@ -1,9 +1,7 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import React from 'react';
 import { BsFillHeartFill } from 'react-icons/bs';
-import { Link } from 'react-router-dom';
-import { postVotes } from '../../../api';
-import { theme } from '../../../themes/theme';
+import { theme } from '../../themes/theme';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -14,9 +12,9 @@ const useStyles = makeStyles((theme) => ({
     borderRadius: 3,
     padding: theme.spacing(5),
     marginRight: theme.spacing(2.5),
+    marginTop: theme.spacing(2.5),
     boxShadow: `0 8px 16px -7px ${theme.palette.secondary.main}`,
   },
-  header: {},
   answer: {
     color: theme.palette.secondary.dark,
     marginTop: theme.spacing(1),
@@ -48,29 +46,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PollViewer = (props) => {
-  const { question, url1, url2, votesForUrl1, votesForUrl2, _id, userId, handlePolls } = props;
+const ProfilePolls = ({ question, url1, url2, votesForUrl1, votesForUrl2, _id, userId }) => {
   const classes = useStyles();
 
-  const makeVotes = async (img, userID) => {
-    const payload = {
-      voteFor: img,
-      pollOwnerId: userID,
-    };
-    const response = await postVotes(payload, _id);
-    if (response.err) return;
-    else {
-      handlePolls(response);
-    }
-
-    try {
-    } catch (err) {}
-  };
-
-  const numberOfVotesForUrl1 = votesForUrl1.length;
-  const numberOfVotesForUrl2 = votesForUrl2.length;
-  console.log('bugs', numberOfVotesForUrl1, numberOfVotesForUrl2);
+  const numberOfVotesForUrl1 = votesForUrl1 !== undefined ? votesForUrl1.length : 0;
+  const numberOfVotesForUrl2 = votesForUrl2 !== undefined ? votesForUrl2.length : 0;
   const totalVotes = numberOfVotesForUrl1 + numberOfVotesForUrl2;
+
   return (
     <Box className={classes.mainContainer}>
       <Typography className={classes.header} variant='h4'>
@@ -81,15 +63,9 @@ const PollViewer = (props) => {
       </Typography>
       <Box className={classes.imagesContainer}>
         <Box className={classes.imageContainer}>
-          <Link to={{ pathname: `/poll/${_id}`, data: { ...props, makeVotes } }}>
-            <img src={url1} alt='img-1' className={classes.image} />
-          </Link>
+          <img src={url1} alt='img-1' className={classes.image} />
           <Box className={classes.iconContainer}>
-            <BsFillHeartFill
-              size={theme.spacing(3.75)}
-              onClick={() => makeVotes('img1', userId)}
-              color={theme.palette.primary.main}
-            />
+            <BsFillHeartFill size={theme.spacing(3.75)} color={theme.palette.primary.main} />
             <Typography className={classes.likeCount} component='span'>
               {numberOfVotesForUrl1}
             </Typography>
@@ -97,15 +73,9 @@ const PollViewer = (props) => {
         </Box>
 
         <Box className={classes.imageContainer}>
-          <Link to={{ pathname: `/poll/${_id}`, data: { ...props, makeVotes } }}>
-            <img src={url2} alt='img-2' className={classes.image} />
-          </Link>
+          <img src={url2} alt='img-2' className={classes.image} />
           <Box className={classes.iconContainer}>
-            <BsFillHeartFill
-              size={theme.spacing(3.75)}
-              onClick={() => makeVotes('img2', userId)}
-              color={theme.palette.primary.main}
-            />
+            <BsFillHeartFill size={theme.spacing(3.75)} color={theme.palette.primary.main} />
             <Typography className={classes.likeCount} component='span'>
               {numberOfVotesForUrl2}
             </Typography>
@@ -116,4 +86,4 @@ const PollViewer = (props) => {
   );
 };
 
-export { PollViewer };
+export { ProfilePolls };

@@ -7,10 +7,12 @@ const useStyles = makeStyles((theme) => ({
   mainContainer: {
     display: 'flex',
     maxWidth: theme.spacing(25),
-    justifyContent: 'space-evenly',
     width: '100%',
     alignItems: 'center',
     cursor: 'pointer',
+  },
+  headerOption: {
+    marginLeft: theme.spacing(2.5),
   },
 }));
 

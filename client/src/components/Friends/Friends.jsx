@@ -1,8 +1,8 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
 import clsx from 'clsx';
-import { Avatar } from '../common/Avatar/Avatar';
+import React, { useState } from 'react';
 import { ChatWindow } from '../ChatWindow/ChatWindow';
+import { Avatar } from '../common/Avatar/Avatar';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -10,15 +10,16 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: 'column',
     alignItems: 'flex-start',
     height: '100%',
+    paddingLeft: theme.spacing(4.25),
+    paddingTop: theme.spacing(3),
   },
   header: {
     flex: 1,
     display: 'flex',
     width: '100%',
     height: '100%',
-    fontWeight: 'bold',
     alignItems: 'center',
-    paddingLeft: theme.spacing(6),
+    paddingLeft: theme.spacing(3),
   },
 
   list: {
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Friends = ({ friendList, className, ...rest }) => {
+const Friends = ({ friendList, className, avatar, ...rest }) => {
   const classes = useStyles();
   const [close, setClose] = useState(true);
 
@@ -48,9 +49,17 @@ const Friends = ({ friendList, className, ...rest }) => {
       </Typography>
 
       <Box className={classes.list}>
-        {friendList.map((friend, id) => (
-          <Avatar className={classes.avatar} key={id} name={friend.name} {...rest} onClick={openChatBox} />
-        ))}
+        {friendList &&
+          friendList.map((friend, id) => (
+            <Avatar
+              className={classes.avatar}
+              key={id}
+              url={friend.avatar}
+              name={friend.name}
+              {...rest}
+              onClick={openChatBox}
+            />
+          ))}
       </Box>
       <ChatWindow close={close} setClose={setClose} />
     </Box>

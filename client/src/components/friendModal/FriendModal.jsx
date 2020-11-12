@@ -1,12 +1,12 @@
-import { Box, makeStyles, List, Grid, Divider, Button, Typography } from '@material-ui/core';
-import React, { useState, useEffect, useContext } from 'react';
-import { useValue } from '../../utils/';
-import { Modal } from '../common/Modal/Modal';
-import { InputField } from '../common/InputField/InputField';
-import FriendItem from './FriendItem';
-import { theme } from '../../themes/theme';
-import { createFriendList, getFriends, editFriendList, deleteFriendList } from '../../api/api';
+import { Box, Button, Divider, Grid, List, makeStyles, Typography } from '@material-ui/core';
+import React, { useContext, useEffect, useState } from 'react';
+import { createFriendList, deleteFriendList, editFriendList } from '../../api/api';
 import { GlobalContext } from '../../utils';
+import { useValue } from '../../utils/';
+import { InputField } from '../common/InputField/InputField';
+import { Modal } from '../common/Modal/Modal';
+import FriendItem from './FriendItem';
+import { useHistory } from 'react-router-dom';
 
 const useStyles = makeStyles((theme) => ({
   friendModal: {
@@ -64,26 +64,28 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: 'center',
     color: theme.palette.primary.main,
   },
+  btnContainer: {
+    display: 'flex',
+    justifyContent: 'space-evenly',
+  },
 }));
 
-const FriendModal = ({ open, onClose, className, name, type, id, handleFriendLists }) => {
+const FriendModal = ({ open, onClose, className, type, id, handleFriendLists }) => {
   const classes = useStyles();
   const userContext = useContext(GlobalContext);
-  const user = userContext.user;
+  const user = userContext.globalValue.user;
   const [friendListName, handleFriendListName, setFriendListName] = useValue('');
-  // const friendsInfo = async () => await userContext.friendsInfo;
   const [error, setError] = useState({ description: '' });
   const [friendsDetails, setFriendsDetails] = useState([]);
   const [friends, setFriends] = useState([]);
-  const [myFriends, setMyFriends] = useState(user.friends);
-  // const [friendData, setFriendsData] = useState([]);
+  const history = useHistory();
 
   const refreshPage = () => {
-    window.location.reload();
+    window.location.reload(false);
   };
 
   const fetchFriends = async () => {
-    const res = await userContext.friendsInfo;
+    const res = await userContext.globalValue.friendsInfo;
     setFriendsDetails(res);
   };
 
@@ -93,7 +95,6 @@ const FriendModal = ({ open, onClose, className, name, type, id, handleFriendLis
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    // console.log('Create');
     // If the friend list doesn't have a name
     if (!friendListName) {
       setError({ description: 'The friend list has no name' });
@@ -112,10 +113,12 @@ const FriendModal = ({ open, onClose, className, name, type, id, handleFriendLis
       };
 
       const response = await createFriendList(newList);
-      // handleFriendLists(response);
+      // await createFriendList(newList);
+      handleFriendLists(response);
       setError({ description: '' });
       onClose();
-      refreshPage();
+      // history.push('/home');
+      // refreshPage();
     }
   };
 
@@ -127,7 +130,7 @@ const FriendModal = ({ open, onClose, className, name, type, id, handleFriendLis
       return;
     }
     // If no friends are added to the list
-    else if (!friends || friends.length == 0) {
+    else if (!friends || friends.length === 0) {
       setError({ description: 'The friend list has no friends' });
       return;
     } else {
@@ -143,32 +146,17 @@ const FriendModal = ({ open, onClose, className, name, type, id, handleFriendLis
       // handleFriendLists(response);
       onClose();
       refreshPage();
+      history.push('/home');
       setError({ description: '' });
     }
   };
 
   const handleDelete = async (event) => {
     event.preventDefault();
-    // console.log('id', id);
-    await deleteFriendList(id);
+    const response = await deleteFriendList(id);
+    // handleFriendLists(response.data);
     onClose();
     refreshPage();
-  };
-
-  const getName = (friend) => {
-    if (friendsDetails !== null) {
-      for (let i = 0; i < friendsDetails.length; i++) {
-        if (friendsDetails[i].id === friend) return friendsDetails[i].name;
-      }
-    }
-
-    return null;
-  };
-
-  const getAvatar = (friend) => {
-    for (let i = 0; i < friendsDetails.length; i++) {
-      if (friendsDetails[i].id === friend) return friendsDetails[i].avatar;
-    }
   };
 
   return (
@@ -192,30 +180,30 @@ const FriendModal = ({ open, onClose, className, name, type, id, handleFriendLis
         <List className={classes.friendList} alignItems='flex-start'>
           {/* Create List */}
           {type === 'Create'
-            ? myFriends.map((friend) => (
+            ? friendsDetails.map((friend) => (
                 <li key={friend.id}>
                   <Divider />
                   <FriendItem
-                    friend={friend}
+                    friend={friend.id}
                     checked={false}
                     friends={friends}
                     onChange={setFriends}
-                    name={getName(friend)}
-                    icon={getAvatar(friend)}
+                    name={friend.name}
+                    icon={friend.avatar}
                   ></FriendItem>
                 </li>
               ))
             : // Edit List
-              myFriends.map((friend) => (
+              friendsDetails.map((friend) => (
                 <li key={friend.id}>
                   <Divider />
                   <FriendItem
-                    friend={friend}
+                    friend={friend.id}
                     checked={false}
                     friends={friends}
                     onChange={setFriends}
-                    name={getName(friend)}
-                    icon={getAvatar(friend)}
+                    name={friend.name}
+                    icon={friend.avatar}
                   ></FriendItem>
                 </li>
               ))}
@@ -231,14 +219,14 @@ const FriendModal = ({ open, onClose, className, name, type, id, handleFriendLis
               Create
             </Button>
           ) : (
-            <div>
+            <Box className={classes.btnContainer}>
               <Button className={classes.creatButton} onClick={handleEdit}>
                 Edit
               </Button>
               <Button className={classes.deleteButton} onClick={handleDelete}>
                 Delete
               </Button>
-            </div>
+            </Box>
           )}
         </Box>
       </Grid>

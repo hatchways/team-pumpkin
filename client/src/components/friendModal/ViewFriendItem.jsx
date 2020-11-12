@@ -1,11 +1,12 @@
+import { Avatar, Box, Button, ListItem, ListItemAvatar, ListItemText, makeStyles } from '@material-ui/core';
 import React, { useState } from 'react';
-import { ListItem, ListItemAvatar, ListItemText, Button, Avatar, makeStyles } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import {
-  postAcceptFriendRequest,
-  postNewFriendRequest,
   deleteFriend,
   deleteOutgoingFriendRequest,
   deleteReceivedFriendRequest,
+  postAcceptFriendRequest,
+  postNewFriendRequest,
 } from '../../api/friendsApi';
 
 const useStyles = makeStyles((theme) => ({
@@ -24,9 +25,17 @@ const useStyles = makeStyles((theme) => ({
     color: theme.palette.secondary.dark,
     backgroundColor: theme.palette.primary.main,
   },
+  link: {
+    textDecoration: 'none',
+    color: 'inherit',
+  },
+  container: {
+    display: 'flex',
+    justifyContent: 'space-between',
+  },
 }));
 
-const ViewFriendItem = ({ friend, typeOfFriendRequest, refresh, setRefresh }) => {
+const ViewFriendItem = ({ friend, typeOfFriendRequest, refresh, setRefresh, onClose }) => {
   const classes = useStyles();
 
   const [clicked, setClicked] = useState(false);
@@ -87,11 +96,15 @@ const ViewFriendItem = ({ friend, typeOfFriendRequest, refresh, setRefresh }) =>
   };
 
   return (
-    <ListItem>
-      <ListItemAvatar>
-        <Avatar />
-      </ListItemAvatar>
-      <ListItemText primary={friend.name}></ListItemText>
+    <ListItem className={classes.container}>
+      <Box style={{ display: 'flex' }}>
+        <ListItemAvatar>
+          <Avatar src={friend.avatar} />
+        </ListItemAvatar>
+        <Link to={`/${friend._id}/profile`} className={classes.link} onClick={onClose}>
+          <ListItemText primary={friend.name}></ListItemText>
+        </Link>
+      </Box>
       <Button
         className={resolveTypeOfButton()}
         variant='contained'

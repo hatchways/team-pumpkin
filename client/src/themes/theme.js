@@ -9,7 +9,7 @@ export const theme = createMuiTheme({
     },
   },
   palette: {
-    primary: { main: '#DF1B1B', dark: '#ededed' },
+    primary: { main: '#DF1B1B', dark: '#FDFDFF' },
     secondary: { main: '#000000', light: '#ffffff', dark: '#cccccc', red: '#FF0000' },
     success: { main: '#44b700' },
     message: { sent: '#00C6FF' },
