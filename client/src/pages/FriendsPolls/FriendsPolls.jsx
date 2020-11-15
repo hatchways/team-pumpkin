@@ -7,6 +7,7 @@ import { FriendsPollsList } from '../../components/FriendsPollsList/FriendsPolls
 import { getFriendPolls, getUserList } from '../../api/api';
 import { theme } from '../../themes/theme';
 import { GlobalContext } from '../../utils/context';
+import { useQuery } from 'react-query';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -91,7 +92,6 @@ const FriendsPolls = () => {
   const userContext = useContext(GlobalContext);
   const [polls, setPolls] = useState([]);
   const [friends, setFriends] = useState([]);
-
   const history = useHistory();
 
   useEffect(() => {
@@ -101,7 +101,7 @@ const FriendsPolls = () => {
   const fetchFriendsPolls = async () => {
     const friendPolls = await getFriendPolls();
     setPolls(friendPolls);
-    getUserList({ votesForUrl1: userContext.globalValue.user.friends, votesForUrl2: [] }).then((resp) => {
+    await getUserList({ votesForUrl1: userContext.globalValue.user.friends, votesForUrl2: [] }).then((resp) => {
       setFriends(resp);
     });
   };

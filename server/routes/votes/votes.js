@@ -18,7 +18,7 @@ router.post('/votes/:pollId', authentication, async (req, res) => {
 
       //Check if the user is part of the invited users for this poll
       const friendList = await FriendList.findOne({ friendListName: pollOwnerSpecificPoll.friend, user: pollOwnerId });
-      console.log(friendList);
+      // console.log(friendList);
       if (!friendList.friends.includes(userId)) {
         return res.status(400).json({ msg: 'User is not a part of this friendlist' });
       }
@@ -27,9 +27,14 @@ router.post('/votes/:pollId', authentication, async (req, res) => {
         !pollOwnerSpecificPoll.votesForUrl1.includes(userId) &&
         !pollOwnerSpecificPoll.votesForUrl2.includes(userId)
       ) {
-        await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $push: { [votesArray]: userId } });
-        const response = await Poll.find({ userId: pollOwnerId });
-        res.status(200).json(response);
+        const response = await Poll.updateOne(
+          { userId: pollOwnerId, _id: pollId },
+          { $push: { [votesArray]: userId } },
+        );
+        // const response = await Poll.find({ userId: pollOwnerId });
+        const res = await Poll.find({ _id: pollId });
+        console.log(res);
+        res.status(200).json(res);
         return;
       }
       if (
@@ -38,9 +43,14 @@ router.post('/votes/:pollId', authentication, async (req, res) => {
         voteFor === 'img2'
       ) {
         await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $pull: { votesForUrl1: userId } });
-        await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $push: { [votesArray]: userId } });
-        const response = await Poll.find({ userId: pollOwnerId });
-        res.status(200).json(response);
+        const response = await Poll.updateOne(
+          { userId: pollOwnerId, _id: pollId },
+          { $push: { [votesArray]: userId } },
+        );
+        // const response = await Poll.find({ userId: pollOwnerId });
+        const res = await Poll.find({ _id: pollId });
+        console.log(res);
+        res.status(200).json(res);
         return;
       }
       if (
@@ -50,8 +60,10 @@ router.post('/votes/:pollId', authentication, async (req, res) => {
       ) {
         await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $pull: { votesForUrl2: userId } });
         await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $push: { [votesArray]: userId } });
-        const response = await Poll.find({ userId: pollOwnerId });
-        res.status(200).json(response);
+        // const response = await Poll.find({ userId: pollOwnerId });
+        const res = await Poll.find({ _id: pollId });
+        console.log(res);
+        res.status(200).json(res);
         return;
       }
       if (
@@ -63,8 +75,10 @@ router.post('/votes/:pollId', authentication, async (req, res) => {
           voteFor === 'img2')
       ) {
         await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $pull: { [votesArray]: userId } });
-        const response = await Poll.find({ userId: pollOwnerId });
-        res.status(200).json(response);
+        // const response = await Poll.find({ userId: pollOwnerId });
+        const res = await Poll.find({ _id: pollId });
+        console.log(res);
+        res.status(200).json(res);
         return;
       }
     } else {

@@ -58,6 +58,7 @@ const PollViewer = (props) => {
       pollOwnerId: userID,
     };
     const response = await postVotes(payload, _id);
+    console.log('response', response);
     if (response.err) return;
     else {
       handlePolls(response);
