@@ -28,7 +28,8 @@ router.post('/votes/:pollId', authentication, async (req, res) => {
         !pollOwnerSpecificPoll.votesForUrl2.includes(userId)
       ) {
         await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $push: { [votesArray]: userId } });
-        const response = await Poll.find({ userId: pollOwnerId });
+        // const response = await Poll.find({ userId: pollOwnerId });
+        const response = await Poll.find({ friend: friendList.friendListName });
         res.status(200).json(response);
         return;
       }
@@ -39,7 +40,8 @@ router.post('/votes/:pollId', authentication, async (req, res) => {
       ) {
         await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $pull: { votesForUrl1: userId } });
         await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $push: { [votesArray]: userId } });
-        const response = await Poll.find({ userId: pollOwnerId });
+        // const response = await Poll.find({ userId: pollOwnerId });
+        const response = await Poll.find({ friend: friendList.friendListName });
         res.status(200).json(response);
         return;
       }
@@ -50,7 +52,8 @@ router.post('/votes/:pollId', authentication, async (req, res) => {
       ) {
         await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $pull: { votesForUrl2: userId } });
         await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $push: { [votesArray]: userId } });
-        const response = await Poll.find({ userId: pollOwnerId });
+        // const response = await Poll.find({ userId: pollOwnerId });
+        const response = await Poll.find({ friend: friendList.friendListName });
         res.status(200).json(response);
         return;
       }
@@ -63,7 +66,8 @@ router.post('/votes/:pollId', authentication, async (req, res) => {
           voteFor === 'img2')
       ) {
         await Poll.updateOne({ userId: pollOwnerId, _id: pollId }, { $pull: { [votesArray]: userId } });
-        const response = await Poll.find({ userId: pollOwnerId });
+        // const response = await Poll.find({ userId: pollOwnerId });
+        const response = await Poll.find({ friend: friendList.friendListName });
         res.status(200).json(response);
         return;
       }
