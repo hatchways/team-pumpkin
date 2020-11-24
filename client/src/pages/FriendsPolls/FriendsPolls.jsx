@@ -7,6 +7,7 @@ import { FriendsPollsList } from '../../components/FriendsPollsList/FriendsPolls
 import { getFriendPolls, getUserList } from '../../api/api';
 import { theme } from '../../themes/theme';
 import { GlobalContext } from '../../utils/context';
+import { useQuery } from 'react-query';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -92,11 +93,18 @@ const FriendsPolls = () => {
   const [polls, setPolls] = useState([]);
   const [friends, setFriends] = useState([]);
 
+  const friendPollsQuery = useQuery('friendsPolls', getFriendPolls);
+
   const history = useHistory();
 
   useEffect(() => {
-    fetchFriendsPolls();
-  }, []);
+    // fetchFriendsPolls();
+    setPolls(friendPollsQuery.data);
+    console.log('data', friendPollsQuery.data);
+    getUserList({ votesForUrl1: userContext.globalValue.user.friends, votesForUrl2: [] }).then((resp) => {
+      setFriends(resp);
+    });
+  }, [friendPollsQuery]);
 
   const fetchFriendsPolls = async () => {
     const friendPolls = await getFriendPolls();
@@ -127,7 +135,7 @@ const FriendsPolls = () => {
           Friends Polls
         </Typography>
         <div className={classes.pollContainer}>
-          {polls.length !== 0 && (
+          {polls !== undefined && (
             <Button variant='fab' aria-label='Add' className={classes.buttonScroll} onClick={leftScroll}>
               <IoIosArrowBack size={theme.spacing(2)} />
             </Button>
@@ -135,7 +143,7 @@ const FriendsPolls = () => {
           <div className={classes.pollsListContainer} ref={ref}>
             <FriendsPollsList handlePolls={handlePolls} listOfPolls={polls} className={classes.polls} />
           </div>
-          {polls.length !== 0 && (
+          {polls !== undefined && (
             <Button variant='fab' aria-label='Add' className={classes.buttonScroll} onClick={rightScroll}>
               <IoIosArrowForward size={theme.spacing(2)} />
             </Button>
