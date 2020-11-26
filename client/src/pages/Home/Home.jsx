@@ -7,6 +7,7 @@ import { FriendList, Friends, Polls } from '../../components';
 import { AiOutlineConsoleSql } from 'react-icons/ai';
 import { GlobalContext } from '../../utils/context';
 import io from 'socket.io-client';
+import cookie from 'react-cookies';
 
 const socket = io('/', {
   query: {
@@ -53,10 +54,13 @@ const Home = () => {
   const { data } = useQuery('polls', getPolls);
   var friendlistData;
   const getFriendlistInfo = useQuery('friendList', getFriendLists);
+  // const [ioCookie, getIOCookie] = useCookies(['io']);
 
   //Helper function for retrieving the friendlists
   const fetchData = async () => {
     friendsInfo = await userContext.globalValue.friendsInfo;
+
+    console.log('Cookie infos', cookie.load('io'));
   };
 
   useEffect(() => {
@@ -64,7 +68,7 @@ const Home = () => {
     console.log('this is data', data);
     if (socket) {
       console.log('socket info', socket);
-      console.log('Connected to Socket!!!', socket.connected);
+      console.log('Connected to Socket!!!', cookie.loadAll());
     }
     setPolls(data);
     setFriendLists(getFriendlistInfo.data);

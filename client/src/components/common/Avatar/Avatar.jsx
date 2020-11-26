@@ -2,6 +2,7 @@ import { Avatar as MuiAvatar, Badge, Box, makeStyles, Typography, withStyles } f
 import clsx from 'clsx';
 import React from 'react';
 import { theme } from '../../../themes/theme';
+import {ChatWindow} from '../../ChatWindow/ChatWindow';
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -47,6 +48,7 @@ const StyledBadge = withStyles((theme) => ({
 
 const Avatar = ({ className, iconOnClick, Icon, isOnline, url, name, onClick }) => {
   const classes = useStyles();
+  
   return (
     <Box className={clsx([classes.mainContainer, className])}>
       {Icon && <Icon size={theme.spacing(2)} onClick={iconOnClick} color={theme.palette.secondary.dark} />}

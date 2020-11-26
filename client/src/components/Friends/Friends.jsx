@@ -37,6 +37,7 @@ const useStyles = makeStyles((theme) => ({
 const Friends = ({ friendList, className, avatar, ...rest }) => {
   const classes = useStyles();
   const [close, setClose] = useState(true);
+  const [chatFriend, setChatFriend] = useState();
 
   const openChatBox = () => {
     setClose(false);
@@ -61,7 +62,7 @@ const Friends = ({ friendList, className, avatar, ...rest }) => {
             />
           ))}
       </Box>
-      <ChatWindow close={close} setClose={setClose} />
+        <ChatWindow close={close} setClose={setClose} />
     </Box>
   );
 };

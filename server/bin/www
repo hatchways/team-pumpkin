@@ -41,7 +41,9 @@ io.use(async (socket, next) => {
     const payload = await jwt.verify(token, process.env.JWT_SECRET);
     socket.userId = payload.indexOf;
     next();
-  } catch (err) {}
+  } catch (err) {
+    return err;
+  }
 });
 
 io.on('connection', (socket) => {
