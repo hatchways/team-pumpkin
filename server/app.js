@@ -9,6 +9,7 @@ const pingRouter = require('./routes/ping');
 const pollsRouter = require('./routes/polls/polls');
 const friend = require('./routes/friends/friend');
 const votes = require('./routes/votes/votes');
+const users = require('./routes/users/users');
 const fileupload = require('express-fileupload');
 
 /*Register and SignIn*/
@@ -17,6 +18,8 @@ const signin = require('./routes/auth/signin');
 
 /*Friend List*/
 const friendList = require('./routes/friendlist/friendList');
+
+const user = require('./routes/user/user');
 
 const { json, urlencoded } = express;
 
@@ -38,7 +41,12 @@ app.use(
 app.use(urlencoded({ limit: '50mb', extended: false }));
 app.use(logger('dev'));
 app.use(json());
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: ['http://localhost:3000'],
+  }),
+);
 app.use(urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(join(__dirname, 'public')));
@@ -50,6 +58,8 @@ app.use('/api', register);
 app.use('/api', signin);
 app.use('/api/', pollsRouter);
 app.use('/api', votes);
+app.use('/api', users);
+app.use('/api', user);
 
 /*FriendList*/
 app.use('/api/friendLists', friendList);

@@ -37,7 +37,7 @@ var server = http.createServer(app);
 var io = socketio(server);
 io.use(async (socket, next) => {
   try {
-    const token = socket.handshake.query.token;
+    const token = socket.handshake.headers.cookie;
     const payload = await jwt.verify(token, process.env.JWT_SECRET);
     socket.userId = payload.indexOf;
     next();

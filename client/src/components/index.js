@@ -1,3 +1,5 @@
+export { Friend } from './Friend/Friend';
+
 export { Authentication } from './common/Authentication/Authentication';
 export { Avatar } from './common/Avatar/Avatar';
 export { Button } from './common/Button/Button';
