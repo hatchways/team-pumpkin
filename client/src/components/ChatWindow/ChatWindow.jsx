@@ -4,7 +4,7 @@ import { IoIosClose, IoIosRemove, IoMdSend } from 'react-icons/io';
 import { InputField } from '../common/InputField/InputField';
 import io from 'socket.io-client';
 import { useEffect } from 'react';
-
+import ConnectChat from '../chatConnection/ConnectChat';
 const socket = io.connect('http://localhost:3001');
 
 const useStyles = makeStyles((theme) => ({
@@ -117,7 +117,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ChatWindow = ({ close, setClose }) => {
+const ChatWindow = (props) => {
   const classes = useStyles();
   const [inputText, setInputText] = useState('');
   const [minimise, setMinimise] = useState(false);
@@ -191,13 +191,13 @@ const ChatWindow = ({ close, setClose }) => {
 
   const handleMinimise = () => setMinimise(!minimise);
   const handleClose = () => {
-    setClose(!close);
-    if (!close) {
+    props.setClose(!props.close);
+    if (!props.close) {
       setMinimise(false);
     }
   };
   return (
-    <Grow in={!close}>
+    <Grow in={!props.close}>
       <Paper className={`${classes.paperStyle} ${minimise ? classes.paperHidden : ''}`}>
         <Box className={classes.header}>
           <Avatar />
