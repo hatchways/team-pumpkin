@@ -1,6 +1,6 @@
 import { Box, makeStyles, Typography } from '@material-ui/core';
 import clsx from 'clsx';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChatWindow } from '../ChatWindow/ChatWindow';
 import { Avatar } from '../common/Avatar/Avatar';
 
@@ -38,6 +38,10 @@ const Friends = ({ friendList, className, avatar, ...rest }) => {
   const classes = useStyles();
   const [close, setClose] = useState(true);
   const [chatFriend, setChatFriend] = useState();
+
+  useEffect(() => {
+    console.log('friends list', friendList);
+  }, [friendList]);
 
   const openChatBox = () => {
     setClose(false);

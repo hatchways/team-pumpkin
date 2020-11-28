@@ -69,7 +69,7 @@ const PollViewer = (props) => {
 
   const numberOfVotesForUrl1 = votesForUrl1.length;
   const numberOfVotesForUrl2 = votesForUrl2.length;
-  console.log('bugs', numberOfVotesForUrl1, numberOfVotesForUrl2);
+  // console.log('bugs', numberOfVotesForUrl1, numberOfVotesForUrl2);
   const totalVotes = numberOfVotesForUrl1 + numberOfVotesForUrl2;
   return (
     <Box className={classes.mainContainer}>

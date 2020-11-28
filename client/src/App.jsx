@@ -24,7 +24,7 @@ const App = () => {
 
   return (
     <>
-      {!!user && <Header />}
+      {!!user && <Header /> }
       <Switch>
         <Suspense fallback={<LoadingScreen />}>
           <Redirect from exact='/' to={!!user ? '/home' : '/login'} />
@@ -37,7 +37,7 @@ const App = () => {
           <Route exact path='/friends' children={<ViewFriendsModal open={openFriendsModal} onClose={handleClick} />} />
         </Suspense>
       </Switch>
-      <ReactQueryDevtools initialIsOpen={false} />
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </>
   );
 };

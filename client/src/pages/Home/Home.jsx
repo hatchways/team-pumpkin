@@ -6,14 +6,6 @@ import { getFriendLists } from '../../api/friendListsApi';
 import { FriendList, Friends, Polls } from '../../components';
 import { AiOutlineConsoleSql } from 'react-icons/ai';
 import { GlobalContext } from '../../utils/context';
-import io from 'socket.io-client';
-import cookie from 'react-cookies';
-
-const socket = io('/', {
-  query: {
-    token: localStorage.getItem('io'),
-  },
-});
 
 const useStyles = makeStyles((theme) => ({
   mainContainer: {
@@ -60,16 +52,11 @@ const Home = () => {
   const fetchData = async () => {
     friendsInfo = await userContext.globalValue.friendsInfo;
 
-    console.log('Cookie infos', cookie.load('io'));
+    console.log('User is online', userContext.globalValue.socket);
   };
-
+  
   useEffect(() => {
     fetchData();
-    console.log('this is data', data);
-    if (socket) {
-      console.log('socket info', socket);
-      console.log('Connected to Socket!!!', cookie.loadAll());
-    }
     setPolls(data);
     setFriendLists(getFriendlistInfo.data);
     getUserList({ votesForUrl1: userContext.globalValue.user.friends, votesForUrl2: [] }).then((resp) => {

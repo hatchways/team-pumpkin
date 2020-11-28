@@ -1,11 +1,8 @@
 import { Avatar, Box, Button, Grow, makeStyles, Paper, Typography } from '@material-ui/core';
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { IoIosClose, IoIosRemove, IoMdSend } from 'react-icons/io';
 import { InputField } from '../common/InputField/InputField';
 import io from 'socket.io-client';
-import { useEffect } from 'react';
-import ConnectChat from '../chatConnection/ConnectChat';
-const socket = io.connect('http://localhost:3001');
 
 const useStyles = makeStyles((theme) => ({
   paperStyle: {
@@ -122,27 +119,43 @@ const ChatWindow = (props) => {
   const [inputText, setInputText] = useState('');
   const [minimise, setMinimise] = useState(false);
   const [state, setState] = useState({message: '', name: '', timestamp: ''});
-  const [chat, setChat] = useState([]);
+  
+  const [messages, setMessages] = useState([]);
+  const [yourId, setYourId] = useState();
+  const [message, setMessage] = useState('');
+  const socketRef = useRef();
 
   const handleTyping = (e) => {
     setInputText(e.target.value);
   };
 
-  const renderChat = () => {
-    return chat.map(({name, message}, index) => (
-      <div key={index}>
-        <h3>
-          message
-        </h3>
-      </div>
-    ));
-  }
+  
 
   useEffect(() => {
-    socket.on('message', ({name, message}) => {
-      setChat([...chat, {name, message}]);
-    })
-  })
+    socketRef.current = io.connect('/');
+
+    socketRef.current.on('your id', id => {
+      setYourId(id);
+    });
+
+    socketRef.current.on('message', (message) => {
+      receivedMessage(message);
+    });
+  }, []);
+
+  const receivedMessage = (message) => {
+    setMessages(oldMessages => [...oldMessages, message]);
+  }
+
+  const sendMessage = (e) => {
+    e.preventDefault();
+    const messageObject = {
+      body: message,
+      id: yourId,
+    };
+    setMessage('');
+    socketRef.current.emit('send-chat-message', messageObject);
+  }
 
   const dummyData = [
     {

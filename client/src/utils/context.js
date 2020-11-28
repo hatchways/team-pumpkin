@@ -1,5 +1,6 @@
 import { createContext } from 'react';
 import { getFriendById } from '../api/friendsApi';
+import io from 'socket.io-client';
 
 const GlobalContext = createContext();
 
@@ -24,10 +25,18 @@ const friendsInfo = async () => {
   return newList;
 };
 
+const getOnline = () => {
+  const id = getValueFromLocalStorage('user')._id;
+  const newSocket = io('http://localhost:3001', { query: { id } });
+
+  return newSocket;
+};
+
 const globalValue = {
   user: getValueFromLocalStorage('user'),
   userPolls: getValueFromLocalStorage('userPolls'),
   friendsInfo: getValueFromLocalStorage('user') ? friendsInfo() : undefined,
+  socket: getOnline(),
 };
 
 const reducer = (state, action) => {
