@@ -40,12 +40,13 @@ const Friends = ({ friendList, className, avatar, ...rest }) => {
   const [chatFriend, setChatFriend] = useState();
 
   useEffect(() => {
-    console.log('friends list', friendList);
-  }, [friendList]);
+  }, []);
 
-  const openChatBox = () => {
+  const openChatBox = (friend) => {
+    setChatFriend(friend);
     setClose(false);
   };
+
 
   return (
     <Box className={classes.mainContainer}>
@@ -62,11 +63,11 @@ const Friends = ({ friendList, className, avatar, ...rest }) => {
               url={friend.avatar}
               name={friend.name}
               {...rest}
-              onClick={openChatBox}
-            />
-          ))}
+              onClick={() => {openChatBox(friend);}}
+              />
+              ))}
       </Box>
-        <ChatWindow close={close} setClose={setClose} />
+      <ChatWindow close={close} setClose={setClose} chatFriend={chatFriend}/>
     </Box>
   );
 };

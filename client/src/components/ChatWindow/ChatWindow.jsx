@@ -1,8 +1,11 @@
 import { Avatar, Box, Button, Grow, makeStyles, Paper, Typography } from '@material-ui/core';
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import { IoIosClose, IoIosRemove, IoMdSend } from 'react-icons/io';
 import { InputField } from '../common/InputField/InputField';
 import io from 'socket.io-client';
+import { GlobalContext } from '../../utils/context'; 
+import { Friend } from '../Friend/Friend';
+
 
 const useStyles = makeStyles((theme) => ({
   paperStyle: {
@@ -124,24 +127,30 @@ const ChatWindow = (props) => {
   const [yourId, setYourId] = useState();
   const [message, setMessage] = useState('');
   const socketRef = useRef();
+  const userContext = useContext(GlobalContext);
+  const [socket, setSocket] = useState(userContext.globalValue.socket);
+
+  // const [friend, setFriend] = useState(props.friend);
+  const [friendName, setFriendName] = useState('');
 
   const handleTyping = (e) => {
     setInputText(e.target.value);
   };
 
-  
 
   useEffect(() => {
-    socketRef.current = io.connect('/');
+    // socketRef.current = io.connect('http://localhost:3001');
+    // socketRef.current.on('your id', id => {
+    //   setYourId(id);
+    // });
 
-    socketRef.current.on('your id', id => {
-      setYourId(id);
-    });
-
-    socketRef.current.on('message', (message) => {
-      receivedMessage(message);
-    });
-  }, []);
+    // socketRef.current.on('message', (message) => {
+    //   receivedMessage(message);
+    // });
+    // console.log('socket chat window', socket);
+    console.log('friend chat', props.chatFriend);
+    // setFriendName(chatFriend.name);
+  }, [socket, props]);
 
   const receivedMessage = (message) => {
     setMessages(oldMessages => [...oldMessages, message]);
@@ -155,6 +164,10 @@ const ChatWindow = (props) => {
     };
     setMessage('');
     socketRef.current.emit('send-chat-message', messageObject);
+  }
+
+  const addMessageToConversation = ({recipient, text, sender}) => {
+
   }
 
   const dummyData = [
@@ -203,6 +216,7 @@ const ChatWindow = (props) => {
   const sortedData = dummyData.sort((a, b) => a.timestamp - b.timestamp);
 
   const handleMinimise = () => setMinimise(!minimise);
+
   const handleClose = () => {
     props.setClose(!props.close);
     if (!props.close) {
@@ -215,7 +229,7 @@ const ChatWindow = (props) => {
         <Box className={classes.header}>
           <Avatar />
           <Typography variant='h6' className={classes.nameText}>
-            User 2
+            {friendName}
           </Typography>
           <Box className={classes.closeIcons}>
             <IoIosRemove className={classes.minimise} onClick={handleMinimise} size={24} />
@@ -234,7 +248,7 @@ const ChatWindow = (props) => {
 
         <div className={minimise ? classes.hidden : classes.inputContainer}>
           <InputField placeholder='Enter message...' onChange={handleTyping} />
-          <Button className={classes.sendBtn}>
+          <Button className={classes.sendBtn} onSubmit={sendMessage}>
             <IoMdSend size={24} />
           </Button>
         </div>

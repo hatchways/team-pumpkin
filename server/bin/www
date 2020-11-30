@@ -13,6 +13,7 @@ var connectDB = require('../db/db');
 var socketio = require('socket.io');
 var jwt = require('jsonwebtoken');
 const { response } = require('express');
+const { Console } = require('console');
 
 /**
  * Connect to the database
@@ -48,7 +49,6 @@ var io = socketio(server);
 io.on('connection', (socket) => {
   const id = socket.handshake.headers.cookie || socket.request.headers.cookie;
   socket.join(id);
-
   socket.emit('Your socket id', socket.id);
   socket.on('send-chat-message', ({ recipients, text }) => {
     recipients.foreach((recipient) => {
@@ -60,6 +60,10 @@ io.on('connection', (socket) => {
         text,
       });
     });
+  });
+
+  socket.on('disconnect', () => {
+    console.log('User had left!!!');
   });
 });
 

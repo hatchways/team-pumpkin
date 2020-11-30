@@ -28,7 +28,6 @@ const friendsInfo = async () => {
 const getOnline = () => {
   const id = getValueFromLocalStorage('user')._id;
   const newSocket = io('http://localhost:3001', { query: { id } });
-
   return newSocket;
 };
 
@@ -36,7 +35,7 @@ const globalValue = {
   user: getValueFromLocalStorage('user'),
   userPolls: getValueFromLocalStorage('userPolls'),
   friendsInfo: getValueFromLocalStorage('user') ? friendsInfo() : undefined,
-  socket: getOnline(),
+  socket: getValueFromLocalStorage('user') ? getOnline() : undefined,
 };
 
 const reducer = (state, action) => {

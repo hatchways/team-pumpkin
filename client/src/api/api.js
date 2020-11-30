@@ -254,7 +254,6 @@ const getUserList = async (payload) => {
       credentials: 'include',
     });
     const response = await result.json();
-    console.log('this is response post', response);
     return response;
   } catch (err) {
     return err;
